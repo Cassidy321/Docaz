@@ -1,0 +1,33 @@
+{% extends 'emails/email_base.html.twig' %}
+
+{% block title %}Vérification de votre adresse email
+{% endblock %}
+
+{% block header %}Vérification de votre email
+{% endblock %}
+
+{% block content %}
+	<h2>Bienvenue,
+		{{ firstName }}
+		!</h2>
+
+	<p>Merci de vous être inscrit. Pour finaliser votre inscription et activer votre compte, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :</p>
+
+	<p style="text-align: center; margin: 30px 0;">
+		<a href="{{ verificationUrl }}" class="button">Vérifier mon email</a>
+	</p>
+
+	<p>Si le bouton ne fonctionne pas, vous pouvez copier/coller ce lien dans votre navigateur :</p>
+
+	<div class="code-box">
+		{{ verificationUrl }}
+	</div>
+
+	<p>
+		<span class="text-highlight">Important :</span>
+		Ce lien expirera dans 24 heures.</p>
+
+	<p>Nous sommes ravis de vous compter parmi nos utilisateurs. Une fois votre email vérifié, vous pourrez accéder à toutes les fonctionnalités de notre plateforme.</p>
+
+	<p>À bientôt !</p>
+{% endblock %}

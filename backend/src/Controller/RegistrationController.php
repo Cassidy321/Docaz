@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        EmailService $emailService
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
@@ -53,6 +55,10 @@ class RegistrationController extends AbstractController
         $hashedPassword = $userPasswordHasher->hashPassword($user, $data['password']);
         $user->setPassword($hashedPassword);
 
+        $token = bin2hex(random_bytes(32));
+        $user->setEmailVerificationToken($token);
+        $user->setEmailVerificationTokenExpiresAt(new DateTimeImmutable('+24 hours'));
+
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
             $errorMessages = [];
@@ -65,15 +71,26 @@ class RegistrationController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        try {
+            $emailSent = $emailService->sendVerificationEmail(
+                $user->getEmail(),
+                $user->getFirstName(),
+                $token
+            );
+        } catch (\Exception $e) {
+            $emailSent = false;
+        }
+
         return $this->json([
-            'message' => 'Utilisateur créé avec succès',
+            'message' => 'Utilisateur créé avec succès' . ($emailSent ? '. Veuillez vérifier votre email pour activer votre compte.' : '. Un problème est survenu lors de l\'envoi de l\'email de vérification.'),
             'user' => [
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
                 'roles' => $user->getRoles(),
-            ]
+            ],
+            'emailSent' => $emailSent
         ], Response::HTTP_CREATED);
     }
 }

@@ -1,0 +1,37 @@
+{% extends 'emails/email_base.html.twig' %}
+
+{% block title %}Bienvenue sur notre plateforme
+{% endblock %}
+
+{% block header %}Bienvenue !
+{% endblock %}
+
+{% block content %}
+	<h2>Bonjour
+		{{ firstName }},</h2>
+
+	<p>Nous sommes ravis de vous accueillir sur notre plateforme ! Votre compte a été créé avec succès et vous pouvez désormais profiter de l'ensemble de nos services.</p>
+
+	<h3 style="color: #c92a2a; margin-top: 25px;">Que pouvez-vous faire maintenant ?</h3>
+
+	<ul style="padding-left: 20px; margin-bottom: 25px;">
+		<li>Compléter votre profil</li>
+		<li>Explorer nos fonctionnalités</li>
+		<li>Personnaliser vos paramètres</li>
+		<li>Découvrir nos dernières nouveautés</li>
+	</ul>
+
+	<p>Pour commencer, connectez-vous à votre compte en cliquant sur le bouton ci-dessous :</p>
+
+	<p style="text-align: center; margin: 30px 0;">
+		<a href="{{ loginUrl }}" class="button">Accéder à mon compte</a>
+	</p>
+
+	<p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à contacter notre équipe support. Nous sommes là pour vous aider à tirer le meilleur parti de notre plateforme.</p>
+
+	<p>Nous vous souhaitons une excellente expérience !</p>
+
+	<p style="margin-top: 30px;">Cordialement,<br>
+		<span class="text-highlight">L'équipe de Votre Application</span>
+	</p>
+{% endblock %}

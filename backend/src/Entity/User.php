@@ -46,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $emailVerificationToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $emailVerificationTokenExpiresAt = null;
+
 
     public function getId(): ?int
     {
@@ -178,5 +184,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->emailVerified = $emailVerified;
 
         return $this;
+    }
+
+    public function getEmailVerificationToken(): ?string
+    {
+        return $this->emailVerificationToken;
+    }
+
+    public function setEmailVerificationToken(?string $emailVerificationToken): static
+    {
+        $this->emailVerificationToken = $emailVerificationToken;
+
+        return $this;
+    }
+
+    public function getEmailVerificationTokenExpiresAt(): ?\DateTimeImmutable
+    {
+        return $this->emailVerificationTokenExpiresAt;
+    }
+
+    public function setEmailVerificationTokenExpiresAt(?\DateTimeImmutable $emailVerificationTokenExpiresAt): static
+    {
+        $this->emailVerificationTokenExpiresAt = $emailVerificationTokenExpiresAt;
+
+        return $this;
+    }
+
+    public function isVerificationTokenExpired(): bool
+    {
+        if (!$this->emailVerificationTokenExpiresAt) {
+            return true;
+        }
+
+        return $this->emailVerificationTokenExpiresAt < new \DateTimeImmutable();
+    }
+
+    public function createVerificationToken(): string
+    {
+        $token = bin2hex(random_bytes(32));
+        $this->emailVerificationToken = $token;
+        $this->emailVerificationTokenExpiresAt = new \DateTimeImmutable('+24 hours');
+        return $token;
+    }
+
+    public function clearVerificationToken(): void
+    {
+        $this->emailVerificationToken = null;
+        $this->emailVerificationTokenExpiresAt = null;
     }
 }
