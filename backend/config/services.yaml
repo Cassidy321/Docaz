@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+  app.secure_cookies: false
+  app.jwt_ttl: 86400
 
 services:
   # default configuration for services in *this* file
@@ -29,5 +31,14 @@ services:
       $fromEmail: "%env(EMAIL_FROM)%"
       $appUrl: "%env(APP_URL)%"
 
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+  App\Security\JwtCookieManager:
+    arguments:
+      $cookieName: "AUTH_TOKEN"
+      $secureCookie: "%app.secure_cookies%"
+      $tokenTtl: "%app.jwt_ttl%"
+    tags:
+      - { name: kernel.event_subscriber }
+
+  lexik_jwt_authentication.handler.authentication_success:
+    alias: App\Security\JwtCookieManager
+    public: true
