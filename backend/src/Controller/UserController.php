@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User; // Assurez-vous d'importer votre classe User
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
