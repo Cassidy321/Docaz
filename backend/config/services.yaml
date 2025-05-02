@@ -33,11 +33,21 @@ services:
 
   App\Security\JwtCookieManager:
     arguments:
-      $cookieName: "AUTH_TOKEN"
+      $jwtManager: "@lexik_jwt_authentication.jwt_manager"
+      $entityManager: "@doctrine.orm.entity_manager"
+      $refreshCookieName: "REFRESH_TOKEN"
       $secureCookie: "%app.secure_cookies%"
-      $tokenTtl: "%app.jwt_ttl%"
+      $tokenTtl: 3600
+      $refreshTokenTtl: 2592000
     tags:
       - { name: kernel.event_subscriber }
+
+  App\Service\S3StorageService:
+    arguments:
+      $accessKey: "%env(AWS_ACCESS_KEY)%"
+      $secretKey: "%env(AWS_SECRET_KEY)%"
+      $region: "%env(AWS_REGION)%"
+      $bucket: "%env(AWS_S3_BUCKET)%"
 
   lexik_jwt_authentication.handler.authentication_success:
     alias: App\Security\JwtCookieManager

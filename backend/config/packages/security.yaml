@@ -29,8 +29,7 @@ security:
       provider: app_user_provider
       jwt:
         authenticator: lexik_jwt_authentication.security.jwt_authenticator
-      custom_authenticators:
-        - App\Security\CsrfAuthenticator
+
     main:
       lazy: true
       provider: app_user_provider
@@ -42,5 +41,6 @@ security:
     - { path: ^/api/register, roles: PUBLIC_ACCESS }
     - { path: ^/api/verify-email, roles: PUBLIC_ACCESS }
     - { path: ^/api/resend-verification, roles: PUBLIC_ACCESS }
-    - { path: ^/api/csrf-token, roles: PUBLIC_ACCESS }
+    - { path: ^/api/refresh-token, roles: PUBLIC_ACCESS }
+    - { path: ^/api/logout, roles: PUBLIC_ACCESS }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

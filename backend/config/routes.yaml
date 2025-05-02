@@ -7,3 +7,13 @@ controllers:
 api_login_check:
   path: /api/login
   methods: ["POST"]
+
+api_refresh_token:
+  path: /api/refresh-token
+  controller: App\Controller\TokenController::refreshToken
+  methods: ["POST"]
+
+api_logout:
+  path: /api/logout
+  controller: App\Controller\TokenController::logout
+  methods: ["POST"]
