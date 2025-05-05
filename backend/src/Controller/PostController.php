@@ -47,23 +47,18 @@ class PostController extends AbstractController
             return $this->json(['error' => 'Veuillez vérifier votre email avant de publier des annonces'], Response::HTTP_FORBIDDEN);
         }
 
-        // Récupérer les données JSON
         $postData = json_decode($request->request->get('data', '{}'), true);
 
-        // Récupérer les fichiers uploadés
         $files = $request->files->get('images') ?? [];
 
         try {
-            // Créer l'annonce
             $post = $this->postService->createPost($postData, $user);
 
-            // Ajouter les images
             $images = [];
             if (!empty($files)) {
                 $images = $this->imageService->addMultipleImagesToPost($post, $files);
             }
 
-            // Stocker les URLs des images dans un tableau pour la réponse
             $imageUrls = [];
             foreach ($images as $image) {
                 $imageUrls[] = [
@@ -104,7 +99,6 @@ class PostController extends AbstractController
         foreach ($posts as $post) {
             $mainImage = null;
 
-            // Récupérer l'image principale (position 0) si elle existe
             foreach ($post->getImages() as $image) {
                 if ($image->getPosition() === 0) {
                     $mainImage = $image->getStorageUrl();
@@ -131,7 +125,6 @@ class PostController extends AbstractController
     #[Route('/posts/{id}', name: 'posts_show', methods: ['GET'])]
     public function showPost(Post $post): JsonResponse
     {
-        // Rafraîchir les URLs des images si nécessaire
         $this->imageService->refreshPostImages($post);
 
         $images = [];
@@ -171,28 +164,22 @@ class PostController extends AbstractController
             return $this->json(['error' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Vérifier que l'utilisateur est le propriétaire de l'annonce
         if ($post->getAuthor()->getId() !== $user->getId()) {
             return $this->json(['error' => 'Vous n\'êtes pas autorisé à modifier cette annonce'], Response::HTTP_FORBIDDEN);
         }
 
-        // Récupérer les données JSON
         $postData = json_decode($request->request->get('data', '{}'), true);
 
-        // Récupérer les fichiers uploadés
         $files = $request->files->get('images') ?? [];
 
         try {
-            // Mettre à jour l'annonce
             $post = $this->postService->updatePost($post, $postData);
 
-            // Ajouter les nouvelles images
             $newImages = [];
             if (!empty($files)) {
                 $newImages = $this->imageService->addMultipleImagesToPost($post, $files);
             }
 
-            // Préparer les données des images pour la réponse
             $images = [];
             foreach ($post->getImages() as $image) {
                 $images[] = [
@@ -231,18 +218,15 @@ class PostController extends AbstractController
             return $this->json(['error' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Vérifier que l'utilisateur est le propriétaire de l'annonce
         if ($post->getAuthor()->getId() !== $user->getId()) {
             return $this->json(['error' => 'Vous n\'êtes pas autorisé à supprimer cette annonce'], Response::HTTP_FORBIDDEN);
         }
 
         try {
-            // Supprimer toutes les images associées à l'annonce
             foreach ($post->getImages() as $image) {
                 $this->imageService->removeImage($image);
             }
 
-            // Supprimer l'annonce
             $this->postService->deletePost($post);
 
             return $this->json([
@@ -276,7 +260,6 @@ class PostController extends AbstractController
             return $this->json(['error' => 'L\'image n\'appartient pas à cette annonce'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Vérifier que l'utilisateur est le propriétaire de l'annonce
         if ($post->getAuthor()->getId() !== $user->getId()) {
             return $this->json(['error' => 'Vous n\'êtes pas autorisé à supprimer cette image'], Response::HTTP_FORBIDDEN);
         }
@@ -315,7 +298,6 @@ class PostController extends AbstractController
             return $this->json(['error' => 'Annonce non trouvée'], Response::HTTP_NOT_FOUND);
         }
 
-        // Vérifier que l'utilisateur est le propriétaire de l'annonce
         if ($post->getAuthor()->getId() !== $user->getId()) {
             return $this->json(['error' => 'Vous n\'êtes pas autorisé à modifier cette annonce'], Response::HTTP_FORBIDDEN);
         }

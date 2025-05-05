@@ -36,41 +36,41 @@ class TokenController extends AbstractController
     public function refreshToken(Request $request): JsonResponse
     {
         $refreshTokenValue = $request->cookies->get('REFRESH_TOKEN');
-        
+
         if (!$refreshTokenValue) {
             return $this->json(['error' => 'Refresh token manquant'], Response::HTTP_UNAUTHORIZED);
         }
-        
+
         $currentFingerprint = hash('sha256', $request->headers->get('User-Agent') . $request->getClientIp());
-        
+
         $refreshToken = $this->findRefreshTokenByValue($refreshTokenValue);
-        
-        
+
+
         if (!$refreshToken) {
             return $this->json(['error' => 'Refresh token invalide'], Response::HTTP_UNAUTHORIZED);
         }
-        
+
         if ($refreshToken->isExpired()) {
             $this->entityManager->remove($refreshToken);
             $this->entityManager->flush();
             return $this->json(['error' => 'Refresh token expiré'], Response::HTTP_UNAUTHORIZED);
         }
-        
+
         $user = $refreshToken->getUser();
-        
+
         $jwt = $this->userService->createJwtToken($user);
-        
+
         $this->entityManager->remove($refreshToken);
-        
+
         $newRefreshToken = new RefreshToken();
         $newRefreshToken->setUser($user);
         $newTokenValue = bin2hex(random_bytes(64));
         $newRefreshToken->setToken($newTokenValue);
         $newRefreshToken->setExpiresAt(new \DateTimeImmutable('+30 days'));
-        
+
         $this->entityManager->persist($newRefreshToken);
         $this->entityManager->flush();
-        
+
         $response = $this->json([
             'token' => $jwt,
             'user' => [
@@ -82,7 +82,7 @@ class TokenController extends AbstractController
                 'emailVerified' => $user->isEmailVerified()
             ]
         ]);
-        
+
         $cookie = new Cookie(
             'REFRESH_TOKEN',
             $newTokenValue,
@@ -94,28 +94,28 @@ class TokenController extends AbstractController
             false,
             Cookie::SAMESITE_STRICT
         );
-        
+
         $response->headers->setCookie($cookie);
-        
+
         return $response;
     }
-    
+
     #[Route('/logout', name: 'logout', methods: ['POST'])]
     public function logout(Request $request): JsonResponse
     {
         $refreshTokenValue = $request->cookies->get('REFRESH_TOKEN');
-        
+
         if ($refreshTokenValue) {
             $refreshToken = $this->findRefreshTokenByValue($refreshTokenValue);
-            
+
             if ($refreshToken) {
                 $this->entityManager->remove($refreshToken);
                 $this->entityManager->flush();
             }
         }
-        
+
         $response = $this->json(['message' => 'Déconnexion réussie']);
-        
+
         $cookie = new Cookie(
             'REFRESH_TOKEN',
             '',
@@ -127,21 +127,14 @@ class TokenController extends AbstractController
             false,
             Cookie::SAMESITE_STRICT
         );
-        
+
         $response->headers->setCookie($cookie);
-        
+
         return $response;
     }
 
     private function findRefreshTokenByValue(string $tokenValue): ?RefreshToken
     {
-        $tokens = $this->refreshTokenRepository->findAll();
-        foreach ($tokens as $token) {
-            if (password_verify($tokenValue, $token->getToken())) {
-                return $token;
-            }
-        }
-        
-        return null;
+        return $this->refreshTokenRepository->findValidToken($tokenValue);
     }
 }
