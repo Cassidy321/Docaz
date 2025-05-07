@@ -29,7 +29,7 @@ class JwtCookieManager implements AuthenticationSuccessHandlerInterface, EventSu
         JWTTokenManagerInterface $jwtManager,
         EntityManagerInterface $entityManager,
         string $refreshCookieName = 'REFRESH_TOKEN',
-        bool $secureCookie = true,
+        bool $secureCookie = false,
         int $tokenTtl = 3600,
         int $refreshTokenTtl = 2592000
     ) {
@@ -74,7 +74,7 @@ class JwtCookieManager implements AuthenticationSuccessHandlerInterface, EventSu
             $this->secureCookie,
             true,
             false,
-            Cookie::SAMESITE_STRICT
+            Cookie::SAMESITE_LAX
         );
 
         $response->headers->setCookie($refreshCookie);

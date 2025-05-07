@@ -36,6 +36,10 @@ class TokenController extends AbstractController
     public function refreshToken(Request $request): JsonResponse
     {
         $refreshTokenValue = $request->cookies->get('REFRESH_TOKEN');
+        if (!$refreshTokenValue) {
+            $data = json_decode($request->getContent(), true);
+            $refreshTokenValue = $data['refresh_token'] ?? null;
+        }
 
         if (!$refreshTokenValue) {
             return $this->json(['error' => 'Refresh token manquant'], Response::HTTP_UNAUTHORIZED);
@@ -92,7 +96,7 @@ class TokenController extends AbstractController
             $request->isSecure(),
             true,
             false,
-            Cookie::SAMESITE_STRICT
+            Cookie::SAMESITE_LAX
         );
 
         $response->headers->setCookie($cookie);
@@ -135,6 +139,14 @@ class TokenController extends AbstractController
 
     private function findRefreshTokenByValue(string $tokenValue): ?RefreshToken
     {
-        return $this->refreshTokenRepository->findValidToken($tokenValue);
+        $validTokens = $this->refreshTokenRepository->findValidTokens();
+
+        foreach ($validTokens as $token) {
+            if (password_verify($tokenValue, $token->getToken())) {
+                return $token;
+            }
+        }
+
+        return null;
     }
 }

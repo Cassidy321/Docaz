@@ -17,16 +17,15 @@ class RefreshTokenRepository extends ServiceEntityRepository
         parent::__construct($registry, RefreshToken::class);
     }
 
-    public function findValidToken(string $token): ?RefreshToken
+    public function findValidTokens(): array
     {
-        return $this->createQueryBuilder('r')
-            ->where('r.token = :token')
-            ->andWhere('r.expiresAt > :now')
-            ->setParameter('token', $token)
+        return $this->createQueryBuilder('t')
+            ->where('t.expiresAt > :now')
             ->setParameter('now', new \DateTimeImmutable())
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
+
 
     public function deleteExpiredTokens(): int
     {

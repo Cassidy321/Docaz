@@ -43,4 +43,6 @@ security:
     - { path: ^/api/resend-verification, roles: PUBLIC_ACCESS }
     - { path: ^/api/refresh-token, roles: PUBLIC_ACCESS }
     - { path: ^/api/logout, roles: PUBLIC_ACCESS }
+    - { path: ^/api/posts$, methods: [GET], roles: PUBLIC_ACCESS }
+    - { path: ^/api/posts/\d+$, methods: [GET], roles: PUBLIC_ACCESS }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
