@@ -49,7 +49,6 @@ export default function HomePage() {
         sortBy: "recent",
     });
 
-    // Chargement initial des annonces
     useEffect(() => {
         const loadPosts = async () => {
             try {
@@ -61,18 +60,15 @@ export default function HomePage() {
 
         loadPosts();
 
-        // Récupérer le terme de recherche des paramètres d'URL
         const urlSearchTerm = searchParams.get("search");
         if (urlSearchTerm) {
             setSearchTerm(urlSearchTerm);
         }
     }, [getPosts, searchParams]);
 
-    // Filtrage des annonces
     useEffect(() => {
         let result = [...posts];
 
-        // Recherche par terme
         if (searchTerm) {
             result = result.filter(
                 post =>
@@ -81,7 +77,6 @@ export default function HomePage() {
             );
         }
 
-        // Filtres additionnels
         if (filters.priceMin) {
             result = result.filter(post => post.price >= Number(filters.priceMin));
         }
@@ -96,7 +91,6 @@ export default function HomePage() {
             );
         }
 
-        // Tri
         if (filters.sortBy === "recent") {
             result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         } else if (filters.sortBy === "price-asc") {
@@ -108,7 +102,6 @@ export default function HomePage() {
         setFilteredPosts(result);
     }, [posts, searchTerm, filters]);
 
-    // Réinitialiser les filtres
     const resetFilters = () => {
         setFilters({
             category: "",
@@ -122,7 +115,6 @@ export default function HomePage() {
         setSearchParams({});
     };
 
-    // Formater le prix
     const formatPrice = (price) => {
         if (price === undefined || price === null) return "Prix non défini";
 
@@ -137,10 +129,9 @@ export default function HomePage() {
         <div className="min-h-screen flex flex-col bg-muted">
             <Navbar />
 
-            <main className="flex-1 py-6"> {/* Suppression des marges horizontales pour qu'elles soient gérées par le container */}
-                <div className="container mx-auto max-w-7xl px-8 md:px-12 lg:px-16"> {/* Marges cohérentes avec navbar et footer */}
+            <main className="flex-1 py-6">
+                <div className="container mx-auto max-w-7xl px-8 md:px-12 lg:px-16">
                     <section className="mb-6">
-                        {/* Barre de filtres mobile uniquement */}
                         <div className="flex md:hidden items-center justify-between mb-4">
                             <h1 className="text-xl font-bold">Annonces récentes</h1>
                             <Button
@@ -153,7 +144,6 @@ export default function HomePage() {
                             </Button>
                         </div>
 
-                        {/* Titre de section sur écrans moyens et grands */}
                         <div className="hidden md:block mb-4">
                             <h1 className="text-2xl font-bold">Annonces récentes</h1>
                             {searchTerm && (
@@ -163,11 +153,9 @@ export default function HomePage() {
                             )}
                         </div>
 
-                        {/* Filtres (collapsible) */}
                         <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen} className="mb-6">
                             <CollapsibleTrigger asChild>
                                 <div className="hidden">
-                                    {/* Ce trigger est caché mais nécessaire pour React */}
                                     <Button>Toggle</Button>
                                 </div>
                             </CollapsibleTrigger>
@@ -269,7 +257,6 @@ export default function HomePage() {
                                 {filteredPosts.map((post) => (
                                     <Link key={post.id} to={`/annonce/${post.id}`} className="group block w-full" style={{ maxWidth: "170px" }}>
                                         <div className="relative bg-white h-full rounded-sm hover:shadow-sm transition-shadow duration-200 pb-2">
-                                            {/* Bouton favori style Leboncoin */}
                                             <button className="absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center text-gray-600 hover:text-primary">
                                                 <Heart className="h-5 w-5" weight="regular" />
                                             </button>
@@ -289,17 +276,14 @@ export default function HomePage() {
                                             </div>
 
                                             <div className="p-2">
-                                                {/* Prix en premier */}
                                                 <p className="font-bold text-base text-primary">
                                                     {formatPrice(post.price)}
                                                 </p>
 
-                                                {/* Titre */}
                                                 <h3 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors mt-1 mb-2">
                                                     {post.title}
                                                 </h3>
 
-                                                {/* Localisation */}
                                                 {post.location && (
                                                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                                         <MapPin className="h-3 w-3 flex-shrink-0" weight="fill" />
@@ -307,7 +291,6 @@ export default function HomePage() {
                                                     </div>
                                                 )}
 
-                                                {/* Date */}
                                                 <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                                                     <Clock className="h-3 w-3 flex-shrink-0" weight="fill" />
                                                     <span>

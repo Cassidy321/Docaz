@@ -6,13 +6,16 @@ import {
     Eye,
     EyeSlash,
     CaretLeft,
+    CheckCircle,
     WarningCircle,
+    User,
     Envelope,
     Lock,
-    SignIn
+    UserCircle,
 } from "@phosphor-icons/react";
+
 import userStore from "@/stores/userStore";
-import { loginSchema } from "@/utils/formValidation";
+import { registerSchema } from "@/utils/formValidation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,20 +25,22 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export default function LoginPage() {
+export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [offlineError, setOfflineError] = useState(false);
     const [serverError, setServerError] = useState(false);
 
     const navigate = useNavigate();
-    const { login, loading, error, clearErrors } = userStore();
+    const { register: registerUser, loading, error, clearErrors } = userStore();
 
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        watch
     } = useForm({
-        resolver: zodResolver(loginSchema)
+        resolver: zodResolver(registerSchema)
     });
 
     const onSubmit = async (data) => {
@@ -49,9 +54,9 @@ export default function LoginPage() {
         }
 
         try {
-            const result = await login(data.email, data.password);
+            const result = await registerUser(data);
             if (result) {
-                navigate("/");
+                navigate(`/verification-email/${encodeURIComponent(data.email)}`);
             }
         } catch (error) {
             if (!navigator.onLine) {
@@ -59,7 +64,7 @@ export default function LoginPage() {
             } else if (error.response?.status >= 500) {
                 setServerError(true);
                 const errorDetails = {
-                    component: 'LoginPage',
+                    component: 'RegisterPage',
                     action: 'onSubmit',
                     status: error.response?.status,
                     message: error.message,
@@ -68,7 +73,7 @@ export default function LoginPage() {
                 };
 
                 if (process.env.NODE_ENV !== 'production') {
-                    console.error("Erreur de connexion détaillée:", errorDetails);
+                    console.error("Erreur d'inscription détaillée:", errorDetails);
                 }
             }
         }
@@ -89,23 +94,23 @@ export default function LoginPage() {
                         </Button>
 
                         <div className="relative">
-                            <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
-                            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/5 rounded-full blur-xl z-0"></div>
+                            <div className="absolute -top-6 -left-6 w-24 h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
+                            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-xl z-0"></div>
 
                             <Card className="card relative z-10 border-0 shadow-md">
-                                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-16 h-16 bg-primary/10 transform rotate-45 translate-x-8 -translate-y-8"></div>
+                                <div className="absolute top-0 left-0 w-16 h-16 overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-16 h-16 bg-primary/10 transform -rotate-45 -translate-x-8 -translate-y-8"></div>
                                 </div>
 
                                 <CardHeader className="space-y-1 pb-6">
                                     <div className="flex justify-center mb-2">
                                         <div className="p-2 bg-primary/10 rounded-full">
-                                            <SignIn weight="duotone" className="h-8 w-8 text-primary" />
+                                            <UserCircle weight="duotone" className="h-8 w-8 text-primary" />
                                         </div>
                                     </div>
-                                    <CardTitle className="text-2xl font-bold text-center">Connexion</CardTitle>
+                                    <CardTitle className="text-2xl font-bold text-center">Créer un compte</CardTitle>
                                     <CardDescription className="text-center">
-                                        Accédez à votre compte Docaz
+                                        Rejoignez Docaz pour acheter et vendre entre particuliers
                                     </CardDescription>
                                 </CardHeader>
 
@@ -139,6 +144,46 @@ export default function LoginPage() {
                                     )}
 
                                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="form-group space-y-1">
+                                                <div className="flex items-center ml-1">
+                                                    <User className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
+                                                    <Label htmlFor="firstName" className="font-medium">
+                                                        Prénom
+                                                    </Label>
+                                                </div>
+                                                <Input
+                                                    id="firstName"
+                                                    placeholder="John"
+                                                    aria-invalid={!!errors.firstName}
+                                                    className="focus-visible:ring-primary"
+                                                    {...register("firstName")}
+                                                />
+                                                {errors.firstName && (
+                                                    <p className="mt-1 text-xs text-primary">{errors.firstName.message}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="form-group space-y-1">
+                                                <div className="flex items-center ml-1">
+                                                    <User className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
+                                                    <Label htmlFor="lastName" className="font-medium">
+                                                        Nom
+                                                    </Label>
+                                                </div>
+                                                <Input
+                                                    id="lastName"
+                                                    placeholder="Doe"
+                                                    aria-invalid={!!errors.lastName}
+                                                    className="focus-visible:ring-primary"
+                                                    {...register("lastName")}
+                                                />
+                                                {errors.lastName && (
+                                                    <p className="mt-1 text-xs text-primary">{errors.lastName.message}</p>
+                                                )}
+                                            </div>
+                                        </div>
+
                                         <div className="form-group space-y-1">
                                             <div className="flex items-center ml-1">
                                                 <Envelope className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
@@ -160,16 +205,11 @@ export default function LoginPage() {
                                         </div>
 
                                         <div className="form-group space-y-1">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center ml-1">
-                                                    <Lock className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
-                                                    <Label htmlFor="password" className="font-medium">
-                                                        Mot de passe
-                                                    </Label>
-                                                </div>
-                                                <Link to="/forgot-password" className="text-xs text-primary hover:underline cursor-pointer">
-                                                    Mot de passe oublié ?
-                                                </Link>
+                                            <div className="flex items-center ml-1">
+                                                <Lock className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
+                                                <Label htmlFor="password" className="font-medium">
+                                                    Mot de passe
+                                                </Label>
                                             </div>
                                             <div className="relative">
                                                 <Input
@@ -199,20 +239,74 @@ export default function LoginPage() {
                                             )}
                                         </div>
 
+                                        <div className="form-group space-y-1">
+                                            <div className="flex items-center ml-1">
+                                                <Lock className="h-4 w-4 text-primary/80 mr-2" weight="duotone" />
+                                                <Label htmlFor="confirmPassword" className="font-medium">
+                                                    Confirmer le mot de passe
+                                                </Label>
+                                            </div>
+                                            <div className="relative">
+                                                <Input
+                                                    id="confirmPassword"
+                                                    type={showConfirmPassword ? "text" : "password"}
+                                                    placeholder="••••••••"
+                                                    aria-invalid={!!errors.confirmPassword}
+                                                    className="focus-visible:ring-primary"
+                                                    {...register("confirmPassword")}
+                                                />
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent hover:text-primary cursor-pointer"
+                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                >
+                                                    {showConfirmPassword ? (
+                                                        <EyeSlash className="h-4 w-4" weight="regular" />
+                                                    ) : (
+                                                        <Eye className="h-4 w-4" weight="regular" />
+                                                    )}
+                                                </Button>
+                                            </div>
+                                            {errors.confirmPassword && (
+                                                <p className="mt-1 text-xs text-primary">{errors.confirmPassword.message}</p>
+                                            )}
+                                        </div>
+
                                         <div className="bg-primary/5 p-3 rounded-md border border-primary/20">
-                                            <div className="flex items-center space-x-3">
-                                                <div className="relative">
+                                            <div className="flex items-start space-x-3">
+                                                <div className="relative mt-1">
                                                     <Checkbox
-                                                        id="remember"
+                                                        id="acceptTerms"
+                                                        aria-invalid={!!errors.acceptTerms}
                                                         className="h-5 w-5 border-2 border-gray-300 bg-white/90 rounded-sm data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer"
+                                                        {...register("acceptTerms", {
+                                                            setValueAs: (value) => value === "on" || value === true
+                                                        })}
                                                     />
                                                 </div>
-                                                <Label
-                                                    htmlFor="remember"
-                                                    className="text-sm font-medium leading-none cursor-pointer"
-                                                >
-                                                    Se souvenir de moi
-                                                </Label>
+                                                <div className="grid gap-1.5 leading-none">
+                                                    <Label
+                                                        htmlFor="acceptTerms"
+                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                                    >
+                                                        J'accepte les conditions d'utilisation
+                                                    </Label>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        En créant un compte, vous acceptez nos{" "}
+                                                        <Link to="/terms" className="text-primary hover:underline cursor-pointer">
+                                                            Conditions d'utilisation
+                                                        </Link>
+                                                        {" "}et notre{" "}
+                                                        <Link to="/privacy" className="text-primary hover:underline cursor-pointer">
+                                                            Politique de confidentialité
+                                                        </Link>
+                                                    </p>
+                                                    {errors.acceptTerms && (
+                                                        <p className="text-xs text-primary">{errors.acceptTerms.message}</p>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 
@@ -221,16 +315,16 @@ export default function LoginPage() {
                                             className="w-full border border-primary bg-primary text-white hover:bg-primary/90 hover:border-primary/90 cursor-pointer"
                                             disabled={loading}
                                         >
-                                            {loading ? "Connexion en cours..." : "Se connecter"}
+                                            {loading ? "Inscription en cours..." : "S'inscrire"}
                                         </Button>
                                     </form>
                                 </CardContent>
 
                                 <CardFooter className="border-t border-gray-100 pt-6">
                                     <p className="text-center text-sm text-muted-foreground w-full">
-                                        Vous n'avez pas de compte ?{" "}
-                                        <Link to="/inscription" className="text-primary hover:underline font-medium cursor-pointer">
-                                            S'inscrire
+                                        Vous avez déjà un compte ?{" "}
+                                        <Link to="/connexion" className="text-primary hover:underline font-medium cursor-pointer">
+                                            Se connecter
                                         </Link>
                                     </p>
                                 </CardFooter>
