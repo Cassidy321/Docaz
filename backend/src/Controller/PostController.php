@@ -43,9 +43,9 @@ class PostController extends AbstractController
             return $this->json(['error' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
         }
 
-        if (!$user->isEmailVerified()) {
-            return $this->json(['error' => 'Veuillez vérifier votre email avant de publier des annonces'], Response::HTTP_FORBIDDEN);
-        }
+        // if (!$user->isEmailVerified()) {
+        //     return $this->json(['error' => 'Veuillez vérifier votre email avant de publier des annonces'], Response::HTTP_FORBIDDEN);
+        // }
 
         $postData = json_decode($request->request->get('data', '{}'), true);
 
@@ -97,6 +97,8 @@ class PostController extends AbstractController
 
         $postsData = [];
         foreach ($posts as $post) {
+            $this->imageService->refreshPostImages($post);
+
             $mainImage = null;
 
             foreach ($post->getImages() as $image) {

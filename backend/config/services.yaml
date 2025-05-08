@@ -6,6 +6,7 @@
 parameters:
   app.secure_cookies: false
   app.jwt_ttl: 86400
+  app.timezone: Europe/Paris
 
 services:
   # default configuration for services in *this* file
@@ -21,6 +22,14 @@ services:
       - "../src/DependencyInjection/"
       - "../src/Entity/"
       - "../src/Kernel.php"
+
+  # Définition explicite du kernel pour pouvoir lui injecter des paramètres
+  App\Kernel:
+    public: true
+    calls:
+      - method: setTimezone
+        arguments:
+          - "%app.timezone%"
 
   App\Service\ResendService:
     arguments:
