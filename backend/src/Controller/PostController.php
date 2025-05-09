@@ -124,6 +124,54 @@ class PostController extends AbstractController
         ], Response::HTTP_OK);
     }
 
+
+    #[Route('/posts/user', name: 'posts_user', methods: ['GET'])]
+    public function getUserPosts(): JsonResponse
+    {
+        $user = $this->userService->getCurrentUser();
+
+        if (!$user) {
+            return $this->json(['error' => 'Utilisateur non authentifié'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $posts = $this->entityManager->getRepository(Post::class)->findBy(
+            ['author' => $user, 'isActive' => true],
+            ['createdAt' => 'DESC']
+        );
+
+        $postsData = [];
+        foreach ($posts as $post) {
+            $this->imageService->refreshPostImages($post);
+
+            $mainImage = null;
+            foreach ($post->getImages() as $image) {
+                if ($image->getPosition() === 0) {
+                    $mainImage = $image->getStorageUrl();
+                    break;
+                }
+            }
+
+            $postsData[] = [
+                'id' => $post->getId(),
+                'title' => $post->getTitle(),
+                'description' => $post->getDescription(),
+                'price' => $post->getPrice(),
+                'location' => $post->getLocation(),
+                'createdAt' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
+                'mainImage' => $mainImage,
+                'author' => [
+                    'id' => $post->getAuthor()->getId(),
+                    'firstName' => $post->getAuthor()->getFirstName(),
+                    'lastName' => $post->getAuthor()->getLastName()
+                ]
+            ];
+        }
+
+        return $this->json([
+            'posts' => $postsData
+        ], Response::HTTP_OK);
+    }
+
     #[Route('/posts/{id}', name: 'posts_show', methods: ['GET'])]
     public function showPost(Post $post): JsonResponse
     {
