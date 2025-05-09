@@ -43,7 +43,7 @@ export default function RegisterPage() {
         resolver: zodResolver(registerSchema)
     });
 
-    const onSubmit = async (data) => {
+    const registerNewUser = async (data) => {
         clearErrors();
         setOfflineError(false);
         setServerError(false);
@@ -65,7 +65,7 @@ export default function RegisterPage() {
                 setServerError(true);
                 const errorDetails = {
                     component: 'RegisterPage',
-                    action: 'onSubmit',
+                    action: 'RegisterNewUser',
                     status: error.response?.status,
                     message: error.message,
                     timestamp: new Date().toISOString(),
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                                         </Alert>
                                     )}
 
-                                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                    <form onSubmit={handleSubmit(registerNewUser)} className="space-y-4">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="form-group space-y-1">
                                                 <div className="flex items-center ml-1">
