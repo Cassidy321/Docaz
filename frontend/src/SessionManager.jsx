@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import userStore from "@/stores/userStore";
 import api from "@/services/api";
+import LoadingScreen from "./components/LoadingScreen";
 
 export default function SessionManager() {
     const { getUser, refreshToken } = userStore();
@@ -60,14 +61,7 @@ export default function SessionManager() {
     }, [authCheckComplete, isLoading, refreshToken]);
 
     if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-muted">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-                    <p className="text-muted-foreground">Chargement...</p>
-                </div>
-            </div>
-        );
+        return <LoadingScreen message="Chargement..." />;
     }
 
     return <Outlet />;
