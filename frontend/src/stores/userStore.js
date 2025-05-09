@@ -63,7 +63,7 @@ const userStore = create((set, get) => ({
     } catch (error) {
       set({
         loading: false,
-        error: error.response?.data?.message || "Login failed",
+        error: error.response?.data?.message || "Échec de la connexion",
       });
       throw error;
     }
@@ -80,7 +80,7 @@ const userStore = create((set, get) => ({
     } catch (error) {
       set({
         loading: false,
-        error: error.response?.data?.message || "Registration failed",
+        error: error.response?.data?.message || "Échec de l'inscription",
       });
       throw error;
     }
