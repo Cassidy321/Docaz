@@ -1,29 +1,85 @@
-import { Link } from "react-router-dom";
-import { SignIn, UserCircle } from "@phosphor-icons/react";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { SignIn, UserCircle, MagnifyingGlass, PlusCircle, X, Bell } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import userStore from "@/stores/userStore";
 
 export default function Navbar() {
+    const { isAuthenticated } = userStore();
+    const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/?search=${encodeURIComponent(searchTerm)}`);
+        }
+    };
+
     return (
-        <header className="sticky top-0 z-40 w-full bg-background shadow-sm">
-            <div className="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto max-w-5xl">
-                <Link to="/" className="flex items-center transition-colors hover:text-primary">
-                    <span className="text-2xl font-bold">Docaz</span>
-                </Link>
-
-                <div className="flex items-center gap-4">
-                    <Link to="/connexion">
-                        <Button variant="ghost" size="sm" className="gap-2 hover:bg-red-50 hover:text-primary cursor-pointer">
-                            <SignIn className="h-5 w-5" weight="regular" />
-                            <span className="hidden md:inline">Connexion</span>
-                        </Button>
+        <header className="sticky top-0 z-40 w-full bg-background shadow-sm py-2">
+            <div className="container mx-auto max-w-7xl px-8 md:px-12 lg:px-16"> 
+                <div className="flex items-center">
+                    <Link to="/" className="flex-shrink-0 mr-6">
+                        <span className="text-2xl font-bold text-primary">Docaz</span>
                     </Link>
 
-                    <Link to="/inscription">
-                        <Button variant="outline" size="sm" className="gap-2 border-primary/70 text-primary hover:bg-red-50 hover:border-primary cursor-pointer">
-                            <UserCircle className="h-5 w-5" weight="regular" />
-                            <span className="hidden md:inline">S'inscrire</span>
-                        </Button>
-                    </Link>
+                    <div className="mr-4">
+                        <Link to={isAuthenticated ? "/annonce/creation" : "/connexion"}>
+                            <Button className="bg-primary hover:bg-primary/90 text-white font-medium px-4 rounded-full h-10">
+                                <PlusCircle className="h-5 w-5 mr-2" weight="bold" />
+                                <span>Déposer une annonce</span>
+                            </Button>
+                        </Link>
+                    </div>
+
+                    <div className="relative flex-grow max-w-[45%]">
+                        <form onSubmit={handleSearchSubmit} className="relative w-full">
+                            <Input
+                                type="text"
+                                placeholder="Rechercher sur Docaz"
+                                className="pl-4 pr-10 h-12 w-full rounded-full bg-gray-100 border-gray-200 focus:bg-white focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <Button
+                                type="submit"
+                                size="icon"
+                                className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-primary"
+                            >
+                                <MagnifyingGlass className="h-5 w-5 text-white" weight="bold" />
+                            </Button>
+                        </form>
+                    </div>
+
+                    <div className="flex items-center gap-6 ml-auto">
+                        {!isAuthenticated ? (
+                            <>
+                                <Link to="/inscription" className="flex flex-col items-center text-xs text-muted-foreground hover:text-primary">
+                                    <SignIn className="h-6 w-6 mb-1" weight="regular" />
+                                    <span>S'inscrire</span>
+                                </Link>
+                                
+                                <Link to="/connexion" className="flex flex-col items-center text-xs text-muted-foreground hover:text-primary">
+                                    <UserCircle className="h-6 w-6 mb-1" weight="regular" />
+                                    <span>Se connecter</span>
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/notifications" className="flex flex-col items-center text-xs text-muted-foreground hover:text-primary">
+                                    <Bell className="h-6 w-6 mb-1" weight="regular" />
+                                    <span>Notifications</span>
+                                </Link>
+                                
+                                <Link to="/profil" className="flex flex-col items-center text-xs text-muted-foreground hover:text-primary">
+                                    <UserCircle className="h-6 w-6 mb-1" weight="regular" />
+                                    <span>Mon compte</span>
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </header>

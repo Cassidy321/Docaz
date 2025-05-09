@@ -20,9 +20,8 @@ import {
 export default function Footer() {
     return (
         <footer className="bg-background pt-10 pb-6">
-            <div className="container mx-auto max-w-5xl px-4 md:px-6">
+            <div className="container mx-auto max-w-7xl px-8 md:px-12 lg:px-16">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {/* Logo et description */}
                     <div className="md:col-span-1">
                         <Link to="/" className="flex items-center hover:text-primary">
                             <span className="text-xl font-bold">Docaz</span>
@@ -32,7 +31,6 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    {/* Liens utiles */}
                     <div className="md:col-span-1">
                         <h3 className="font-medium text-sm mb-3 flex items-center gap-2">
                             <BookOpen weight="duotone" className="h-4 w-4 text-primary/70" />
@@ -64,7 +62,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Informations légales */}
                     <div className="md:col-span-1">
                         <h3 className="font-medium text-sm mb-3 flex items-center gap-2">
                             <FileText weight="duotone" className="h-4 w-4 text-primary/70" />
@@ -98,7 +95,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Contact et réseaux sociaux */}
                     <div className="md:col-span-1">
                         <h3 className="font-medium text-sm mb-3 flex items-center gap-2">
                             <Envelope weight="duotone" className="h-4 w-4 text-primary/70" />
@@ -138,7 +134,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Copyright */}
                 <div className="mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                         <Copyright className="h-4 w-4" />

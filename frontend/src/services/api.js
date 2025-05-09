@@ -51,7 +51,7 @@ api.interceptors.response.use(
 
       const requiresStrictAuth =
         originalRequest.url.includes("/api/me") ||
-        originalRequest.url.includes("/api/post/nouveau") ||
+        originalRequest.url.includes("/api/annonce/creation") ||
         originalRequest.url.includes("/post/update/") ||
         originalRequest._requiresAuth === true;
 
@@ -102,7 +102,7 @@ api.interceptors.response.use(
 
         if (
           originalRequest.url.includes("/api/me") ||
-          originalRequest.url.includes("/api/post/nouveau") ||
+          originalRequest.url.includes("/api/annonce/creation") ||
           originalRequest.url.includes("/post/update/")
         ) {
           setTimeout(() => {

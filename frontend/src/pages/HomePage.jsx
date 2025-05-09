@@ -331,7 +331,7 @@ export default function HomePage() {
 
                     {isAuthenticated && (
                         <div className="fixed bottom-8 right-8 md:hidden">
-                            <Link to="/post/nouveau">
+                            <Link to="/annonce/creation">
                                 <Button className="h-16 w-16 rounded-full shadow-lg bg-primary hover:bg-primary/90">
                                     <PlusCircle className="h-8 w-8" weight="bold" />
                                 </Button>
