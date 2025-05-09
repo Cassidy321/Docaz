@@ -133,8 +133,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-
-                <div className="mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+                <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                         <Copyright className="h-4 w-4" />
                         <span>2025 Docaz. Tous droits réservés.</span>
