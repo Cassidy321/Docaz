@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -218,7 +218,7 @@ footer::before {
 
 body {
   background-color: #f9f9f9 !important;
-    font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 input {
@@ -228,6 +228,12 @@ input {
 }
 
 input:focus {
+  border-color: rgba(var(--primary), 0.4) !important;
+  background-color: white !important;
+  box-shadow: 0 0 0 2px rgba(var(--primary), 0.15) !important;
+}
+
+textarea:focus {
   border-color: rgba(var(--primary), 0.4) !important;
   background-color: white !important;
   box-shadow: 0 0 0 2px rgba(var(--primary), 0.15) !important;
@@ -251,4 +257,3 @@ button:hover {
 button:active {
   transform: translateY(0px) !important;
 }
-
