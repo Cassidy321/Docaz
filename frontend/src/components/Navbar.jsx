@@ -43,7 +43,7 @@ export default function Navbar() {
                             onClick={() => setMobileMenuOpen(true)}
                             className="h-8 w-8 flex-shrink-0"
                         >
-                            <List className="h-5 w-5" />
+                            <List className="h-6 w-6" />
                         </Button>
                     </div>
 
@@ -56,7 +56,7 @@ export default function Navbar() {
                             onClick={() => redirectToLogin("/annonce/creation")}
                             className="bg-primary hover:bg-primary/90 text-white font-medium px-4 rounded-full transition-all duration-200 shadow-sm hover:shadow-md text-sm ml-4 flex-shrink-0"
                         >
-                            <PlusCircle className="h-4 w-4 mr-2" weight="bold" />
+                            <PlusCircle className="h-4 w-4 " weight="bold" />
                             Déposer
                         </Button>
                         <div className="flex-1 mx-4">
@@ -68,7 +68,7 @@ export default function Navbar() {
                             onClick={() => setMobileMenuOpen(true)}
                             className="h-8 w-8 flex-shrink-0"
                         >
-                            <List className="h-5 w-5" />
+                            <List className="h-6 w-6" />
                         </Button>
                     </div>
 
@@ -81,7 +81,7 @@ export default function Navbar() {
                             onClick={() => redirectToLogin("/annonce/creation")}
                             className="bg-primary hover:bg-primary/90 text-white font-medium px-4 rounded-full transition-all duration-200 shadow-sm hover:shadow-md text-sm ml-4 flex-shrink-0"
                         >
-                            <PlusCircle className="h-4 w-4 mr-2" weight="bold" />
+                            <PlusCircle className="h-4 w-4 " weight="bold" />
                             Déposer une annonce
                         </Button>
                         <div className="flex-1 mx-4">
@@ -93,7 +93,7 @@ export default function Navbar() {
                             onClick={() => setMobileMenuOpen(true)}
                             className="h-8 w-8 flex-shrink-0"
                         >
-                            <List className="h-5 w-5" />
+                            <List className="h-6 w-6" />
                         </Button>
                     </div>
 
@@ -109,7 +109,7 @@ export default function Navbar() {
                                 onClick={() => redirectToLogin("/annonce/creation")}
                                 className="bg-primary hover:bg-primary/90 text-white font-medium px-5 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap text-sm"
                             >
-                                <PlusCircle className="h-4 w-4 mr-2" weight="bold" />
+                                <PlusCircle className="h-4 w-4" weight="bold" />
                                 Déposer une annonce
                             </Button>
                         </div>
@@ -138,7 +138,7 @@ export default function Navbar() {
                                         to="/connexion"
                                         className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors text-sm font-medium"
                                     >
-                                        <UserCircle className="h-5 w-5 mb-1" />
+                                        <UserCircle className="h-6 w-6 mb-1" />
                                         Connexion
                                     </Link>
                                 ) : (
@@ -146,7 +146,7 @@ export default function Navbar() {
                                         to="/profil"
                                         className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors text-sm font-medium"
                                     >
-                                        <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold mb-1">
+                                        <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold mb-1">
                                             {getUserInitial()}
                                         </div>
                                         {user?.firstName || "Profil"}
@@ -168,7 +168,7 @@ export default function Navbar() {
                                 onClick={() => redirectToLogin("/annonce/creation")}
                                 className="bg-primary hover:bg-primary/90 text-white font-medium px-5 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap text-sm"
                             >
-                                <PlusCircle className="h-4 w-4 mr-2" weight="bold" />
+                                <PlusCircle className="h-4 w-4" weight="bold" />
                                 Déposer une annonce
                             </Button>
                         </div>
@@ -197,7 +197,7 @@ export default function Navbar() {
                                         to="/connexion"
                                         className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors text-sm font-medium"
                                     >
-                                        <UserCircle className="h-5 w-5 mb-1" />
+                                        <UserCircle className="h-6 w-6 mb-1" />
                                         Connexion
                                     </Link>
                                 ) : (
@@ -205,7 +205,7 @@ export default function Navbar() {
                                         to="/profil"
                                         className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors text-sm font-medium"
                                     >
-                                        <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold mb-1">
+                                        <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold mb-1">
                                             {getUserInitial()}
                                         </div>
                                         {user?.firstName || "Profil"}
@@ -238,7 +238,7 @@ export default function Navbar() {
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="h-8 w-8"
                                 >
-                                    <X className="h-5 w-5" />
+                                    <X className="h-6 w-6" />
                                 </Button>
                             </div>
 
@@ -312,7 +312,7 @@ function NavButton({ icon: Icon, label, onClick }) {
             className="flex flex-col items-center text-gray-700 hover:text-primary cursor-pointer transition-colors text-sm font-medium"
             onClick={onClick}
         >
-            <Icon className="h-5 w-5 mb-1" />
+            <Icon className="h-6 w-6 mb-1" />
             <span>{label}</span>
         </div>
     )
@@ -327,7 +327,7 @@ function MenuItem({ icon: Icon, label, onClick, primary = false }) {
                 }`}
             onClick={onClick}
         >
-            <Icon className={`h-5 w-5 ${primary ? "text-white" : "text-primary"}`} />
+            <Icon className={`h-6 w-6 ${primary ? "text-white" : "text-primary"}`} />
             <span className="font-medium">{label}</span>
         </div>
     )
