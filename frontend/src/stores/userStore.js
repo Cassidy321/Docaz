@@ -6,6 +6,7 @@ const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 let refreshInProgress = false;
 let lastRefreshAttempt = 0;
 const REFRESH_COOLDOWN = 5000;
+let jwtToken = null;
 
 const checkCookies = () => {
   const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
@@ -49,7 +50,8 @@ const userStore = create((set, get) => ({
         }
       );
 
-      sessionStorage.setItem("jwt", response.data.token);
+      jwtToken = response.data.token;
+      
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -97,7 +99,8 @@ const userStore = create((set, get) => ({
         }
       );
 
-      sessionStorage.removeItem("jwt");
+      jwtToken = null;
+      
       set({
         user: null,
         isAuthenticated: false,
@@ -108,7 +111,8 @@ const userStore = create((set, get) => ({
       refreshInProgress = false;
       lastRefreshAttempt = 0;
     } catch (error) {
-      sessionStorage.removeItem("jwt");
+      jwtToken = null;
+      
       set({
         user: null,
         isAuthenticated: false,
@@ -120,9 +124,7 @@ const userStore = create((set, get) => ({
   },
 
   getUser: async () => {
-    const jwt = sessionStorage.getItem("jwt");
-
-    if (!jwt) {
+    if (!jwtToken) {
       set({ loading: false, isAuthenticated: false });
       return null;
     }
@@ -132,7 +134,7 @@ const userStore = create((set, get) => ({
     try {
       const response = await axios.get(`${baseURL}/api/me`, {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${jwtToken}`,
         },
         withCredentials: true,
       });
@@ -149,10 +151,9 @@ const userStore = create((set, get) => ({
         try {
           const refreshed = await get().refreshToken();
           if (refreshed) {
-            const newJwt = sessionStorage.getItem("jwt");
             const newResponse = await axios.get(`${baseURL}/api/me`, {
               headers: {
-                Authorization: `Bearer ${newJwt}`,
+                Authorization: `Bearer ${jwtToken}`,
               },
               withCredentials: true,
             });
@@ -198,8 +199,7 @@ const userStore = create((set, get) => ({
         const checkInterval = setInterval(() => {
           if (!refreshInProgress) {
             clearInterval(checkInterval);
-            const jwt = sessionStorage.getItem("jwt");
-            resolve(!!jwt);
+            resolve(!!jwtToken);
           }
         }, 100);
 
@@ -233,7 +233,8 @@ const userStore = create((set, get) => ({
           },
         }
       );
-      sessionStorage.setItem("jwt", response.data.token);
+      
+      jwtToken = response.data.token;
 
       if (response.data.user) {
         set({
@@ -250,7 +251,7 @@ const userStore = create((set, get) => ({
       return true;
     } catch (error) {
       refreshInProgress = false;
-      sessionStorage.removeItem("jwt");
+      jwtToken = null;
       set({
         user: null,
         isAuthenticated: false,
@@ -263,14 +264,13 @@ const userStore = create((set, get) => ({
   updateUser: async (userData) => {
     set({ loading: true, error: null });
     try {
-      const jwt = sessionStorage.getItem("jwt");
-      if (!jwt) {
+      if (!jwtToken) {
         throw new Error("Utilisateur non authentifié");
       }
 
       const response = await axios.put(`${baseURL}/api/me`, userData, {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${jwtToken}`,
         },
         withCredentials: true,
       });
@@ -286,10 +286,9 @@ const userStore = create((set, get) => ({
         try {
           const refreshed = await get().refreshToken();
           if (refreshed) {
-            const newJwt = sessionStorage.getItem("jwt");
             const newResponse = await axios.put(`${baseURL}/api/me`, userData, {
               headers: {
-                Authorization: `Bearer ${newJwt}`,
+                Authorization: `Bearer ${jwtToken}`,
               },
               withCredentials: true,
             });
@@ -318,7 +317,7 @@ const userStore = create((set, get) => ({
   resetState: () => {
     refreshInProgress = false;
     lastRefreshAttempt = 0;
-    sessionStorage.removeItem("jwt");
+    jwtToken = null;
     set({
       user: null,
       isAuthenticated: false,
@@ -328,6 +327,7 @@ const userStore = create((set, get) => ({
   },
 
   debugCookies: () => checkCookies(),
+  getToken: () => jwtToken,
 }));
 
 export default userStore;

@@ -24,8 +24,10 @@ const processQueue = (error, token = null) => {
 };
 
 api.interceptors.request.use(
-  (config) => {
-    const token = sessionStorage.getItem("jwt");
+  async (config) => {
+    const { default: userStore } = await import("../stores/userStore");
+    const token = userStore.getState().getToken();
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -78,7 +80,7 @@ api.interceptors.response.use(
         const refreshed = await userStore.getState().refreshToken();
 
         if (refreshed) {
-          const token = sessionStorage.getItem("jwt");
+          const token = userStore.getState().getToken();
           processQueue(null, token);
           refreshAttempts = 0;
           originalRequest.headers.Authorization = `Bearer ${token}`;
@@ -90,7 +92,7 @@ api.interceptors.response.use(
 
           if (requiresStrictAuth) {
             setTimeout(() => {
-              navigate('/connexion');
+              navigate("/connexion");
             }, 100);
           }
 
@@ -106,7 +108,7 @@ api.interceptors.response.use(
           originalRequest.url.includes("/post/update/")
         ) {
           setTimeout(() => {
-            navigate('/connexion');
+            navigate("/connexion");
           }, 100);
         }
 
