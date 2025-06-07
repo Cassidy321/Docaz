@@ -173,11 +173,6 @@ header::after {
   );
 }
 
-footer {
-  background: #fbfbfb !important;
-  position: relative;
-}
-
 footer::before {
   content: "";
   position: absolute;
