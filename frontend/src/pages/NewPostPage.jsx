@@ -136,19 +136,19 @@ export default function NewPostPage() {
       <div className="min-h-screen flex flex-col bg-muted">
         <Navbar />
         <main className="flex-1 py-10">
-          <div className="container max-w-4xl mx-auto px-4">
+          <div className="container max-w-4xl mx-auto px-4 sm:px-8">
             <div className="max-w-lg mx-auto text-center">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="h-10 w-10 text-green-600" weight="fill" />
               </div>
-              <h1 className="text-2xl font-bold mb-4">Annonce publiée avec succès !</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-4">Annonce publiée avec succès !</h1>
               <Alert className="bg-green-50 border-green-200 mb-8">
                 <AlertDescription className="text-green-700">
                   Votre annonce a été créée et sera visible par les autres utilisateurs. Vous allez être redirigé vers
                   votre annonce...
                 </AlertDescription>
               </Alert>
-              <div className="flex flex-col gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="outline" onClick={() => navigate("/")} className="flex items-center">
                   Retour à l'accueil
                 </Button>
@@ -167,8 +167,8 @@ export default function NewPostPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-muted/30">
       <Navbar />
-      <main className="flex-1 py-6">
-        <div className="container max-w-5xl mx-auto px-4">
+      <main className="flex-1 py-6 sm:py-8">
+        <div className="container max-w-5xl mx-auto px-4 sm:px-8">
           <div className="mb-6">
             <Button
               variant="ghost"
@@ -181,8 +181,8 @@ export default function NewPostPage() {
 
             <div className="flex flex-col gap-4">
               <div>
-                <h1 className="text-xl font-bold">Créer une nouvelle annonce</h1>
-                <p className="text-muted-foreground mt-2 text-sm">
+                <h1 className="text-xl sm:text-2xl font-bold">Créer une nouvelle annonce</h1>
+                <p className="text-muted-foreground mt-2 text-sm sm:text-base">
                   Complétez les informations ci-dessous pour mettre votre article en vente
                 </p>
               </div>
@@ -233,31 +233,31 @@ export default function NewPostPage() {
             <form onSubmit={form.handleSubmit(createNewPost)}>
               <Card className="overflow-hidden border-none shadow-md">
                 <CardContent className="p-0">
-                  <div className="bg-primary/5 px-4 py-3 border-b border-primary/10">
-                    <h2 className="font-semibold text-primary flex items-center gap-2 text-sm">
-                      <Info className="h-4 w-4" weight="fill" />
+                  <div className="bg-primary/5 px-4 sm:px-6 py-3 sm:py-4 border-b border-primary/10">
+                    <h2 className="font-semibold text-primary flex items-center gap-2 text-sm sm:text-base">
+                      <Info className="h-4 w-4 sm:h-5 sm:w-5" weight="fill" />
                       Informations sur votre article
                     </h2>
                   </div>
 
-                  <div className="p-4 space-y-4">
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                     <FormField
                       control={form.control}
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-1.5 text-sm">
-                            <Tag className="h-3.5 w-3.5 text-primary" />
+                          <FormLabel className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+                            <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                             Titre de l'annonce *
                           </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Ex: iPhone 13 Pro Max 256 Go"
                               {...field}
-                              className="text-sm focus-visible:ring-primary"
+                              className="text-sm sm:text-base focus-visible:ring-primary"
                             />
                           </FormControl>
-                          <FormMessage className="text-xs" />
+                          <FormMessage className="text-xs sm:text-sm" />
                         </FormItem>
                       )}
                     />
@@ -266,29 +266,29 @@ export default function NewPostPage() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-1.5 text-sm">
-                            <TextT className="h-3.5 w-3.5 text-primary" />
+                          <FormLabel className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+                            <TextT className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                             Description *
                           </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="Décrivez votre article en détail (état, caractéristiques, etc.)"
-                              className="min-h-24 text-sm focus-visible:ring-primary focus:border-primary/40"
+                              className="min-h-24 sm:min-h-32 text-sm sm:text-base focus-visible:ring-primary focus:border-primary/40"
                               {...field}
                             />
                           </FormControl>
-                          <FormMessage className="text-xs" />
+                          <FormMessage className="text-xs sm:text-sm" />
                         </FormItem>
                       )}
                     />
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="price"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="flex items-center gap-1.5 text-sm">
-                              <CurrencyCircleDollar className="h-3.5 w-3.5 text-primary" />
+                            <FormLabel className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+                              <CurrencyCircleDollar className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                               Prix *
                             </FormLabel>
                             <FormControl>
@@ -296,19 +296,19 @@ export default function NewPostPage() {
                                 <Input
                                   type="number"
                                   placeholder="0"
-                                  className="pl-6 text-sm focus-visible:ring-primary"
+                                  className="pl-6 sm:pl-7 text-sm sm:text-base focus-visible:ring-primary"
                                   min="0"
                                   onKeyDown={(e) => {
                                     if (e.key === "-") e.preventDefault()
                                   }}
                                   {...field}
                                 />
-                                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                                <span className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm sm:text-base">
                                   €
                                 </span>
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs" />
+                            <FormMessage className="text-xs sm:text-sm" />
                           </FormItem>
                         )}
                       />
@@ -318,21 +318,21 @@ export default function NewPostPage() {
                         name="location"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="flex items-center gap-1.5 text-sm">
-                              <MapPin className="h-3.5 w-3.5 text-primary" />
+                            <FormLabel className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+                              <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                               Localisation *
                             </FormLabel>
                             <FormControl>
                               <div className="relative">
                                 <Input
                                   placeholder="Ex: Paris, Lyon, Marseille"
-                                  className="pl-7 text-sm focus-visible:ring-primary"
+                                  className="pl-7 sm:pl-9 text-sm sm:text-base focus-visible:ring-primary"
                                   {...field}
                                 />
-                                <MapPin className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                                <MapPin className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs" />
+                            <FormMessage className="text-xs sm:text-sm" />
                           </FormItem>
                         )}
                       />
@@ -340,12 +340,12 @@ export default function NewPostPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="mt-4 overflow-hidden border-none shadow-md">
+              <Card className="mt-4 sm:mt-6 overflow-hidden border-none shadow-md">
                 <CardContent className="p-0">
-                  <div className="bg-primary/5 px-4 py-3 border-b border-primary/10">
+                  <div className="bg-primary/5 px-4 sm:px-6 py-3 sm:py-4 border-b border-primary/10">
                     <div className="flex items-center justify-between">
-                      <h2 className="font-semibold text-primary flex items-center gap-2 text-sm">
-                        <Camera className="h-4 w-4" />
+                      <h2 className="font-semibold text-primary flex items-center gap-2 text-sm sm:text-base">
+                        <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
                         Photos
                         <span className="text-xs font-normal bg-primary/20 text-primary rounded-full px-1.5 py-0.5 ml-1.5">
                           {previewImages.length}/10
@@ -354,14 +354,14 @@ export default function NewPostPage() {
                     </div>
                   </div>
 
-                  <div id="photo-section" className="p-4">
+                  <div id="photo-section" className="p-4 sm:p-6">
                     {previewImages.length === 0 ? (
-                      <div className="border-2 border-dashed border-primary/20 rounded-lg p-4 text-center bg-primary/5">
-                        <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                          <ImageSquare className="h-6 w-6 text-primary/60" />
+                      <div className="border-2 border-dashed border-primary/20 rounded-lg p-4 sm:p-6 text-center bg-primary/5">
+                        <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/10 flex items-center justify-center mb-2 sm:mb-3">
+                          <ImageSquare className="h-6 w-6 sm:h-7 sm:w-7 text-primary/60" />
                         </div>
-                        <h3 className="font-medium mb-2 text-sm">Aucune photo ajoutée</h3>
-                        <p className="text-xs text-muted-foreground mb-3">
+                        <h3 className="font-medium mb-2 text-sm sm:text-base">Aucune photo ajoutée</h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                           Ajoutez au moins une photo pour votre annonce
                         </p>
                         <div className="relative inline-block">
@@ -373,14 +373,14 @@ export default function NewPostPage() {
                             onChange={addImages}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                           />
-                          <Button type="button" size="sm" className="bg-primary hover:bg-primary/90 text-white text-xs">
-                            <Upload className="h-3.5 w-3.5 mr-1.5" />
+                          <Button type="button" size="sm" className="bg-primary hover:bg-primary/90 text-white text-xs sm:text-sm">
+                            <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
                             Ajouter des photos
                           </Button>
                         </div>
 
-                        <div className="text-[10px] text-muted-foreground mt-4 bg-muted/50 p-2 rounded-md text-left">
-                          <ul className="list-disc pl-3 space-y-0.5">
+                        <div className="text-[10px] sm:text-xs text-muted-foreground mt-4 bg-muted/50 p-2 sm:p-3 rounded-md text-left">
+                          <ul className="list-disc pl-3 sm:pl-4 space-y-0.5 sm:space-y-1">
                             <li>Formats acceptés : JPG, JPEG, PNG</li>
                             <li>Taille maximale par image : 5 Mo</li>
                             <li>La première image sera utilisée comme aperçu principal</li>
@@ -389,7 +389,7 @@ export default function NewPostPage() {
                       </div>
                     ) : (
                       <div>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                           {previewImages.map((image, index) => (
                             <div
                               key={index}
@@ -431,7 +431,7 @@ export default function NewPostPage() {
                               </div>
 
                               {index === 0 && (
-                                <div className="absolute top-1 left-1 bg-primary text-white text-[10px] py-0.5 px-1.5 rounded-full">
+                                <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-primary text-white text-[10px] sm:text-xs py-0.5 px-1.5 sm:py-1 sm:px-2 rounded-full">
                                   Principale
                                 </div>
                               )}
@@ -448,21 +448,21 @@ export default function NewPostPage() {
                                 onChange={addImages}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
-                              <ImageSquare className="h-5 w-5 text-primary/60 mb-1" weight="thin" />
-                              <span className="text-[10px] text-center text-muted-foreground px-1">
+                              <ImageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-primary/60 mb-1 sm:mb-2" weight="thin" />
+                              <span className="text-[10px] sm:text-xs text-center text-muted-foreground px-1">
                                 Ajouter
                               </span>
                             </div>
                           )}
                         </div>
 
-                        <div className="text-[10px] text-muted-foreground mt-4 bg-muted/50 p-2 rounded-md">
+                        <div className="text-[10px] sm:text-xs text-muted-foreground mt-4 bg-muted/50 p-2 sm:p-3 rounded-md">
                           <div className="font-medium mb-1">Informations :</div>
                           <ul className="list-disc pl-4 space-y-1">
                             <li>Formats acceptés : JPG, JPEG, PNG</li>
                             <li>Taille maximale par image : 5 Mo</li>
                             <li>La première image sera utilisée comme aperçu principal</li>
-                            <li>Vous pouvez réorganiser vos photos en survolant chaque image</li>
+                            <li className="hidden sm:block">Vous pouvez réorganiser vos photos en survolant chaque image</li>
                           </ul>
                         </div>
                       </div>
@@ -470,19 +470,20 @@ export default function NewPostPage() {
                   </div>
                 </CardContent>
               </Card>
-              <div className="mt-4 flex flex-row justify-between gap-3">
-                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1">
+              <div className="mt-4 sm:mt-6 flex flex-row justify-between sm:justify-between gap-3">
+                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1 sm:flex-1">
                   Annuler
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white flex-1"
+                  className="bg-primary hover:bg-primary/90 text-white flex-1 sm:flex-1"
                   disabled={loading}
                 >
                   {loading ? (
                     <>
                       <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      {isMobile ? "Publication..." : "Publication en cours..."}
+                      <span className="block sm:hidden">Publication...</span>
+                      <span className="hidden sm:block">Publication en cours...</span>
                     </>
                   ) : (
                     <>
