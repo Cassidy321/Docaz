@@ -168,7 +168,7 @@ export default function NewPostPage() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-muted/30">
       <Navbar />
       <main className="flex-1 py-6 sm:py-8 md:py-10">
-        <div className="container max-w-5xl mx-auto px-4 sm:px-8 md:px-12">
+        <div className="container max-w-5xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
           <div className="mb-6">
             <Button
               variant="ghost"
@@ -232,6 +232,30 @@ export default function NewPostPage() {
                 </ul>
               </div>
             )}
+          </div>
+          <div className="hidden lg:block mb-6 bg-primary/5 border border-primary/20 rounded-lg p-4 relative">
+            <div className="flex items-start gap-3">
+              <div className="bg-primary/10 rounded-full p-2">
+                <LightbulbFilament className="h-5 w-5 text-primary" weight="fill" />
+              </div>
+              <div>
+                <h3 className="font-medium text-primary/90 mb-2">Conseils pour une annonce efficace</h3>
+                <ul className="text-sm text-primary/80 space-y-1.5 ml-1">
+                  <li className="flex items-start gap-2">
+                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                    <span>Choisissez un titre clair et précis incluant la marque et les caractéristiques principales</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                    <span>Détaillez l'état, l'âge et les spécificités de votre article dans la description</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                    <span>Ajoutez plusieurs photos sous différents angles avec un bon éclairage</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(createNewPost)}>
