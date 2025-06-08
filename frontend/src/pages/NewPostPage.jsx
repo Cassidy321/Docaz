@@ -167,24 +167,29 @@ export default function NewPostPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-muted/30">
       <Navbar />
-      <main className="flex-1 py-6 sm:py-8">
-        <div className="container max-w-5xl mx-auto px-4 sm:px-8">
+      <main className="flex-1 py-6 sm:py-8 md:py-10">
+        <div className="container max-w-5xl mx-auto px-4 sm:px-8 md:px-12">
           <div className="mb-6">
             <Button
               variant="ghost"
               onClick={() => navigate(-1)}
-              className="mb-3 text-muted-foreground hover:text-foreground group"
+              className="mb-3 md:mb-4 text-muted-foreground hover:text-foreground group"
             >
               <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Retour
             </Button>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold">Créer une nouvelle annonce</h1>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">Créer une nouvelle annonce</h1>
                 <p className="text-muted-foreground mt-2 text-sm sm:text-base">
                   Complétez les informations ci-dessous pour mettre votre article en vente
                 </p>
+              </div>
+              <div className="hidden md:block">
+                <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                  <span>* champs obligatoires</span>
+                </div>
               </div>
             </div>
           </div>
@@ -195,7 +200,7 @@ export default function NewPostPage() {
               <AlertDescription>{error || submitError}</AlertDescription>
             </Alert>
           )}
-          <div className="mb-4">
+          <div className="block lg:hidden mb-4">
             <Button
               variant="outline"
               className="w-full py-2 flex justify-between items-center border-primary/20 bg-primary/5 text-primary/90"
@@ -210,25 +215,24 @@ export default function NewPostPage() {
             </Button>
 
             {showTips && (
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 mt-2">
-                <ul className="text-xs text-primary/80 space-y-1.5">
-                  <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 md:p-4 mt-2">
+                <ul className="text-xs md:text-sm text-primary/80 space-y-1.5 md:space-y-2">
+                  <li className="flex items-start gap-1.5 md:gap-2">
+                    <span className="font-bold text-xs md:text-sm bg-primary/20 text-primary/90 rounded-full size-4 md:size-5 flex items-center justify-center flex-shrink-0">1</span>
                     <span>Titre clair avec marque et caractéristiques</span>
                   </li>
-                  <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                  <li className="flex items-start gap-1.5 md:gap-2">
+                    <span className="font-bold text-xs md:text-sm bg-primary/20 text-primary/90 rounded-full size-4 md:size-5 flex items-center justify-center flex-shrink-0">2</span>
                     <span>Détaillez l'état et les spécificités</span>
                   </li>
-                  <li className="flex items-start gap-1.5">
-                    <span className="font-bold text-xs bg-primary/20 text-primary/90 rounded-full size-4 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                  <li className="flex items-start gap-1.5 md:gap-2">
+                    <span className="font-bold text-xs md:text-sm bg-primary/20 text-primary/90 rounded-full size-4 md:size-5 flex items-center justify-center flex-shrink-0">3</span>
                     <span>Photos sous différents angles, bon éclairage</span>
                   </li>
                 </ul>
               </div>
             )}
           </div>
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(createNewPost)}>
               <Card className="overflow-hidden border-none shadow-md">
@@ -273,7 +277,7 @@ export default function NewPostPage() {
                           <FormControl>
                             <Textarea
                               placeholder="Décrivez votre article en détail (état, caractéristiques, etc.)"
-                              className="min-h-24 sm:min-h-32 text-sm sm:text-base focus-visible:ring-primary focus:border-primary/40"
+                              className="min-h-24 sm:min-h-32 md:min-h-40 text-sm sm:text-base focus-visible:ring-primary focus:border-primary/40"
                               {...field}
                             />
                           </FormControl>
@@ -356,9 +360,9 @@ export default function NewPostPage() {
 
                   <div id="photo-section" className="p-4 sm:p-6">
                     {previewImages.length === 0 ? (
-                      <div className="border-2 border-dashed border-primary/20 rounded-lg p-4 sm:p-6 text-center bg-primary/5">
-                        <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/10 flex items-center justify-center mb-2 sm:mb-3">
-                          <ImageSquare className="h-6 w-6 sm:h-7 sm:w-7 text-primary/60" />
+                      <div className="border-2 border-dashed border-primary/20 rounded-lg p-4 sm:p-6 md:p-8 text-center bg-primary/5">
+                        <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2 sm:mb-3 md:mb-4">
+                          <ImageSquare className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary/60" />
                         </div>
                         <h3 className="font-medium mb-2 text-sm sm:text-base">Aucune photo ajoutée</h3>
                         <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
@@ -389,7 +393,7 @@ export default function NewPostPage() {
                       </div>
                     ) : (
                       <div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                           {previewImages.map((image, index) => (
                             <div
                               key={index}
@@ -400,6 +404,15 @@ export default function NewPostPage() {
                                 alt={`Aperçu ${index}`}
                                 className="w-full h-full object-cover"
                               />
+                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center gap-1 md:gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="bg-white/90 p-1.5 md:p-2 rounded-full hover:bg-white transition-colors"
+                                >
+                                  <XCircle className="h-4 w-4 md:h-5 md:w-5 text-red-500" />
+                                </button>
+                              </div>
                               <div className="absolute top-1 right-1 flex gap-1">
                                 <button
                                   type="button"
@@ -409,27 +422,6 @@ export default function NewPostPage() {
                                   <XCircle className="h-4 w-4 text-red-500" />
                                 </button>
                               </div>
-                              <div className="absolute bottom-1 right-1 flex flex-col gap-1">
-                                {index > 0 && (
-                                  <button
-                                    type="button"
-                                    onClick={() => moveImage(index, "up")}
-                                    className="bg-white/90 p-1.5 rounded-full shadow-sm"
-                                  >
-                                    <ArrowUp className="h-4 w-4 text-primary" />
-                                  </button>
-                                )}
-                                {index < previewImages.length - 1 && (
-                                  <button
-                                    type="button"
-                                    onClick={() => moveImage(index, "down")}
-                                    className="bg-white/90 p-1.5 rounded-full shadow-sm"
-                                  >
-                                    <ArrowDown className="h-4 w-4 text-primary" />
-                                  </button>
-                                )}
-                              </div>
-
                               {index === 0 && (
                                 <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-primary text-white text-[10px] sm:text-xs py-0.5 px-1.5 sm:py-1 sm:px-2 rounded-full">
                                   Principale
@@ -448,7 +440,7 @@ export default function NewPostPage() {
                                 onChange={addImages}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
-                              <ImageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-primary/60 mb-1 sm:mb-2" weight="thin" />
+                              <ImageSquare className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary/60 mb-1 sm:mb-2" weight="thin" />
                               <span className="text-[10px] sm:text-xs text-center text-muted-foreground px-1">
                                 Ajouter
                               </span>
@@ -462,7 +454,6 @@ export default function NewPostPage() {
                             <li>Formats acceptés : JPG, JPEG, PNG</li>
                             <li>Taille maximale par image : 5 Mo</li>
                             <li>La première image sera utilisée comme aperçu principal</li>
-                            <li className="hidden sm:block">Vous pouvez réorganiser vos photos en survolant chaque image</li>
                           </ul>
                         </div>
                       </div>
@@ -470,13 +461,13 @@ export default function NewPostPage() {
                   </div>
                 </CardContent>
               </Card>
-              <div className="mt-4 sm:mt-6 flex flex-row justify-between sm:justify-between gap-3">
-                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1 sm:flex-1">
+              <div className="mt-4 sm:mt-6 flex flex-row justify-between sm:justify-between md:justify-start gap-3 md:gap-4">
+                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1 sm:flex-1 md:flex-none md:order-1">
                   Annuler
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white flex-1 sm:flex-1"
+                  className="bg-primary hover:bg-primary/90 text-white flex-1 sm:flex-1 md:flex-none md:order-2"
                   disabled={loading}
                 >
                   {loading ? (
