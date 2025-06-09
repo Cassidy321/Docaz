@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import postStore from "@/stores/postStore"
 import userStore from "@/stores/userStore"
+import Location from "@/services/location"
 import {
   Upload,
   XCircle,
@@ -42,7 +43,9 @@ export default function NewPostPage() {
   const [submitError, setSubmitError] = useState(null)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [showTips, setShowTips] = useState(false)
-  const isMobile = window.innerWidth < 768
+  const [locationSuggestions, setLocationSuggestions] = useState([])
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false)
+  const [loadingLocation, setLoadingLocation] = useState(false)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -110,6 +113,48 @@ export default function NewPostPage() {
     const newImages = [...images]
       ;[newImages[index], newImages[newIndex]] = [newImages[newIndex], newImages[index]]
     setImages(newImages)
+  }
+
+  const searchCities = useCallback(async (query) => {
+    if (query.length < 2) {
+      setLocationSuggestions([])
+      setShowLocationSuggestions(false)
+      return
+    }
+
+    setLoadingLocation(true)
+    try {
+      const suggestions = await Location.searchCities(query)
+      setLocationSuggestions(suggestions)
+      setShowLocationSuggestions(suggestions.length > 0)
+    } catch (error) {
+      console.error('Erreur lors de la recherche de villes:', error)
+      setLocationSuggestions([])
+      setShowLocationSuggestions(false)
+    } finally {
+      setLoadingLocation(false)
+    }
+  }, [])
+
+  const debounce = useCallback((func, delay) => {
+    let timeoutId
+    return (...args) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => func.apply(null, args), delay)
+    }
+  }, [])
+
+  const debouncedSearchCities = useCallback(debounce(searchCities, 300), [searchCities, debounce])
+
+  const handleLocationChange = (value) => {
+    form.setValue('location', value)
+    debouncedSearchCities(value)
+  }
+
+  const selectLocation = (suggestion) => {
+    form.setValue('location', suggestion.name)
+    setLocationSuggestions([])
+    setShowLocationSuggestions(false)
   }
 
   const createNewPost = async (data) => {
@@ -357,9 +402,48 @@ export default function NewPostPage() {
                                 <Input
                                   placeholder="Ex: Paris, Lyon, Marseille"
                                   className="pl-7 sm:pl-9 text-sm sm:text-base focus-visible:ring-primary"
-                                  {...field}
+                                  value={field.value}
+                                  onChange={(e) => {
+                                    handleLocationChange(e.target.value)
+                                  }}
+                                  onBlur={() => {
+                                    setTimeout(() => setShowLocationSuggestions(false), 150)
+                                  }}
+                                  onFocus={() => {
+                                    if (locationSuggestions.length > 0) {
+                                      setShowLocationSuggestions(true)
+                                    }
+                                  }}
                                 />
                                 <MapPin className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                                {loadingLocation && (
+                                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                  </div>
+                                )}
+
+                                {showLocationSuggestions && locationSuggestions.length > 0 && (
+                                  <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto">
+                                    {locationSuggestions.map((suggestion, index) => (
+                                      <button
+                                        key={`${suggestion.code}-${index}`}
+                                        type="button"
+                                        className="w-full px-3 py-2 text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none border-b border-gray-100 last:border-b-0 text-sm"
+                                        onClick={() => selectLocation(suggestion)}
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <MapPin className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                                          <div>
+                                            <div className="font-medium text-gray-900">{suggestion.name}</div>
+                                            {suggestion.department && (
+                                              <div className="text-xs text-gray-500">{suggestion.department}</div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             </FormControl>
                             <div className="min-h-[20px]">
@@ -438,7 +522,7 @@ export default function NewPostPage() {
                                   onClick={() => removeImage(index)}
                                   className="p-1.5 xl:p-2 hover:bg-primary rounded-full transition-all"
                                 >
-                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold"/>
+                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold" />
                                 </button>
                               </div>
                               {index === 0 && (

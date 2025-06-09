@@ -1,5 +1,23 @@
 import { z } from "zod";
 
+const validateCity = async (location) => {
+  try {
+    const response = await fetch(
+      `https://geo.api.gouv.fr/communes?nom=${encodeURIComponent(location)}&fields=nom&format=json&limit=1`
+    );
+    const data = await response.json();
+    
+    const exactMatch = data.some(commune => 
+      commune.nom.toLowerCase() === location.toLowerCase()
+    );
+    
+    return exactMatch;
+  } catch (error) {
+    console.error('Erreur validation ville:', error);
+    return true;
+  }
+};
+
 export const postSchema = z.object({
   title: z
     .string()
@@ -23,8 +41,11 @@ export const postSchema = z.object({
     .transform((val) => parseInt(val)),
   location: z
     .string()
-    .min(3, { message: "La localisation doit contenir au moins 3 caractères" })
+    .min(2, { message: "La localisation doit contenir au moins 2 caractères" })
     .max(100, {
       message: "La localisation ne peut pas dépasser 100 caractères",
+    })
+    .refine(async (location) => await validateCity(location), {
+      message: "Cette localisation n'existe pas ou n'est pas reconnue",
     }),
 });
