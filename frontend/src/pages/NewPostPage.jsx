@@ -564,13 +564,13 @@ export default function NewPostPage() {
                   </div>
                 </CardContent>
               </Card>
-              <div className="mt-4 sm:mt-6 xl:mt-8 flex flex-row justify-between sm:justify-between md:justify-start gap-3 md:gap-4 xl:gap-6">
-                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1 sm:flex-1 md:flex-none xl:px-8 xl:py-3 xl:text-lg md:order-1">
+              <div className="mt-4 sm:mt-6 xl:mt-8 flex flex-row justify-between sm:flex-row sm:justify-between md:justify-center gap-3 md:gap-4 xl:gap-6">
+                <Button type="button" variant="outline" onClick={() => navigate("/")} className="flex-1 sm:flex-1 md:w-40 lg:w-44 xl:w-48 xl:py-3 xl:text-lg">
                   Annuler
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white flex-1 sm:flex-1 md:flex-none xl:px-8 xl:py-3 xl:text-lg md:order-2"
+                  className="bg-primary hover:bg-primary/90 text-white flex-1 sm:flex-1 md:w-40 lg:w-44 xl:w-48 xl:py-3 xl:text-lg"
                   disabled={loading}
                 >
                   {loading ? (
