@@ -64,7 +64,7 @@ export default function NewPostPage() {
       price: "",
       location: "",
     },
-    mode: "onChange",
+    mode: "onSubmit",
   })
 
   const addImages = (e) => {
@@ -309,12 +309,12 @@ export default function NewPostPage() {
                         </FormItem>
                       )}
                     />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 xl:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 xl:gap-8 items-start">
                       <FormField
                         control={form.control}
                         name="price"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="space-y-2">
                             <FormLabel className="flex items-center gap-1.5 sm:gap-2 xl:gap-3 text-sm sm:text-base xl:text-lg">
                               <CurrencyCircleDollar className="h-3.5 w-3.5 sm:h-4 sm:w-4 xl:h-5 xl:w-5 text-primary" />
                               Prix *
@@ -336,7 +336,9 @@ export default function NewPostPage() {
                                 </span>
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs sm:text-sm xl:text-base" />
+                            <div className="min-h-[20px]">
+                              <FormMessage className="text-xs sm:text-sm xl:text-base" />
+                            </div>
                           </FormItem>
                         )}
                       />
@@ -345,7 +347,7 @@ export default function NewPostPage() {
                         control={form.control}
                         name="location"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="space-y-2">
                             <FormLabel className="flex items-center gap-1.5 sm:gap-2 xl:gap-3 text-sm sm:text-base xl:text-lg">
                               <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 xl:h-5 xl:w-5 text-primary" />
                               Localisation *
@@ -360,7 +362,9 @@ export default function NewPostPage() {
                                 <MapPin className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                               </div>
                             </FormControl>
-                            <FormMessage className="text-xs sm:text-sm xl:text-base" />
+                            <div className="min-h-[20px]">
+                              <FormMessage className="text-xs sm:text-sm xl:text-base" />
+                            </div>
                           </FormItem>
                         )}
                       />
@@ -434,7 +438,7 @@ export default function NewPostPage() {
                                   onClick={() => removeImage(index)}
                                   className="p-1.5 xl:p-2 hover:bg-primary rounded-full transition-all"
                                 >
-                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold" />
+                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold"/>
                                 </button>
                               </div>
                               {index === 0 && (

@@ -3,6 +3,7 @@ import { z } from "zod";
 export const postSchema = z.object({
   title: z
     .string()
+    .min(5, { message: "Le titre doit contenir au moins 5 caractères" })
     .max(100, { message: "Le titre ne peut pas dépasser 100 caractères" }),
   description: z
     .string()
