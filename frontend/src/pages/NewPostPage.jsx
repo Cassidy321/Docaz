@@ -171,9 +171,9 @@ export default function NewPostPage() {
         <div className="container max-w-5xl xl:max-w-6xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-18">
           <div className="mb-6">
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() => navigate(-1)}
-              className="mb-3 md:mb-4 text-muted-foreground hover:text-foreground group"
+              className="mb-3 md:mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
             >
               <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Retour
@@ -434,7 +434,7 @@ export default function NewPostPage() {
                                   onClick={() => removeImage(index)}
                                   className="p-1.5 xl:p-2 hover:bg-primary rounded-full transition-all"
                                 >
-                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold"/>
+                                  <XCircle className="h-4 w-4 xl:h-5 xl:w-5 text-black/60 hover:text-black drop-shadow-sm" weight="bold" />
                                 </button>
                               </div>
                               {index === 0 && (
