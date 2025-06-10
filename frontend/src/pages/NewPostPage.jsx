@@ -10,12 +10,11 @@ import {
   XCircle,
   MapPin,
   CaretLeft,
-  CheckCircle,
   Warning,
   ImageSquare,
   Tag,
   TextT,
-  CurrencyCircleDollar,
+  MoneyWavy,
   Info,
   Camera,
   PencilSimple,
@@ -288,7 +287,7 @@ export default function NewPostPage() {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Ex: iPhone 13 Pro Max 256 Go"
+                              placeholder="Ex: iPhone 16 Pro Max 256 Go Titane"
                               {...field}
                               className="text-sm sm:text-base xl:text-lg xl:py-3 xl:px-4 focus-visible:ring-primary"
                             />
@@ -324,16 +323,16 @@ export default function NewPostPage() {
                         render={({ field }) => (
                           <FormItem className="space-y-2">
                             <FormLabel className="flex items-center gap-1.5 sm:gap-2 xl:gap-3 text-sm sm:text-base xl:text-lg">
-                              <CurrencyCircleDollar className="h-3.5 w-3.5 sm:h-4 sm:w-4 xl:h-5 xl:w-5 text-primary" />
+                              <MoneyWavy className="h-3.5 w-3.5 sm:h-4 sm:w-4 xl:h-5 xl:w-5 text-primary" />
                               Prix *
                             </FormLabel>
                             <FormControl>
                               <div className="relative">
                                 <Input
                                   type="number"
-                                  placeholder="0"
+                                  placeholder="1"
                                   className="pl-6 sm:pl-7 text-sm sm:text-base focus-visible:ring-primary"
-                                  min="0"
+                                  min="1"
                                   onKeyDown={(e) => {
                                     if (e.key === "-") e.preventDefault()
                                   }}
@@ -557,4 +556,4 @@ export default function NewPostPage() {
       <Footer />
     </div>
   )
-}
+} 
