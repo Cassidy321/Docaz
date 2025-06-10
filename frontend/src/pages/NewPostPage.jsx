@@ -19,8 +19,6 @@ import {
   Info,
   Camera,
   PencilSimple,
-  ArrowUp,
-  ArrowDown,
   LightbulbFilament,
 } from "@phosphor-icons/react"
 
@@ -41,7 +39,6 @@ export default function NewPostPage() {
   const [images, setImages] = useState([])
   const [previewImages, setPreviewImages] = useState([])
   const [submitError, setSubmitError] = useState(null)
-  const [submitSuccess, setSubmitSuccess] = useState(false)
   const [showTips, setShowTips] = useState(false)
   const [locationSuggestions, setLocationSuggestions] = useState([])
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false)
@@ -168,45 +165,11 @@ export default function NewPostPage() {
     setSubmitError(null)
     try {
       const post = await createPost(data, images)
-      setSubmitSuccess(true)
-      setTimeout(() => navigate(`/annonce/${post.id}`), 2000)
+      navigate(`/annonce/${post.id}`)
     } catch (error) {
       setSubmitError("Une erreur est survenue lors de la création de l'annonce")
       window.scrollTo(0, 0)
     }
-  }
-
-  if (submitSuccess) {
-    return (
-      <div className="min-h-screen flex flex-col bg-muted">
-        <Navbar />
-        <main className="flex-1 py-10 xl:py-12">
-          <div className="container max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8 xl:px-10">
-            <div className="max-w-lg xl:max-w-xl mx-auto text-center">
-              <div className="w-20 h-20 xl:w-22 xl:h-22 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="h-10 w-10 xl:h-11 xl:w-11 text-green-600" weight="fill" />
-              </div>
-              <h1 className="text-2xl sm:text-3xl xl:text-3xl font-bold mb-4">Annonce publiée avec succès !</h1>
-              <Alert className="bg-green-50 border-green-200 mb-8">
-                <AlertDescription className="text-green-700">
-                  Votre annonce a été créée et sera visible par les autres utilisateurs. Vous allez être redirigé vers
-                  votre annonce...
-                </AlertDescription>
-              </Alert>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="outline" onClick={() => navigate("/")} className="flex items-center xl:px-6">
-                  Retour à l'accueil
-                </Button>
-                <Button onClick={() => navigate("/mes-annonces")} className="bg-primary hover:bg-primary/90 text-white xl:px-6">
-                  Voir mes annonces
-                </Button>
-              </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
   }
 
   return (

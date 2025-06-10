@@ -63,7 +63,7 @@ class Location {
       const response = await fetch(
         `${this.baseUrl}?nom=${encodeURIComponent(
           cityName
-        )}&fields=nom&format=json&limit=1`
+        )}&fields=nom&format=json&boost=population&limit=20`
       );
 
       if (!response.ok) {
