@@ -74,8 +74,8 @@ export default function RegisterPage() {
         <div className="min-h-screen flex flex-col bg-muted">
             <Navbar />
 
-            <main className="flex-1 flex items-center justify-center py-6 sm:py-8">
-                <div className="container px-4 sm:px-6 mx-auto w-full max-w-md">
+            <main className="flex-1 flex items-center justify-center py-6 sm:py-8 md:py-12">
+                <div className="container px-4 sm:px-6 md:px-8 mx-auto w-full max-w-md">
                     <Button variant="ghost" size="sm" asChild className="mb-4 sm:mb-6 hover:text-primary">
                         <Link to="/" className="flex items-center gap-2 text-muted-foreground transition-colors cursor-pointer">
                             <CaretLeft className="h-4 w-4" weight="bold" />
@@ -84,18 +84,18 @@ export default function RegisterPage() {
                     </Button>
 
                     <div className="relative">
-                        <div className="absolute -top-4 sm:-top-6 -left-4 sm:-left-6 w-16 sm:w-20 h-16 sm:h-20 bg-primary/5 rounded-full blur-xl z-0"></div>
-                        <div className="absolute -bottom-6 sm:-bottom-8 -right-6 sm:-right-8 w-20 sm:w-24 h-20 sm:h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -top-4 sm:-top-6 md:-top-6 -left-4 sm:-left-6 md:-left-6 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -bottom-6 sm:-bottom-8 md:-bottom-10 -right-6 sm:-right-8 md:-right-10 w-20 sm:w-24 md:w-32 h-20 sm:h-24 md:h-32 bg-primary/5 rounded-full blur-xl z-0"></div>
 
                         <Card className="card relative z-10 border-0 shadow-md">
-                            <div className="absolute top-0 left-0 w-12 sm:w-14 h-12 sm:h-14 overflow-hidden">
-                                <div className="absolute top-0 left-0 w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 transform -rotate-45 -translate-x-6 sm:-translate-x-7 -translate-y-6 sm:-translate-y-7"></div>
+                            <div className="absolute top-0 left-0 w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden">
+                                <div className="absolute top-0 left-0 w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 bg-primary/10 transform -rotate-45 -translate-x-6 sm:-translate-x-7 md:-translate-x-8 -translate-y-6 sm:-translate-y-7 md:-translate-y-8"></div>
                             </div>
 
-                            <CardHeader className="space-y-1 pb-4 sm:pb-5">
+                            <CardHeader className="space-y-1 pb-4 sm:pb-5 md:pb-6">
                                 <div className="flex justify-center mb-2">
-                                    <div className="p-2 bg-primary/10 rounded-full">
-                                        <UserCircle weight="duotone" className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
+                                    <div className="p-2 md:p-3 bg-primary/10 rounded-full">
+                                        <UserCircle weight="duotone" className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary" />
                                     </div>
                                 </div>
                                 <CardTitle className="text-xl sm:text-2xl font-bold text-center">Créer un compte</CardTitle>
