@@ -28,7 +28,6 @@ import Footer from "@/components/Footer";
 export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [offlineError, setOfflineError] = useState(false);
     const [serverError, setServerError] = useState(false);
 
     const navigate = useNavigate();
@@ -45,13 +44,7 @@ export default function RegisterPage() {
 
     const registerNewUser = async (data) => {
         clearErrors();
-        setOfflineError(false);
         setServerError(false);
-
-        if (!navigator.onLine) {
-            setOfflineError(true);
-            return;
-        }
 
         try {
             const result = await registerUser(data);
@@ -59,9 +52,7 @@ export default function RegisterPage() {
                 navigate(`/verification-email/${encodeURIComponent(data.email)}`);
             }
         } catch (error) {
-            if (!navigator.onLine) {
-                setOfflineError(true);
-            } else if (error.response?.status >= 500) {
+            if (error.response?.status >= 500) {
                 setServerError(true);
                 const errorDetails = {
                     component: 'RegisterPage',
@@ -83,9 +74,9 @@ export default function RegisterPage() {
         <div className="min-h-screen flex flex-col bg-muted">
             <Navbar />
 
-            <main className="flex-1 flex items-center justify-center py-6">
-                <div className="container px-4 mx-auto w-full max-w-md">
-                    <Button variant="ghost" size="sm" asChild className="mb-4 hover:text-primary">
+            <main className="flex-1 flex items-center justify-center py-6 sm:py-8">
+                <div className="container px-4 sm:px-6 mx-auto w-full max-w-md">
+                    <Button variant="ghost" size="sm" asChild className="mb-4 sm:mb-6 hover:text-primary">
                         <Link to="/" className="flex items-center gap-2 text-muted-foreground transition-colors cursor-pointer">
                             <CaretLeft className="h-4 w-4" weight="bold" />
                             Retour à l'accueil
@@ -93,48 +84,38 @@ export default function RegisterPage() {
                     </Button>
 
                     <div className="relative">
-                        <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary/5 rounded-full blur-xl z-0"></div>
-                        <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -top-4 sm:-top-6 -left-4 sm:-left-6 w-16 sm:w-20 h-16 sm:h-20 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -bottom-6 sm:-bottom-8 -right-6 sm:-right-8 w-20 sm:w-24 h-20 sm:h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
 
                         <Card className="card relative z-10 border-0 shadow-md">
-                            <div className="absolute top-0 left-0 w-12 h-12 overflow-hidden">
-                                <div className="absolute top-0 left-0 w-12 h-12 bg-primary/10 transform -rotate-45 -translate-x-6 -translate-y-6"></div>
+                            <div className="absolute top-0 left-0 w-12 sm:w-14 h-12 sm:h-14 overflow-hidden">
+                                <div className="absolute top-0 left-0 w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 transform -rotate-45 -translate-x-6 sm:-translate-x-7 -translate-y-6 sm:-translate-y-7"></div>
                             </div>
 
-                            <CardHeader className="space-y-1 pb-4">
+                            <CardHeader className="space-y-1 pb-4 sm:pb-5">
                                 <div className="flex justify-center mb-2">
                                     <div className="p-2 bg-primary/10 rounded-full">
-                                        <UserCircle weight="duotone" className="h-6 w-6 text-primary" />
+                                        <UserCircle weight="duotone" className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
                                     </div>
                                 </div>
-                                <CardTitle className="text-xl font-bold text-center">Créer un compte</CardTitle>
-                                <CardDescription className="text-center text-sm">
+                                <CardTitle className="text-xl sm:text-2xl font-bold text-center">Créer un compte</CardTitle>
+                                <CardDescription className="text-center text-sm sm:text-base">
                                     Rejoignez Docaz pour acheter et vendre entre particuliers
                                 </CardDescription>
                             </CardHeader>
 
                             <CardContent className="card-content">
                                 {error && (
-                                    <Alert variant="destructive" className="mb-3 border-primary/40 bg-primary/5">
-                                        <WarningCircle className="h-4 w-4 text-primary" weight="fill" />
+                                    <Alert variant="destructive" className="mb-3 sm:mb-4 border-primary/40 bg-primary/5">
+                                        <WarningCircle className="h-4 w-4" weight="fill" />
                                         <AlertTitle>Erreur</AlertTitle>
                                         <AlertDescription>{error}</AlertDescription>
                                     </Alert>
                                 )}
 
-                                {offlineError && (
-                                    <Alert variant="destructive" className="mb-3 border-primary/40 bg-primary/5">
-                                        <WarningCircle className="h-4 w-4 text-primary" weight="fill" />
-                                        <AlertTitle>Pas de connexion</AlertTitle>
-                                        <AlertDescription>
-                                            Vous semblez être hors ligne. Veuillez vérifier votre connexion internet et réessayer.
-                                        </AlertDescription>
-                                    </Alert>
-                                )}
-
                                 {serverError && (
-                                    <Alert variant="destructive" className="mb-3 border-primary/40 bg-primary/5">
-                                        <WarningCircle className="h-4 w-4 text-primary" weight="fill" />
+                                    <Alert variant="destructive" className="mb-3 sm:mb-4 border-primary/40 bg-primary/5">
+                                        <WarningCircle className="h-4 w-4" weight="fill" />
                                         <AlertTitle>Erreur serveur</AlertTitle>
                                         <AlertDescription>
                                             Nos serveurs rencontrent actuellement des difficultés. Veuillez réessayer dans quelques instants.
@@ -142,11 +123,11 @@ export default function RegisterPage() {
                                     </Alert>
                                 )}
 
-                                <form onSubmit={handleSubmit(registerNewUser)} className="space-y-3">
-                                    <div className="grid grid-cols-1 gap-3">
+                                <form onSubmit={handleSubmit(registerNewUser)} className="space-y-3 sm:space-y-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                         <div className="form-group space-y-1">
                                             <div className="flex items-center ml-1">
-                                                <User className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                                <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                                 <Label htmlFor="firstName" className="font-medium text-sm">
                                                     Prénom
                                                 </Label>
@@ -165,7 +146,7 @@ export default function RegisterPage() {
 
                                         <div className="form-group space-y-1">
                                             <div className="flex items-center ml-1">
-                                                <User className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                                <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                                 <Label htmlFor="lastName" className="font-medium text-sm">
                                                     Nom
                                                 </Label>
@@ -185,7 +166,7 @@ export default function RegisterPage() {
 
                                     <div className="form-group space-y-1">
                                         <div className="flex items-center ml-1">
-                                            <Envelope className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                            <Envelope className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                             <Label htmlFor="email" className="font-medium text-sm">
                                                 Adresse email
                                             </Label>
@@ -205,7 +186,7 @@ export default function RegisterPage() {
 
                                     <div className="form-group space-y-1">
                                         <div className="flex items-center ml-1">
-                                            <Lock className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                            <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                             <Label htmlFor="password" className="font-medium text-sm">
                                                 Mot de passe
                                             </Label>
@@ -227,9 +208,9 @@ export default function RegisterPage() {
                                                 onClick={() => setShowPassword(!showPassword)}
                                             >
                                                 {showPassword ? (
-                                                    <EyeSlash className="h-3.5 w-3.5" weight="regular" />
+                                                    <EyeSlash className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 ) : (
-                                                    <Eye className="h-3.5 w-3.5" weight="regular" />
+                                                    <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 )}
                                             </Button>
                                         </div>
@@ -240,7 +221,7 @@ export default function RegisterPage() {
 
                                     <div className="form-group space-y-1">
                                         <div className="flex items-center ml-1">
-                                            <Lock className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                            <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                             <Label htmlFor="confirmPassword" className="font-medium text-sm">
                                                 Confirmer le mot de passe
                                             </Label>
@@ -262,9 +243,9 @@ export default function RegisterPage() {
                                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                             >
                                                 {showConfirmPassword ? (
-                                                    <EyeSlash className="h-3.5 w-3.5" weight="regular" />
+                                                    <EyeSlash className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 ) : (
-                                                    <Eye className="h-3.5 w-3.5" weight="regular" />
+                                                    <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 )}
                                             </Button>
                                         </div>
@@ -279,7 +260,7 @@ export default function RegisterPage() {
                                                 <Checkbox
                                                     id="acceptTerms"
                                                     aria-invalid={!!errors.acceptTerms}
-                                                    className="h-4 w-4 border-2 border-gray-300 bg-white/90 rounded-sm data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer"
+                                                    className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-gray-300 bg-white/90 rounded-sm data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer"
                                                     {...register("acceptTerms", {
                                                         setValueAs: (value) => value === "on" || value === true
                                                     })}
@@ -319,7 +300,7 @@ export default function RegisterPage() {
                                 </form>
                             </CardContent>
 
-                            <CardFooter className="border-t border-gray-100 pt-4">
+                            <CardFooter className="border-t border-gray-100 pt-4 sm:pt-6">
                                 <p className="text-center text-sm text-muted-foreground w-full">
                                     <span className="block xs:inline">Vous avez déjà un compte ?</span>{" "}
                                     <Link to="/connexion" className="text-primary hover:underline font-medium cursor-pointer whitespace-nowrap">
