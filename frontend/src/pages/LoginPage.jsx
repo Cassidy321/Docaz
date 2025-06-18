@@ -72,11 +72,13 @@ export default function LoginPage() {
             <main className="flex-1 flex items-center justify-center py-6 sm:py-8 md:py-12 xl:py-16">
                 <div className="container px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto w-full max-w-md lg:max-w-7xl">
                     <div className="mx-auto max-w-md xl:max-w-lg">
-                        <Button variant="ghost" size="sm" asChild className="mb-4 sm:mb-6 xl:mb-8 hover:text-primary">
-                            <Link to="/" className="flex items-center gap-2 text-muted-foreground transition-colors cursor-pointer">
-                                <CaretLeft className="h-4 w-4 xl:h-5 xl:w-5" weight="bold" />
-                                <span className="text-sm xl:text-base">Retour à l'accueil</span>
-                            </Link>
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate("/")}
+                            className="mb-4 sm:mb-6 xl:mb-8 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                        >
+                            <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                            Retour à l'accueil
                         </Button>
 
                         <div className="relative">
