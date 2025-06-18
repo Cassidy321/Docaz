@@ -69,9 +69,9 @@ export default function LoginPage() {
         <div className="min-h-screen flex flex-col bg-muted">
             <Navbar />
 
-            <main className="flex-1 flex items-center justify-center py-6">
-                <div className="container px-4 mx-auto w-full max-w-md">
-                    <Button variant="ghost" size="sm" asChild className="mb-4 hover:text-primary">
+            <main className="flex-1 flex items-center justify-center py-6 sm:py-8">
+                <div className="container px-4 sm:px-6 mx-auto w-full max-w-md">
+                    <Button variant="ghost" size="sm" asChild className="mb-4 sm:mb-6 hover:text-primary">
                         <Link to="/" className="flex items-center gap-2 text-muted-foreground transition-colors cursor-pointer">
                             <CaretLeft className="h-4 w-4" weight="bold" />
                             <span className="text-sm">Retour à l'accueil</span>
@@ -79,38 +79,38 @@ export default function LoginPage() {
                     </Button>
 
                     <div className="relative">
-                        <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/5 rounded-full blur-xl z-0"></div>
-                        <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-16 sm:w-20 h-16 sm:h-20 bg-primary/5 rounded-full blur-xl z-0"></div>
+                        <div className="absolute -bottom-6 sm:-bottom-8 -left-6 sm:-left-8 w-20 sm:w-24 h-20 sm:h-24 bg-primary/5 rounded-full blur-xl z-0"></div>
 
                         <Card className="card relative z-10 border-0 shadow-md">
-                            <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden">
-                                <div className="absolute top-0 right-0 w-12 h-12 bg-primary/10 transform rotate-45 translate-x-6 -translate-y-6"></div>
+                            <div className="absolute top-0 right-0 w-12 sm:w-14 h-12 sm:h-14 overflow-hidden">
+                                <div className="absolute top-0 right-0 w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 transform rotate-45 translate-x-6 sm:translate-x-7 -translate-y-6 sm:-translate-y-7"></div>
                             </div>
 
-                            <CardHeader className="space-y-1 pb-4">
+                            <CardHeader className="space-y-1 pb-4 sm:pb-5">
                                 <div className="flex justify-center mb-2">
                                     <div className="p-2 bg-primary/10 rounded-full">
-                                        <SignIn weight="duotone" className="h-6 w-6 text-primary" />
+                                        <SignIn weight="duotone" className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
                                     </div>
                                 </div>
-                                <CardTitle className="text-xl font-bold text-center">Connexion</CardTitle>
-                                <CardDescription className="text-center text-sm">
+                                <CardTitle className="text-xl sm:text-2xl font-bold text-center">Connexion</CardTitle>
+                                <CardDescription className="text-center text-sm sm:text-base">
                                     Accédez à votre compte Docaz
                                 </CardDescription>
                             </CardHeader>
 
                             <CardContent className="card-content">
                                 {error && (
-                                    <Alert variant="destructive" className="mb-3 border-primary/40 bg-primary/5">
-                                        <WarningCircle className="h-4 w-4 text-primary" weight="fill" />
+                                    <Alert variant="destructive" className="mb-3 sm:mb-4 border-primary/40 bg-primary/5">
+                                        <WarningCircle className="h-4 w-4" weight="fill" />
                                         <AlertTitle>Erreur</AlertTitle>
                                         <AlertDescription>{error}</AlertDescription>
                                     </Alert>
                                 )}
 
                                 {serverError && (
-                                    <Alert variant="destructive" className="mb-3 border-primary/40 bg-primary/5">
-                                        <WarningCircle className="h-4 w-4 text-primary" weight="fill" />
+                                    <Alert variant="destructive" className="mb-3 sm:mb-4 border-primary/40 bg-primary/5">
+                                        <WarningCircle className="h-4 w-4" weight="fill" />
                                         <AlertTitle>Erreur serveur</AlertTitle>
                                         <AlertDescription>
                                             Nos serveurs rencontrent actuellement des difficultés. Veuillez réessayer dans quelques instants.
@@ -118,10 +118,10 @@ export default function LoginPage() {
                                     </Alert>
                                 )}
 
-                                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+                                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                                     <div className="form-group space-y-1">
                                         <div className="flex items-center ml-1">
-                                            <Envelope className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                            <Envelope className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                             <Label htmlFor="email" className="font-medium text-sm">
                                                 Adresse email
                                             </Label>
@@ -142,7 +142,7 @@ export default function LoginPage() {
                                     <div className="form-group space-y-1">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center ml-1">
-                                                <Lock className="h-3.5 w-3.5 text-primary/80 mr-2" weight="duotone" />
+                                                <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/80 mr-2" weight="duotone" />
                                                 <Label htmlFor="password" className="font-medium text-sm">
                                                     Mot de passe
                                                 </Label>
@@ -168,9 +168,9 @@ export default function LoginPage() {
                                                 onClick={() => setShowPassword(!showPassword)}
                                             >
                                                 {showPassword ? (
-                                                    <EyeSlash className="h-3.5 w-3.5" weight="regular" />
+                                                    <EyeSlash className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 ) : (
-                                                    <Eye className="h-3.5 w-3.5" weight="regular" />
+                                                    <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" weight="regular" />
                                                 )}
                                             </Button>
                                         </div>
@@ -184,7 +184,7 @@ export default function LoginPage() {
                                             <div className="relative">
                                                 <Checkbox
                                                     id="remember"
-                                                    className="h-4 w-4 border-2 border-gray-300 bg-white/90 rounded-sm data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer"
+                                                    className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-gray-300 bg-white/90 rounded-sm data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer"
                                                 />
                                             </div>
                                             <Label
@@ -206,7 +206,7 @@ export default function LoginPage() {
                                 </form>
                             </CardContent>
 
-                            <CardFooter className="border-t border-gray-100 pt-4">
+                            <CardFooter className="border-t border-gray-100 pt-4 sm:pt-6">
                                 <p className="text-center text-sm text-muted-foreground w-full">
                                     <span className="block xs:inline">Vous n'avez pas de compte ?</span>{" "}
                                     <Link to="/inscription" className="text-primary hover:underline font-medium cursor-pointer whitespace-nowrap">
