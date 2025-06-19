@@ -162,7 +162,8 @@ class PostController extends AbstractController
                 'author' => [
                     'id' => $post->getAuthor()->getId(),
                     'firstName' => $post->getAuthor()->getFirstName(),
-                    'lastName' => $post->getAuthor()->getLastName()
+                    'lastName' => $post->getAuthor()->getLastName(),
+                    'createdAt' => $post->getAuthor()->getCreatedAt()->format('Y-m-d H:i:s')
                 ]
             ];
         }
@@ -198,7 +199,9 @@ class PostController extends AbstractController
                 'author' => [
                     'id' => $post->getAuthor()->getId(),
                     'firstName' => $post->getAuthor()->getFirstName(),
-                    'lastName' => $post->getAuthor()->getLastName()
+                    'lastName' => $post->getAuthor()->getLastName(),
+                    'createdAt' => $post->getAuthor()->getCreatedAt()->format('Y-m-d H:i:s')
+
                 ],
                 'images' => $images
             ]
