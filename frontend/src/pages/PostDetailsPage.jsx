@@ -198,8 +198,8 @@ export default function PostDetailsPage() {
                                                 <div
                                                     key={index}
                                                     className={`h-1.5 rounded-full transition-all ${selectedImageIndex === index
-                                                            ? "bg-white w-4"
-                                                            : "bg-white/60 w-1.5"
+                                                        ? "bg-white w-4"
+                                                        : "bg-white/60 w-1.5"
                                                         }`}
                                                 />
                                             ))}
@@ -220,8 +220,8 @@ export default function PostDetailsPage() {
                                     key={index}
                                     onClick={() => selectImage(index)}
                                     className={`flex-shrink-0 h-16 w-16 rounded overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                                            ? "border-primary opacity-100"
-                                            : "border-transparent opacity-70"
+                                        ? "border-primary opacity-100"
+                                        : "border-transparent opacity-70"
                                         }`}
                                 >
                                     <img
@@ -250,22 +250,35 @@ export default function PostDetailsPage() {
                         </div>
                     </div>
                     <Separator />
-                    <Link
-                        to={`/user/${currentPost.author.id}`}
-                        className="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
-                    >
-                        <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
-                            <span className="text-lg font-semibold text-primary">
-                                {getInitials(currentPost.author.firstName)}
-                            </span>
+                    <div className="px-4 py-4">
+                        <div className="flex items-center gap-3 mb-3">
+                            <Link
+                                to={`/user/${currentPost.author.id}`}
+                                className="flex items-center gap-3 flex-1 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors"
+                            >
+                                <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <span className="text-lg font-semibold text-primary">
+                                        {getInitials(currentPost.author.firstName)}
+                                    </span>
+                                </div>
+                                <div className="flex-1">
+                                    <p className="font-medium">
+                                        {currentPost.author.firstName}
+                                    </p>
+                                </div>
+                                <CaretRight className="h-5 w-5 text-gray-400" />
+                            </Link>
                         </div>
-                        <div className="flex-1">
-                            <p className="font-medium">
-                                {currentPost.author.firstName}
-                            </p>
-                        </div>
-                        <CaretRight className="h-5 w-5 text-gray-400" />
-                    </Link>
+                        {!isOwner && (
+                            <Button
+                                className="w-full"
+                                size="lg"
+                            >
+                                <ChatCircle className="mr-2 h-5 w-5" weight="fill" />
+                                Contacter le vendeur
+                            </Button>
+                        )}
+                    </div>
                 </div>
                 <div className="bg-white mt-2 px-4 py-4">
                     <h2 className="text-lg font-semibold mb-3">Description</h2>
@@ -273,22 +286,7 @@ export default function PostDetailsPage() {
                         {currentPost.description}
                     </p>
                 </div>
-                {!isOwner && <div className="h-20" />}
             </main>
-            {!isOwner && (
-                <div className="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-3 z-50">
-                    <div className="flex gap-3">
-                        <Button className="flex-1" size="lg">
-                            <ChatCircle className="mr-2 h-5 w-5" weight="fill" />
-                            Contacter
-                        </Button>
-                        <Button variant="outline" size="lg">
-                            <Phone className="h-5 w-5" />
-                        </Button>
-                    </div>
-                </div>
-            )}
-
             <Footer />
         </div>
     );
