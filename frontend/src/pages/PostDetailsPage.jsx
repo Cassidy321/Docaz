@@ -82,6 +82,11 @@ export default function PostDetailsPage() {
         }).format(price);
     };
 
+    const getInitials = (firstName) => {
+        if (!firstName) return "?";
+        return firstName.charAt(0).toUpperCase();
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex flex-col bg-gray-50">
@@ -249,8 +254,10 @@ export default function PostDetailsPage() {
                         to={`/user/${currentPost.author.id}`}
                         className="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
                     >
-                        <div className="h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center">
-                            <User className="h-6 w-6 text-gray-400" weight="fill" />
+                        <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <span className="text-lg font-semibold text-primary">
+                                {getInitials(currentPost.author.firstName)}
+                            </span>
                         </div>
                         <div className="flex-1">
                             <p className="font-medium">
