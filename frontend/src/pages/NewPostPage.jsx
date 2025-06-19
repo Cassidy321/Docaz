@@ -218,7 +218,7 @@ export default function NewPostPage() {
                 <LightbulbFilament className="h-4 w-4 xl:h-5 xl:w-5 text-primary mr-2" weight="fill" />
                 <span className="text-sm xl:text-base">Conseils pour votre annonce</span>
               </div>
-              <span className="xl:text-lg">{showTips ? '−' : '+'}</span>
+              <span className="xl:text-lg">{showTips ? '-' : '+'}</span>
             </Button>
 
             {showTips && (
