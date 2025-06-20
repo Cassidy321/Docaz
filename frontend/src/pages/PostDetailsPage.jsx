@@ -152,7 +152,7 @@ export default function PostDetailsPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
             <div className="sticky top-0 z-40 bg-white border-b">
-                <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
                     <Button
                         variant="ghost"
                         size="sm"
@@ -160,6 +160,7 @@ export default function PostDetailsPage() {
                         className="-ml-2"
                     >
                         <CaretLeft className="h-5 w-5" />
+                        <span className="hidden sm:inline ml-2">Retour</span>
                     </Button>
                     {!isOwner && (
                         <Button variant="ghost" size="sm">
@@ -168,8 +169,7 @@ export default function PostDetailsPage() {
                     )}
                 </div>
             </div>
-
-            <main className="flex-1">
+            <main className="flex-1 sm:container sm:mx-auto sm:max-w-2xl sm:px-4">
                 <div className="relative bg-white">
                     <div className="aspect-[4/3] overflow-hidden">
                         {currentPost.images && currentPost.images.length > 0 ? (
@@ -214,12 +214,12 @@ export default function PostDetailsPage() {
                         )}
                     </div>
                     {currentPost.images && currentPost.images.length > 1 && (
-                        <div className="flex gap-1 p-2 overflow-x-auto">
+                        <div className="flex gap-1 p-2 overflow-x-auto sm:p-3 sm:gap-2 sm:justify-center">
                             {currentPost.images.map((image, index) => (
                                 <button
                                     key={index}
                                     onClick={() => selectImage(index)}
-                                    className={`flex-shrink-0 h-16 w-16 rounded overflow-hidden border-2 transition-all ${selectedImageIndex === index
+                                    className={`flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded overflow-hidden border-2 transition-all ${selectedImageIndex === index
                                         ? "border-primary opacity-100"
                                         : "border-transparent opacity-70"
                                         }`}
@@ -235,34 +235,34 @@ export default function PostDetailsPage() {
                     )}
                 </div>
                 <div className="bg-white mt-2">
-                    <div className="px-4 pt-4 pb-3">
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                            <h1 className="text-xl font-bold flex-1">{currentPost.title}</h1>
+                    <div className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">
+                        <div className="flex items-start justify-between gap-3 mb-3 sm:mb-4">
+                            <h1 className="text-xl sm:text-2xl font-bold flex-1">{currentPost.title}</h1>
                             <div className="text-right">
-                                <p className="text-2xl font-bold text-primary">
+                                <p className="text-2xl sm:text-3xl font-bold text-primary">
                                     {formatPrice(currentPost.price)}
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                            <MapPin className="h-4 w-4" weight="fill" />
+                        <div className="flex items-center gap-1 text-sm text-gray-600 sm:text-base">
+                            <MapPin className="h-4 w-4 sm:h-5 sm:w-5" weight="fill" />
                             <span>{currentPost.location}</span>
                         </div>
                     </div>
                     <Separator />
-                    <div className="px-4 py-4">
-                        <div className="flex items-center gap-3 mb-3">
+                    <div className="px-4 py-4 sm:px-6 sm:py-6">
+                        <div className="flex items-center gap-3 mb-3 sm:mb-4">
                             <Link
                                 to={`/user/${currentPost.author.id}`}
                                 className="flex items-center gap-3 flex-1 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors"
                             >
-                                <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span className="text-lg font-semibold text-primary">
+                                <div className="h-12 w-12 sm:h-14 sm:w-14 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <span className="text-lg sm:text-xl font-semibold text-primary">
                                         {getInitials(currentPost.author.firstName)}
                                     </span>
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium">
+                                    <p className="font-medium sm:text-lg">
                                         {currentPost.author.firstName}
                                     </p>
                                 </div>
@@ -280,9 +280,9 @@ export default function PostDetailsPage() {
                         )}
                     </div>
                 </div>
-                <div className="bg-white mt-2 px-4 py-4">
-                    <h2 className="text-lg font-semibold mb-3">Description</h2>
-                    <p className="text-gray-700 whitespace-pre-line leading-relaxed">
+                <div className="bg-white mt-2 px-4 py-4 sm:px-6 sm:py-6">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Description</h2>
+                    <p className="text-gray-700 whitespace-pre-line leading-relaxed sm:text-base sm:leading-7">
                         {currentPost.description}
                     </p>
                 </div>
