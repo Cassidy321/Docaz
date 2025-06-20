@@ -6,9 +6,7 @@ import {
     CaretLeft,
     MapPin,
     Heart,
-    Phone,
     Warning,
-    User,
     CaretRight,
     CaretLeft as PrevIcon,
     ChatCircle,
@@ -25,11 +23,9 @@ export default function PostDetailsPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { currentPost, loading, error, getPostById, deletePost } = postStore();
-    const { user, isAuthenticated } = userStore();
+    const { user } = userStore();
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
-    const [deleteLoading, setDeleteLoading] = useState(false);
 
     useEffect(() => {
         const loadPost = async () => {
@@ -152,7 +148,7 @@ export default function PostDetailsPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
             <div className="sticky top-0 z-40 bg-white border-b">
-                <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+                <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-5">
                     <Button
                         variant="ghost"
                         size="sm"
@@ -169,9 +165,9 @@ export default function PostDetailsPage() {
                     )}
                 </div>
             </div>
-            <main className="flex-1 sm:container sm:mx-auto sm:max-w-2xl sm:px-4">
+            <main className="flex-1 sm:container sm:mx-auto sm:max-w-2xl sm:px-4 md:max-w-4xl md:px-6">
                 <div className="relative bg-white">
-                    <div className="aspect-[4/3] overflow-hidden">
+                    <div className="aspect-[4/3] md:aspect-[16/10] overflow-hidden">
                         {currentPost.images && currentPost.images.length > 0 ? (
                             <>
                                 <img
@@ -183,23 +179,23 @@ export default function PostDetailsPage() {
                                     <>
                                         <button
                                             onClick={previousImage}
-                                            className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/30 transition-colors"
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-12 md:w-12 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/30 transition-colors"
                                         >
-                                            <PrevIcon className="h-5 w-5" weight="bold" />
+                                            <PrevIcon className="h-5 w-5 md:h-6 md:w-6" weight="bold" />
                                         </button>
                                         <button
                                             onClick={nextImage}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/30 transition-colors"
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-12 md:w-12 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/30 transition-colors"
                                         >
-                                            <CaretRight className="h-5 w-5" weight="bold" />
+                                            <CaretRight className="h-5 w-5 md:h-6 md:w-6" weight="bold" />
                                         </button>
-                                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                                        <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-1 md:gap-1.5">
                                             {currentPost.images.map((_, index) => (
                                                 <div
                                                     key={index}
-                                                    className={`h-1.5 rounded-full transition-all ${selectedImageIndex === index
-                                                        ? "bg-white w-4"
-                                                        : "bg-white/60 w-1.5"
+                                                    className={`h-1.5 md:h-2 rounded-full transition-all ${selectedImageIndex === index
+                                                        ? "bg-white w-4 md:w-6"
+                                                        : "bg-white/60 w-1.5 md:w-2"
                                                         }`}
                                                 />
                                             ))}
@@ -214,12 +210,12 @@ export default function PostDetailsPage() {
                         )}
                     </div>
                     {currentPost.images && currentPost.images.length > 1 && (
-                        <div className="flex gap-1 p-2 overflow-x-auto sm:p-3 sm:gap-2 sm:justify-center">
+                        <div className="flex gap-1 p-2 overflow-x-auto sm:p-3 sm:gap-2 sm:justify-center md:p-4 md:gap-3">
                             {currentPost.images.map((image, index) => (
                                 <button
                                     key={index}
                                     onClick={() => selectImage(index)}
-                                    className={`flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded overflow-hidden border-2 transition-all ${selectedImageIndex === index
+                                    className={`flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded overflow-hidden border-2 transition-all ${selectedImageIndex === index
                                         ? "border-primary opacity-100"
                                         : "border-transparent opacity-70"
                                         }`}
@@ -235,54 +231,54 @@ export default function PostDetailsPage() {
                     )}
                 </div>
                 <div className="bg-white mt-2">
-                    <div className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">
-                        <div className="flex items-start justify-between gap-3 mb-3 sm:mb-4">
-                            <h1 className="text-xl sm:text-2xl font-bold flex-1">{currentPost.title}</h1>
+                    <div className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 md:px-8 md:pt-8 md:pb-6">
+                        <div className="flex items-start justify-between gap-3 mb-3 sm:mb-4 md:mb-6">
+                            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex-1">{currentPost.title}</h1>
                             <div className="text-right">
-                                <p className="text-2xl sm:text-3xl font-bold text-primary">
+                                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">
                                     {formatPrice(currentPost.price)}
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-600 sm:text-base">
-                            <MapPin className="h-4 w-4 sm:h-5 sm:w-5" weight="fill" />
+                        <div className="flex items-center gap-1 text-sm text-gray-600 sm:text-base md:text-lg">
+                            <MapPin className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" weight="fill" />
                             <span>{currentPost.location}</span>
                         </div>
                     </div>
                     <Separator />
-                    <div className="px-4 py-4 sm:px-6 sm:py-6">
-                        <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                    <div className="px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
+                        <div className="flex items-center gap-3 mb-3 sm:mb-4 md:mb-6">
                             <Link
                                 to={`/user/${currentPost.author.id}`}
-                                className="flex items-center gap-3 flex-1 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors"
+                                className="flex items-center gap-3 md:gap-4 flex-1 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors"
                             >
-                                <div className="h-12 w-12 sm:h-14 sm:w-14 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span className="text-lg sm:text-xl font-semibold text-primary">
+                                <div className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <span className="text-lg sm:text-xl md:text-2xl font-semibold text-primary">
                                         {getInitials(currentPost.author.firstName)}
                                     </span>
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium sm:text-lg">
+                                    <p className="font-medium sm:text-lg md:text-xl">
                                         {currentPost.author.firstName}
                                     </p>
                                 </div>
-                                <CaretRight className="h-5 w-5 text-gray-400" />
+                                <CaretRight className="h-5 w-5 md:h-6 md:w-6 text-gray-400" />
                             </Link>
                         </div>
                         {!isOwner && (
                             <Button
-                                className="w-full"
+                                className="w-full md:text-lg"
                                 size="lg"
                             >
-                                <ChatCircle className="mr-2 h-5 w-5" weight="fill" />
+                                <ChatCircle className="mr-2 h-5 w-5 md:h-6 md:w-6" weight="fill" />
                                 Contacter le vendeur
                             </Button>
                         )}
                     </div>
                 </div>
-                <div className="bg-white mt-2 px-4 py-4 sm:px-6 sm:py-6">
-                    <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Description</h2>
-                    <p className="text-gray-700 whitespace-pre-line leading-relaxed sm:text-base sm:leading-7">
+                <div className="bg-white mt-2 px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 md:mb-6">Description</h2>
+                    <p className="text-gray-700 whitespace-pre-line leading-relaxed sm:text-base sm:leading-7 md:text-lg md:leading-8">
                         {currentPost.description}
                     </p>
                 </div>
