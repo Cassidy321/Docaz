@@ -186,8 +186,8 @@ export default function PostDetailsPage() {
                                                 <div
                                                     key={index}
                                                     className={`h-1.5 md:h-2 lg:h-2.5 xl:h-3 rounded-full transition-all ${selectedImageIndex === index
-                                                        ? "bg-white w-4 md:w-6 lg:w-8 xl:w-10"
-                                                        : "bg-white/60 w-1.5 md:w-2 lg:w-2.5 xl:w-3"
+                                                        ? "bg-primary w-4 md:w-6 lg:w-8 xl:w-10"
+                                                        : "bg-primary/50 w-1.5 md:w-2 lg:w-2.5 xl:w-3"
                                                         }`}
                                                 />
                                             ))}
