@@ -91,7 +91,7 @@ export default function PostDetailsPage() {
                     <div className="sticky top-0 z-40 bg-white border-b px-4 py-3">
                         <Skeleton className="h-6 w-20" />
                     </div>
-                    <div className="aspect-[4/3] bg-gray-100">
+                    <div className="min-h-80 bg-gray-100">
                         <Skeleton className="h-full w-full" />
                     </div>
                     <div className="bg-white">
@@ -159,13 +159,13 @@ export default function PostDetailsPage() {
                     </Button>
                 </div>
                 <div className="relative bg-white">
-                    <div className="aspect-[4/3] md:aspect-[16/10] lg:aspect-[2/1] xl:aspect-[5/2] overflow-hidden">
+                    <div className="relative bg-gray-100 h-80 md:h-96 lg:h-[450px] w-full overflow-hidden">
                         {currentPost.images && currentPost.images.length > 0 ? (
                             <>
                                 <img
                                     src={currentPost.images[selectedImageIndex].url}
                                     alt={currentPost.title}
-                                    className="h-full w-full object-contain"
+                                    className="w-full h-full object-contain"
                                 />
                                 {currentPost.images.length > 1 && (
                                     <>
