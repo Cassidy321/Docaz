@@ -180,7 +180,7 @@ export default function NewPostPage() {
             <Button
               variant="outline"
               onClick={() => navigate(-1)}
-              className="mb-3 md:mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+              className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
             >
               <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Retour

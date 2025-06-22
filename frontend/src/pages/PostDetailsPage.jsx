@@ -116,11 +116,11 @@ export default function PostDetailsPage() {
                 <main className="flex-1 py-4">
                     <div className="container mx-auto px-4">
                         <Button
-                            variant="ghost"
+                            variant="outline"
                             onClick={() => navigate(-1)}
-                            className="mb-4 -ml-2"
+                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                         >
-                            <CaretLeft className="mr-1 h-4 w-4" />
+                            <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour
                         </Button>
 
@@ -147,25 +147,17 @@ export default function PostDetailsPage() {
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
-            <div className="sticky top-0 z-40 bg-white border-b">
-                <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-5 lg:px-10 lg:py-6 xl:px-12 xl:py-8">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => navigate(-1)}
-                        className="-ml-2"
-                    >
-                        <CaretLeft className="h-5 w-5 xl:h-8 xl:w-8" />
-                        <span className="hidden sm:inline ml-2">Retour</span>
-                    </Button>
-                    {!isOwner && (
-                        <Button variant="ghost" size="sm" className="xl:size-md">
-                            <Heart className="h-5 w-5 xl:h-8 xl:w-8" />
-                        </Button>
-                    )}
-                </div>
-            </div>
             <main className="flex-1 sm:container sm:mx-auto sm:max-w-2xl sm:px-4 md:max-w-4xl md:px-6 lg:max-w-5xl lg:px-8 xl:max-w-6xl xl:px-10">
+                <div className="flex items-center justify-between px-4 py-4 sm:px-0">
+                    <Button
+                        variant="outline"
+                        onClick={() => navigate(-1)}
+                        className="text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                    >
+                        <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                        Retour
+                    </Button>
+                </div>
                 <div className="relative bg-white">
                     <div className="aspect-[4/3] md:aspect-[16/10] lg:aspect-[2/1] xl:aspect-[5/2] overflow-hidden">
                         {currentPost.images && currentPost.images.length > 0 ? (
