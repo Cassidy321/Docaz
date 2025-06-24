@@ -55,7 +55,7 @@ export default function UserPostsPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-muted">
+        <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
             <main className="flex-1 py-6 md:py-10">
@@ -97,7 +97,7 @@ export default function UserPostsPage() {
                         <div className="grid grid-cols-1 gap-4">
                             {[1, 2, 3, 4, 5, 6].map((idx) => (
                                 <div key={idx} className="bg-white p-4 rounded-md border">
-                                    <div className="w-full h-32 bg-muted rounded-md flex-shrink-0 mb-4">
+                                    <div className="w-full h-48 bg-gray-100 rounded-md flex-shrink-0 mb-4">
                                         <Skeleton className="h-full w-full" />
                                     </div>
                                     <div className="space-y-2">
@@ -133,12 +133,12 @@ export default function UserPostsPage() {
                         <div className="grid grid-cols-1 gap-4">
                             {posts.map((post) => (
                                 <div key={post.id} className="bg-white p-4 rounded-md border hover:shadow-sm transition-shadow">
-                                    <Link to={`/annonce/${post.id}`} className="block w-full h-32 bg-muted rounded-md overflow-hidden flex-shrink-0 mb-4">
+                                    <Link to={`/annonce/${post.id}`} className="block w-full h-48 bg-gray-100 rounded-md overflow-hidden flex-shrink-0 mb-4">
                                         {post.mainImage ? (
                                             <img
                                                 src={post.mainImage}
                                                 alt={post.title}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-contain"
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
