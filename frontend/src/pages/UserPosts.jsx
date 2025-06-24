@@ -94,21 +94,19 @@ export default function UserPostsPage() {
                     )}
 
                     {loading ? (
-                        <div className="space-y-4">
-                            {[1, 2, 3].map((idx) => (
+                        <div className="grid grid-cols-1 gap-4">
+                            {[1, 2, 3, 4, 5, 6].map((idx) => (
                                 <div key={idx} className="bg-white p-4 rounded-md border">
-                                    <div className="flex flex-col md:flex-row gap-4">
-                                        <div className="w-full md:w-32 h-32 bg-muted rounded-md flex-shrink-0">
-                                            <Skeleton className="h-full w-full" />
-                                        </div>
-                                        <div className="flex-1 space-y-2">
-                                            <Skeleton className="h-6 w-3/4" />
-                                            <Skeleton className="h-4 w-1/4" />
-                                            <Skeleton className="h-4 w-1/2" />
-                                            <div className="flex justify-between items-end mt-4">
-                                                <Skeleton className="h-5 w-24" />
-                                                <Skeleton className="h-9 w-28" />
-                                            </div>
+                                    <div className="w-full h-32 bg-muted rounded-md flex-shrink-0 mb-4">
+                                        <Skeleton className="h-full w-full" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Skeleton className="h-6 w-3/4" />
+                                        <Skeleton className="h-4 w-1/4" />
+                                        <Skeleton className="h-4 w-1/2" />
+                                        <div className="flex justify-between items-end mt-4">
+                                            <Skeleton className="h-5 w-24" />
+                                            <Skeleton className="h-9 w-28" />
                                         </div>
                                     </div>
                                 </div>
@@ -132,58 +130,56 @@ export default function UserPostsPage() {
                             </Button>
                         </div>
                     ) : (
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {posts.map((post) => (
                                 <div key={post.id} className="bg-white p-4 rounded-md border hover:shadow-sm transition-shadow">
-                                    <div className="flex flex-col md:flex-row gap-4">
-                                        <Link to={`/annonce/${post.id}`} className="block w-full md:w-32 h-32 bg-muted rounded-md overflow-hidden flex-shrink-0">
-                                            {post.mainImage ? (
-                                                <img
-                                                    src={post.mainImage}
-                                                    alt={post.title}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
-                                                    Pas d'image
-                                                </div>
-                                            )}
-                                        </Link>
+                                    <Link to={`/annonce/${post.id}`} className="block w-full h-32 bg-muted rounded-md overflow-hidden flex-shrink-0 mb-4">
+                                        {post.mainImage ? (
+                                            <img
+                                                src={post.mainImage}
+                                                alt={post.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+                                                Pas d'image
+                                            </div>
+                                        )}
+                                    </Link>
 
-                                        <div className="flex-1">
-                                            <div className="flex flex-col h-full">
-                                                <div>
-                                                    <Link to={`/annonce/${post.id}`} className="text-lg font-medium hover:text-primary transition-colors">
-                                                        {post.title}
-                                                    </Link>
+                                    <div className="flex-1">
+                                        <div className="flex flex-col h-full">
+                                            <div>
+                                                <Link to={`/annonce/${post.id}`} className="text-lg font-medium hover:text-primary transition-colors">
+                                                    {post.title}
+                                                </Link>
 
-                                                    <p className="text-primary font-bold mt-1">
-                                                        {formatPrice(post.price)}
-                                                    </p>
+                                                <p className="text-primary font-bold mt-1">
+                                                    {formatPrice(post.price)}
+                                                </p>
 
-                                                    <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground mt-2">
-                                                        {post.location && (
-                                                            <div className="flex items-center">
-                                                                <MapPin className="mr-1 h-3 w-3" weight="fill" />
-                                                                <span className="truncate max-w-[150px]">{post.location}</span>
-                                                            </div>
-                                                        )}
+                                                <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground mt-2">
+                                                    {post.location && (
                                                         <div className="flex items-center">
-                                                            <Clock className="mr-1 h-3 w-3" weight="fill" />
-                                                            <span>
-                                                                {formatDistanceToNow(parseISO(post.createdAt), {
-                                                                    addSuffix: true,
-                                                                    locale: fr,
-                                                                })}
-                                                            </span>
+                                                            <MapPin className="mr-1 h-3 w-3" weight="fill" />
+                                                            <span className="truncate max-w-[150px]">{post.location}</span>
                                                         </div>
+                                                    )}
+                                                    <div className="flex items-center">
+                                                        <Clock className="mr-1 h-3 w-3" weight="fill" />
+                                                        <span>
+                                                            {formatDistanceToNow(parseISO(post.createdAt), {
+                                                                addSuffix: true,
+                                                                locale: fr,
+                                                            })}
+                                                        </span>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between items-center mt-auto pt-3">
-                                                    <Badge variant="outline" className="text-muted-foreground">
-                                                        Active
-                                                    </Badge>
-                                                </div>
+                                            </div>
+                                            <div className="flex justify-between items-center mt-auto pt-3">
+                                                <Badge variant="outline" className="text-muted-foreground">
+                                                    Active
+                                                </Badge>
                                             </div>
                                         </div>
                                     </div>

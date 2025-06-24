@@ -27,11 +27,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -97,26 +92,6 @@
 }
 
 @layer utilities {
-  .text-accent-red {
-    color: oklch(0.5 0.16 25);
-  }
-
-  .text-accent-red-light {
-    color: oklch(0.6 0.12 25);
-  }
-
-  .border-accent-red {
-    border-color: oklch(0.5 0.16 25 / 40%);
-  }
-
-  .bg-accent-red {
-    background-color: oklch(0.5 0.16 25 / 4%);
-  }
-
-  .hover\:bg-accent-red:hover {
-    background-color: oklch(0.5 0.16 25 / 4%);
-  }
-
   .focus-visible\:ring-primary {
     --tw-ring-color: oklch(0.55 0.16 25);
     --tw-ring-opacity: 0.5;
@@ -188,29 +163,6 @@ footer::before {
   );
 }
 
-.card {
-  background: white !important;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02),
-    0 0 0 1px rgba(0, 0, 0, 0.01) !important;
-  overflow: hidden;
-}
-
-.card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    to right,
-    rgba(var(--primary), 0.7),
-    rgba(var(--primary), 0.3)
-  );
-  border-radius: 3px 3px 0 0;
-}
-
 body {
   background-color: #f9f9f9 !important;
   font-family: "Roboto", sans-serif;
@@ -232,11 +184,6 @@ textarea:focus {
   border-color: rgba(var(--primary), 0.4) !important;
   background-color: white !important;
   box-shadow: 0 0 0 2px rgba(var(--primary), 0.15) !important;
-}
-
-.card header {
-  background: linear-gradient(to bottom, #fcfcfc, white) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
 }
 
 button {
