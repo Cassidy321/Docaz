@@ -5,7 +5,7 @@ import { fr } from "date-fns/locale";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
 import {
-    ArrowLeft,
+    CaretLeft,
     PlusCircle,
     MapPin,
     Clock,
@@ -63,12 +63,12 @@ export default function UserPostsPage() {
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <Button
-                                variant="ghost"
+                                variant="outline"
                                 onClick={() => navigate("/")}
-                                className="mb-3 text-muted-foreground hover:text-foreground"
+                                className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                             >
-                                <ArrowLeft className="mr-1 h-4 w-4" weight="bold" />
-                                Accueil
+                                <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                                Retour à l'accueil
                             </Button>
                             <h1 className="text-2xl md:text-3xl font-bold">Mes annonces</h1>
                             <p className="text-muted-foreground mt-1">
