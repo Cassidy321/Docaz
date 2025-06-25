@@ -58,8 +58,8 @@ export default function UserPostsPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6">
-                <div className="container max-w-5xl mx-auto px-4">
+            <main className="flex-1 py-6 sm:py-8">
+                <div className="container max-w-5xl mx-auto px-4 sm:px-6">
                     <div className="mb-8">
                         <Button
                             variant="outline"
@@ -70,20 +70,22 @@ export default function UserPostsPage() {
                             Retour à l'accueil
                         </Button>
 
-                        <div>
-                            <h1 className="text-2xl font-bold">Mes annonces</h1>
-                            <p className="text-muted-foreground mt-1">
-                                Consultez vos annonces publiées sur le site
-                            </p>
-                        </div>
+                        <div className="sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <h1 className="text-2xl sm:text-3xl font-bold">Mes annonces</h1>
+                                <p className="text-muted-foreground mt-1">
+                                    Consultez vos annonces publiées sur le site
+                                </p>
+                            </div>
 
-                        <Button
-                            className="mt-4 bg-primary hover:bg-primary/90 text-white w-full"
-                            onClick={() => navigate("/annonce/creation")}
-                        >
-                            <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
-                            Créer une annonce
-                        </Button>
+                            <Button
+                                className="mt-4 sm:mt-0 bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                                onClick={() => navigate("/annonce/creation")}
+                            >
+                                <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
+                                Créer une annonce
+                            </Button>
+                        </div>
                     </div>
 
                     {error && (
@@ -95,10 +97,10 @@ export default function UserPostsPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {[1, 2, 3, 4, 5, 6].map((idx) => (
                                 <div key={idx} className="bg-white rounded-xl border shadow-sm overflow-hidden">
-                                    <div className="h-48 bg-gray-100">
+                                    <div className="h-48 sm:h-56 bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
                                     <div className="p-4 space-y-3">
@@ -131,7 +133,7 @@ export default function UserPostsPage() {
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {posts.map((post) => (
                                 <div key={post.id} className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group">
                                     <div className="relative bg-gray-100 overflow-hidden">
@@ -139,10 +141,10 @@ export default function UserPostsPage() {
                                             <img
                                                 src={post.mainImage}
                                                 alt={post.title}
-                                                className="w-full h-auto max-h-64 object-contain group-hover:scale-105 transition-transform duration-300"
+                                                className="w-full h-auto max-h-64 sm:max-h-72 object-contain group-hover:scale-105 transition-transform duration-300"
                                             />
                                         ) : (
-                                            <div className="w-full h-48 flex items-center justify-center text-muted-foreground text-sm">
+                                            <div className="w-full h-48 sm:h-56 flex items-center justify-center text-muted-foreground text-sm">
                                                 Pas d'image
                                             </div>
                                         )}
