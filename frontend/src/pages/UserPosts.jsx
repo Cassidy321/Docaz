@@ -135,7 +135,11 @@ export default function UserPostsPage() {
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {posts.map((post) => (
-                                <div key={post.id} className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group">
+                                <div
+                                    key={post.id}
+                                    className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group cursor-pointer"
+                                    onClick={() => navigate(`/annonce/${post.id}`)}
+                                >
                                     <div className="relative bg-gray-100 overflow-hidden">
                                         {post.mainImage ? (
                                             <img
@@ -152,9 +156,7 @@ export default function UserPostsPage() {
                                     <div className="p-4">
                                         <div className="flex items-start justify-between gap-2 mb-3">
                                             <h2 className="text-lg font-medium line-clamp-2 flex-1">
-                                                <Link to={`/annonce/${post.id}`} className="hover:text-primary transition-colors">
-                                                    {post.title}
-                                                </Link>
+                                                {post.title}
                                             </h2>
                                             <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
                                                 <span className="text-primary font-bold text-sm">
