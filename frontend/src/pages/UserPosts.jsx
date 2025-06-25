@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -9,15 +9,15 @@ import {
     PlusCircle,
     MapPin,
     Clock,
-    Eye,
     House,
     Warning,
+    Pencil,
+    Trash,
 } from "@phosphor-icons/react";
 
 import { Button } from "@/components/ui/button";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -58,26 +58,27 @@ export default function UserPostsPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 md:py-10">
+            <main className="flex-1 py-6">
                 <div className="container max-w-5xl mx-auto px-4">
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="mb-8">
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate("/")}
+                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                        >
+                            <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                            Retour à l'accueil
+                        </Button>
+
                         <div>
-                            <Button
-                                variant="outline"
-                                onClick={() => navigate("/")}
-                                className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
-                            >
-                                <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                                Retour à l'accueil
-                            </Button>
-                            <h1 className="text-2xl md:text-3xl font-bold">Mes annonces</h1>
+                            <h1 className="text-2xl font-bold">Mes annonces</h1>
                             <p className="text-muted-foreground mt-1">
                                 Consultez vos annonces publiées sur le site
                             </p>
                         </div>
 
                         <Button
-                            className="hidden md:flex"
+                            className="mt-4 bg-primary hover:bg-primary/90 text-white w-full"
                             onClick={() => navigate("/annonce/creation")}
                         >
                             <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
@@ -94,107 +95,113 @@ export default function UserPostsPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-6">
                             {[1, 2, 3, 4, 5, 6].map((idx) => (
-                                <div key={idx} className="bg-white p-4 rounded-md border">
-                                    <div className="w-full h-48 bg-gray-100 rounded-md flex-shrink-0 mb-4">
+                                <div key={idx} className="bg-white rounded-xl border shadow-sm overflow-hidden">
+                                    <div className="h-48 bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
-                                    <div className="space-y-2">
+                                    <div className="p-4 space-y-3">
                                         <Skeleton className="h-6 w-3/4" />
-                                        <Skeleton className="h-4 w-1/4" />
                                         <Skeleton className="h-4 w-1/2" />
-                                        <div className="flex justify-between items-end mt-4">
-                                            <Skeleton className="h-5 w-24" />
-                                            <Skeleton className="h-9 w-28" />
+                                        <Skeleton className="h-16 w-full" />
+                                        <div className="flex justify-between items-center pt-2">
+                                            <Skeleton className="h-4 w-20" />
+                                            <Skeleton className="h-8 w-24" />
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : posts.length === 0 ? (
-                        <div className="bg-white rounded-lg p-8 text-center mt-8">
-                            <div className="mx-auto h-20 w-20 bg-muted rounded-full flex items-center justify-center mb-6">
+                        <div className="bg-white rounded-xl p-8 text-center mt-8 shadow-sm border">
+                            <div className="mx-auto h-20 w-20 bg-muted/50 rounded-full flex items-center justify-center mb-6">
                                 <House className="h-10 w-10 text-muted-foreground" weight="thin" />
                             </div>
                             <h2 className="text-xl font-medium mb-2">Vous n'avez pas encore d'annonces</h2>
-                            <p className="text-muted-foreground mb-6">
-                                Commencez à vendre en publiant votre première annonce.
+                            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                                Commencez à vendre en publiant votre première annonce. C'est simple, rapide et efficace !
                             </p>
                             <Button
                                 onClick={() => navigate("/annonce/creation")}
-                                className="mx-auto"
+                                className="mx-auto bg-primary hover:bg-primary/90 text-white"
                             >
                                 <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
                                 Créer une annonce
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-6">
                             {posts.map((post) => (
-                                <div key={post.id} className="bg-white p-4 rounded-md border hover:shadow-sm transition-shadow">
-                                    <Link to={`/annonce/${post.id}`} className="block w-full h-48 bg-gray-100 rounded-md overflow-hidden flex-shrink-0 mb-4">
+                                <div key={post.id} className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group">
+                                    <div className="relative bg-gray-100 overflow-hidden">
                                         {post.mainImage ? (
                                             <img
                                                 src={post.mainImage}
                                                 alt={post.title}
-                                                className="w-full h-full object-contain"
+                                                className="w-full h-auto max-h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                                             />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+                                            <div className="w-full h-48 flex items-center justify-center text-muted-foreground text-sm">
                                                 Pas d'image
                                             </div>
                                         )}
-                                    </Link>
-
-                                    <div className="flex-1">
-                                        <div className="flex flex-col h-full">
-                                            <div>
-                                                <Link to={`/annonce/${post.id}`} className="text-lg font-medium hover:text-primary transition-colors">
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="flex items-start justify-between gap-2 mb-3">
+                                            <h2 className="text-lg font-medium line-clamp-2 flex-1">
+                                                <Link to={`/annonce/${post.id}`} className="hover:text-primary transition-colors">
                                                     {post.title}
                                                 </Link>
-
-                                                <p className="text-primary font-bold mt-1">
+                                            </h2>
+                                            <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
+                                                <span className="text-primary font-bold text-sm">
                                                     {formatPrice(post.price)}
-                                                </p>
+                                                </span>
+                                            </div>
+                                        </div>
 
-                                                <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground mt-2">
-                                                    {post.location && (
-                                                        <div className="flex items-center">
-                                                            <MapPin className="mr-1 h-3 w-3" weight="fill" />
-                                                            <span className="truncate max-w-[150px]">{post.location}</span>
-                                                        </div>
-                                                    )}
-                                                    <div className="flex items-center">
-                                                        <Clock className="mr-1 h-3 w-3" weight="fill" />
-                                                        <span>
-                                                            {formatDistanceToNow(parseISO(post.createdAt), {
-                                                                addSuffix: true,
-                                                                locale: fr,
-                                                            })}
-                                                        </span>
-                                                    </div>
+                                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3">
+                                            {post.location && (
+                                                <div className="flex items-center">
+                                                    <MapPin className="mr-1 h-3 w-3" weight="fill" />
+                                                    <span>{post.location}</span>
                                                 </div>
+                                            )}
+                                            <div className="flex items-center">
+                                                <Clock className="mr-1 h-3 w-3" weight="fill" />
+                                                <span>
+                                                    {formatDistanceToNow(parseISO(post.createdAt), {
+                                                        addSuffix: true,
+                                                        locale: fr,
+                                                    })}
+                                                </span>
                                             </div>
-                                            <div className="flex justify-between items-center mt-auto pt-3">
-                                                <Badge variant="outline" className="text-muted-foreground">
-                                                    Active
-                                                </Badge>
-                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-2 mt-4">
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="flex-1 h-9 text-sm font-medium border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
+                                            >
+                                                <Pencil className="mr-2 h-4 w-4" />
+                                                Modifier
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="flex-1 h-9 text-sm font-medium border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
+                                            >
+                                                <Trash className="mr-2 h-4 w-4" />
+                                                Supprimer
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
-                    <div className="fixed bottom-8 right-8 md:hidden">
-                        <Button
-                            onClick={() => navigate("/annonce/creation")}
-                            className="h-16 w-16 rounded-full shadow-lg bg-primary hover:bg-primary/90"
-                        >
-                            <PlusCircle className="h-8 w-8" weight="bold" />
-                        </Button>
-                    </div>
                 </div>
             </main>
 
