@@ -58,8 +58,8 @@ export default function UserPostsPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 sm:py-8">
-                <div className="container max-w-5xl mx-auto px-4 sm:px-6">
+            <main className="flex-1 py-6 sm:py-8 md:py-10">
+                <div className="container max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
                     <div className="mb-8">
                         <Button
                             variant="outline"
@@ -72,7 +72,7 @@ export default function UserPostsPage() {
 
                         <div className="sm:flex sm:items-center sm:justify-between">
                             <div>
-                                <h1 className="text-2xl sm:text-3xl font-bold">Mes annonces</h1>
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">Mes annonces</h1>
                                 <p className="text-muted-foreground mt-1">
                                     Consultez vos annonces publiées sur le site
                                 </p>
@@ -97,10 +97,10 @@ export default function UserPostsPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {[1, 2, 3, 4, 5, 6].map((idx) => (
                                 <div key={idx} className="bg-white rounded-xl border shadow-sm overflow-hidden">
-                                    <div className="h-48 sm:h-56 bg-gray-100">
+                                    <div className="h-48 sm:h-56 md:h-52 bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
                                     <div className="p-4 space-y-3">
@@ -133,29 +133,29 @@ export default function UserPostsPage() {
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {posts.map((post) => (
                                 <div
                                     key={post.id}
                                     className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group cursor-pointer"
                                     onClick={() => navigate(`/annonce/${post.id}`)}
                                 >
-                                    <div className="relative bg-gray-100 overflow-hidden">
+                                    <div className="relative bg-gray-100 overflow-hidden h-48 sm:h-56 md:h-52 flex items-center justify-center">
                                         {post.mainImage ? (
                                             <img
                                                 src={post.mainImage}
                                                 alt={post.title}
-                                                className="w-full h-auto max-h-64 sm:max-h-72 object-contain group-hover:scale-105 transition-transform duration-300"
+                                                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
                                             />
                                         ) : (
-                                            <div className="w-full h-48 sm:h-56 flex items-center justify-center text-muted-foreground text-sm">
+                                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
                                                 Pas d'image
                                             </div>
                                         )}
                                     </div>
-                                    <div className="p-4">
+                                    <div className="p-4 md:p-3">
                                         <div className="flex items-start justify-between gap-2 mb-3">
-                                            <h2 className="text-lg font-medium line-clamp-2 flex-1">
+                                            <h2 className="text-lg md:text-base font-medium line-clamp-2 flex-1">
                                                 {post.title}
                                             </h2>
                                             <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
@@ -165,7 +165,7 @@ export default function UserPostsPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3">
+                                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3 md:mb-2">
                                             {post.location && (
                                                 <div className="flex items-center">
                                                     <MapPin className="mr-1 h-3 w-3" weight="fill" />
@@ -183,21 +183,29 @@ export default function UserPostsPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex gap-2 mt-4">
+                                        <div className="flex gap-2 mt-4 md:mt-3">
                                             <Button
                                                 size="sm"
                                                 variant="outline"
-                                                className="flex-1 h-9 text-sm font-medium border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    navigate(`/annonce/edition/${post.id}`);
+                                                }}
+                                                className="flex-1 h-9 md:h-8 text-sm md:text-xs font-medium border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
                                             >
-                                                <Pencil className="mr-2 h-4 w-4" />
+                                                <Pencil className="mr-2 md:mr-1 h-4 w-4 md:h-3 md:w-3" />
                                                 Modifier
                                             </Button>
                                             <Button
                                                 size="sm"
                                                 variant="outline"
-                                                className="flex-1 h-9 text-sm font-medium border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    console.log('Supprimer annonce:', post.id);
+                                                }}
+                                                className="flex-1 h-9 md:h-8 text-sm md:text-xs font-medium border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
                                             >
-                                                <Trash className="mr-2 h-4 w-4" />
+                                                <Trash className="mr-2 md:mr-1 h-4 w-4 md:h-3 md:w-3" />
                                                 Supprimer
                                             </Button>
                                         </div>
