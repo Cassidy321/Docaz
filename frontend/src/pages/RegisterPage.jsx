@@ -49,7 +49,9 @@ export default function RegisterPage() {
         try {
             const result = await registerUser(data);
             if (result) {
-                navigate(`/verification-email/${encodeURIComponent(data.email)}`);
+                navigate("/verification-email", {
+                    state: { email: data.email }
+                });
             }
         } catch (error) {
             if (error.response?.status >= 500) {

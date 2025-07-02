@@ -44,7 +44,7 @@ class EmailService
     {
         $htmlContent = $this->twig->render('emails/welcome.html.twig', [
             'firstName' => $firstName,
-            'loginUrl' => $this->appUrl . '/login'
+            'loginUrl' => $this->appUrl . '/connexion'
         ]);
 
         return $this->resendService->send(
