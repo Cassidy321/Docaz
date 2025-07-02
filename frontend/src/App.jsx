@@ -7,6 +7,7 @@ import PostDetailsPage from "@/pages/PostDetailsPage";
 import SessionManager from "./SessionManager";
 import MyPostsPage from "@/pages/UserPosts";
 import VerificationEmailPage from "@/pages/VerificationEmailPage";
+import EmailVerifiedPage from "@/pages/EmailVerifiedPage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/connexion" element={<LoginPage />} />
             <Route path="/inscription" element={<RegisterPage />} />
             <Route path="/verification-email" element={<VerificationEmailPage />} />
+            <Route path="/verify-email/:token" element={<EmailVerifiedPage />} />
             <Route path="/annonce/creation" element={<NewPostPage />} />
             <Route path="/annonce/:id" element={<PostDetailsPage />} />
             <Route path="/mes-annonces" element={<MyPostsPage />} />
