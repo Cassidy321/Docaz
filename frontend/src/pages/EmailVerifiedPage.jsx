@@ -60,30 +60,30 @@ export default function EmailVerifiedPage() {
                 return (
                     <div className={animationClass}>
                         <div className={`${baseIconContainerClass} from-green-50 to-green-200`}>
-                            <CheckCircle className="h-12 w-12 text-green-600" weight="duotone" />
+                            <CheckCircle className="h-12 w-12 sm:h-14 sm:w-14 text-green-600" weight="duotone" />
                         </div>
-                        <CardTitle className="text-3xl font-bold mt-4">Email vérifié !</CardTitle>
-                        <CardDescription className="text-base text-muted-foreground">Votre compte est maintenant actif.</CardDescription>
+                        <CardTitle className="text-3xl sm:text-4xl font-bold mt-4">Email vérifié !</CardTitle>
+                        <CardDescription className="text-base sm:text-lg text-muted-foreground">Votre compte est maintenant actif.</CardDescription>
                     </div>
                 );
             case 'error':
                 return (
                     <div className={animationClass}>
                         <div className={`${baseIconContainerClass} from-red-50 to-red-200`}>
-                            <XCircle className="h-12 w-12 text-red-600" weight="duotone" />
+                            <XCircle className="h-12 w-12 sm:h-14 sm:w-14 text-red-600" weight="duotone" />
                         </div>
-                        <CardTitle className="text-3xl font-bold mt-4">Erreur de vérification</CardTitle>
-                        <CardDescription className="text-base text-muted-foreground">Ce lien ne semble pas valide.</CardDescription>
+                        <CardTitle className="text-3xl sm:text-4xl font-bold mt-4">Erreur de vérification</CardTitle>
+                        <CardDescription className="text-base sm:text-lg text-muted-foreground">Ce lien ne semble pas valide.</CardDescription>
                     </div>
                 );
             default:
                 return (
                     <div>
                         <div className={`${baseIconContainerClass} from-gray-100 to-gray-200`}>
-                            <Clock className="h-12 w-12 text-primary animate-spin [animation-duration:2s]" weight="duotone" />
+                            <Clock className="h-12 w-12 sm:h-14 sm:w-14 text-primary animate-spin [animation-duration:2s]" weight="duotone" />
                         </div>
-                        <CardTitle className="text-3xl font-bold mt-4">Vérification...</CardTitle>
-                        <CardDescription className="text-base text-muted-foreground">Nous validons votre demande.</CardDescription>
+                        <CardTitle className="text-3xl sm:text-4xl font-bold mt-4">Vérification...</CardTitle>
+                        <CardDescription className="text-base sm:text-lg text-muted-foreground">Nous validons votre demande.</CardDescription>
                     </div>
                 );
         }
@@ -92,61 +92,61 @@ export default function EmailVerifiedPage() {
     return (
         <div className="min-h-screen flex flex-col bg-muted">
             <Navbar />
-            <main className="flex-1 flex items-center justify-center py-8">
-                <div className="container px-4 mx-auto w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <Card className="card border-0 shadow-lg overflow-hidden">
-                        <CardHeader className="text-center space-y-2 py-8">
+            <main className="flex-1 flex items-center justify-center py-8 sm:py-12">
+                <div className="container px-4 sm:px-6 mx-auto w-full max-w-md sm:max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <Card className="card border-0 shadow-lg sm:shadow-xl overflow-hidden">
+                        <CardHeader className="text-center space-y-2 sm:space-y-4 py-8 sm:py-12">
                             {renderStatusContent()}
                         </CardHeader>
 
-                        <CardContent className="card-content space-y-6">
+                        <CardContent className="card-content space-y-6 sm:space-y-8">
                             {message && (
                                 <Alert variant={status === 'error' ? 'destructive' : 'default'} className={`bg-opacity-60 ${status === 'success' ? 'bg-green-50' : ''}`}>
-                                    <AlertDescription className="text-center">{message}</AlertDescription>
+                                    <AlertDescription className="text-center text-sm sm:text-base">{message}</AlertDescription>
                                 </Alert>
                             )}
 
                             {status === 'success' && (
-                                <div className="space-y-4 animate-in fade-in duration-700">
-                                    <div className="bg-secondary p-4 rounded-lg border border-border text-center">
-                                        <h3 className="font-bold text-lg text-secondary-foreground mb-2">Félicitations ! 🎉</h3>
-                                        <p className="text-muted-foreground text-sm">
+                                <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-700">
+                                    <div className="bg-secondary p-4 sm:p-5 rounded-lg border border-border text-center">
+                                        <h3 className="font-bold text-lg sm:text-xl text-secondary-foreground mb-2">Félicitations !</h3>
+                                        <p className="text-muted-foreground text-sm sm:text-base">
                                             Bienvenue sur Docaz ! Vous pouvez désormais vous connecter et explorer notre plateforme.
                                         </p>
                                     </div>
-                                    <Button asChild className="w-full bg-primary text-primary-foreground">
+                                    <Button asChild className="w-full bg-primary text-primary-foreground h-12 sm:h-14 text-base sm:text-lg">
                                         <Link to="/connexion">
                                             Accéder à mon compte
-                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                            <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                                         </Link>
                                     </Button>
                                 </div>
                             )}
 
                             {status === 'error' && (
-                                <div className="space-y-4 animate-in fade-in duration-700">
-                                    <div className="bg-amber-50/80 p-4 rounded-lg border border-amber-200">
-                                        <h3 className="font-semibold text-amber-900 mb-3">Que faire maintenant ?</h3>
-                                        <ul className="text-amber-800 text-sm space-y-3">
-                                            <li className="flex items-start space-x-2.5">
-                                                <Timer weight="bold" className="h-5 w-5 mt-0.5 text-amber-600" />
+                                <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-700">
+                                    <div className="bg-amber-50/80 p-4 sm:p-5 rounded-lg border border-amber-200">
+                                        <h3 className="font-semibold text-amber-900 mb-3 text-base sm:text-lg">Que faire maintenant ?</h3>
+                                        <ul className="text-amber-800 text-sm sm:text-base space-y-3 sm:space-y-4">
+                                            <li className="flex items-start space-x-2.5 sm:space-x-3">
+                                                <Timer weight="bold" className="h-5 w-5 sm:h-6 sm:w-6 mt-0.5 text-amber-600" />
                                                 <span>Vérifiez que le lien n'a pas expiré (valide 24h).</span>
                                             </li>
-                                            <li className="flex items-start space-x-2.5">
-                                                <LinkSimple weight="bold" className="h-5 w-5 mt-0.5 text-amber-600" />
+                                            <li className="flex items-start space-x-2.5 sm:space-x-3">
+                                                <LinkSimple weight="bold" className="h-5 w-5 sm:h-6 sm:w-6 mt-0.5 text-amber-600" />
                                                 <span>Assurez-vous d'utiliser le lien de vérification le plus récent.</span>
                                             </li>
-                                            <li className="flex items-start space-x-2.5">
-                                                <PaperPlaneTilt weight="bold" className="h-5 w-5 mt-0.5 text-amber-600" />
+                                            <li className="flex items-start space-x-2.5 sm:space-x-3">
+                                                <PaperPlaneTilt weight="bold" className="h-5 w-5 sm:h-6 sm:w-6 mt-0.5 text-amber-600" />
                                                 <span>Demandez un nouveau lien depuis la page de connexion.</span>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div className="space-y-3 pt-2">
-                                        <Button asChild className="w-full bg-primary text-primary-foreground">
+                                    <div className="space-y-3 sm:space-y-4 pt-2">
+                                        <Button asChild className="w-full bg-primary text-primary-foreground h-12 sm:h-14 text-base sm:text-lg">
                                             <Link to="/connexion">Demander un nouveau lien</Link>
                                         </Button>
-                                        <Button asChild variant="outline" className="w-full">
+                                        <Button asChild variant="outline" className="w-full h-12 sm:h-14 text-base sm:text-lg">
                                             <Link to="/">Retour à l'accueil</Link>
                                         </Button>
                                     </div>
