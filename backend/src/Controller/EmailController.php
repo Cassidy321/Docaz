@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -146,6 +147,49 @@ class EmailController extends AbstractController
         return $this->json([
             'message' => 'Un email de réinitialisation a été envoyé à votre adresse',
             'emailSent' => $emailSent
+        ]);
+    }
+
+    #[Route('/reset-password/{token}', name: 'reset_password', methods: ['POST'])]
+    public function resetPassword(
+        string $token,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['password']) || empty($data['password'])) {
+            return $this->json(['error' => 'Le mot de passe est requis'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (strlen($data['password']) < 8) {
+            return $this->json(['error' => 'Le mot de passe doit contenir au moins 8 caractères'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $userRepository = $entityManager->getRepository(User::class);
+        $user = $userRepository->findOneBy(['passwordResetToken' => $token]);
+
+        if (!$user) {
+            return $this->json(['error' => 'Token de réinitialisation invalide'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $expiresAt = $user->getPasswordResetTokenExpiresAt();
+        if (!$expiresAt || $expiresAt < new \DateTimeImmutable()) {
+            return $this->json(['error' => 'Le token de réinitialisation a expiré'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $hashedPassword = $passwordHasher->hashPassword($user, $data['password']);
+
+        $user->setPassword($hashedPassword);
+        $user->setPasswordResetToken(null);
+        $user->setPasswordResetTokenExpiresAt(null);
+        $user->setUpdatedAt(new \DateTimeImmutable());
+
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.'
         ]);
     }
 }
