@@ -109,4 +109,43 @@ class EmailController extends AbstractController
             'emailSent' => $emailSent
         ]);
     }
+
+    #[Route('/forgot-password', name: 'forgot_password', methods: ['POST'])]
+    public function forgotPassword(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        EmailService $emailService
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['email']) || empty($data['email'])) {
+            return $this->json(['error' => 'L\'email est requis'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+
+        if (!$user) {
+            return $this->json(['message' => 'Si votre compte existe, un email de réinitialisation a été envoyé']);
+        }
+
+        if (!$user->isEmailVerified()) {
+            return $this->json(['error' => 'Veuillez d\'abord vérifier votre email avant de réinitialiser votre mot de passe'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $user->setPasswordResetToken($token);
+        $user->setPasswordResetTokenExpiresAt(new DateTimeImmutable('+1 hour'));
+        $entityManager->flush();
+
+        $emailSent = $emailService->sendPasswordResetEmail(
+            $user->getEmail(),
+            $user->getFirstName(),
+            $token
+        );
+
+        return $this->json([
+            'message' => 'Un email de réinitialisation a été envoyé à votre adresse',
+            'emailSent' => $emailSent
+        ]);
+    }
 }
