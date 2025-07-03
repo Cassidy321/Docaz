@@ -54,4 +54,21 @@ class EmailService
             $htmlContent
         );
     }
+
+    public function sendPasswordResetEmail(string $to, string $firstName, string $token): bool
+    {
+        $resetUrl = $this->appUrl . '/reset-password/' . $token;
+
+        $htmlContent = $this->twig->render('emails/password_reset.html.twig', [
+            'firstName' => $firstName,
+            'resetUrl' => $resetUrl
+        ]);
+
+        return $this->resendService->send(
+            $this->fromEmail,
+            $to,
+            'Réinitialisation de votre mot de passe',
+            $htmlContent
+        );
+    }
 }
