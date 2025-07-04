@@ -7,7 +7,8 @@ import {
     CaretLeft,
     WarningCircle,
     Envelope,
-    LockKey
+    LockKey,
+    CheckCircle
 } from "@phosphor-icons/react";
 
 import { forgotPasswordSchema, passwordErrors } from "@/utils/passwordResetValidation";
@@ -21,13 +22,15 @@ import Footer from "@/components/Footer";
 
 export default function ForgotPasswordPage() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        getValues
     } = useForm({
         resolver: zodResolver(forgotPasswordSchema)
     });
@@ -40,7 +43,7 @@ export default function ForgotPasswordPage() {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/forgot-password`, data);
 
             if (response.status === 200) {
-                console.log('succès');
+                setIsSuccess(true);
             }
         } catch (error) {
             if (error.response?.data?.error) {
@@ -52,6 +55,44 @@ export default function ForgotPasswordPage() {
             setIsLoading(false);
         }
     };
+
+    if (isSuccess) {
+        return (
+            <div className="min-h-screen flex flex-col bg-muted">
+                <Navbar />
+                <main className="flex-1 flex items-center justify-center py-8">
+                    <div className="container px-4 mx-auto w-full max-w-md">
+                        <Card className="border-0 shadow-lg">
+                            <CardHeader className="text-center space-y-4 pb-6">
+                                <div className="flex justify-center">
+                                    <CheckCircle weight="duotone" className="h-16 w-16 text-green-600" />
+                                </div>
+                                <CardTitle className="text-2xl font-bold">Email envoyé !</CardTitle>
+                                <CardDescription className="text-base">
+                                    Un lien de réinitialisation a été envoyé à {getValues('email')}
+                                </CardDescription>
+                            </CardHeader>
+
+                            <CardContent className="space-y-4">
+                                <p className="text-sm text-muted-foreground text-center">
+                                    Vérifiez votre boîte email et suivez les instructions.
+                                </p>
+
+                                <div className="space-y-3 pt-4">
+                                    <Button asChild className="w-full">
+                                        <Link to="/connexion">
+                                            Retour à la connexion
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex flex-col bg-muted">
