@@ -9,6 +9,7 @@ import MyPostsPage from "@/pages/UserPosts";
 import VerificationEmailPage from "@/pages/VerificationEmailPage";
 import EmailVerifiedPage from "@/pages/EmailVerifiedPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
+import ResetPasswordPage from "@/pages/ResetPasswordPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/verification-email" element={<VerificationEmailPage />} />
             <Route path="/verify-email/:token" element={<EmailVerifiedPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             <Route path="/annonce/creation" element={<NewPostPage />} />
             <Route path="/annonce/:id" element={<PostDetailsPage />} />
             <Route path="/mes-annonces" element={<MyPostsPage />} />
