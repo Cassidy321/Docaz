@@ -130,4 +130,40 @@ class FavoriteController extends AbstractController
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    #[Route('/posts/{id}/favorites', name: 'get_post_favorites', methods: ['GET'])]
+    public function getPostFavorites(int $id): JsonResponse
+    {
+        $post = $this->postRepository->find($id);
+
+        if (!$post) {
+            return $this->json(['error' => 'Post non trouvé'], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $favorites = $this->favoriteRepository->findByPost($post);
+
+            $users = array_map(function ($favorite) {
+                return [
+                    'id' => $favorite->getUser()->getId(),
+                    'firstName' => $favorite->getUser()->getFirstName(),
+                    'lastName' => $favorite->getUser()->getLastName(),
+                    'favoritedAt' => $favorite->getCreatedAt()->format('Y-m-d H:i:s')
+                ];
+            }, $favorites);
+
+            return $this->json([
+                'post' => [
+                    'id' => $post->getId(),
+                    'title' => $post->getTitle()
+                ],
+                'favorites' => $users,
+                'count' => count($users)
+            ]);
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => 'Erreur lors de la récupération des favoris: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
