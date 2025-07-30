@@ -133,21 +133,25 @@ class EmailController extends AbstractController
             return $this->json(['error' => 'Veuillez d\'abord vérifier votre email avant de réinitialiser votre mot de passe'], Response::HTTP_BAD_REQUEST);
         }
 
-        $token = bin2hex(random_bytes(32));
-        $user->setPasswordResetToken($token);
-        $user->setPasswordResetTokenExpiresAt(new DateTimeImmutable('+1 hour'));
-        $entityManager->flush();
+        try {
+            $token = bin2hex(random_bytes(32));
+            $user->setPasswordResetToken($token);
+            $user->setPasswordResetTokenExpiresAt(new DateTimeImmutable('+1 hour'));
+            $entityManager->flush();
 
-        $emailSent = $emailService->sendPasswordResetEmail(
-            $user->getEmail(),
-            $user->getFirstName(),
-            $token
-        );
+            $emailSent = $emailService->sendPasswordResetEmail(
+                $user->getEmail(),
+                $user->getFirstName(),
+                $token
+            );
 
-        return $this->json([
-            'message' => 'Un email de réinitialisation a été envoyé à votre adresse',
-            'emailSent' => $emailSent
-        ]);
+            return $this->json([
+                'message' => 'Un email de réinitialisation a été envoyé à votre adresse',
+                'emailSent' => $emailSent
+            ]);
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Une erreur est survenue'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     #[Route('/reset-password/{token}', name: 'reset_password', methods: ['POST'])]
