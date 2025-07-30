@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Favorite;
+use App\Entity\User;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,51 @@ class FavoriteRepository extends ServiceEntityRepository
         parent::__construct($registry, Favorite::class);
     }
 
-    //    /**
-    //     * @return Favorite[] Returns an array of Favorite objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('f.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?Favorite
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByPost(Post $post): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.post = :post')
+            ->setParameter('post', $post)
+            ->orderBy('f.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function existsByUserAndPost(User $user, Post $post): bool
+    {
+        $result = $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->andWhere('f.user = :user')
+            ->andWhere('f.post = :post')
+            ->setParameter('user', $user)
+            ->setParameter('post', $post)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result > 0;
+    }
+
+    public function removeByUserAndPost(User $user, Post $post): void
+    {
+        $this->createQueryBuilder('f')
+            ->delete()
+            ->andWhere('f.user = :user')
+            ->andWhere('f.post = :post')
+            ->setParameter('user', $user)
+            ->setParameter('post', $post)
+            ->getQuery()
+            ->execute();
+    }
 }
