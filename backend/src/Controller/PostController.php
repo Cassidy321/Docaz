@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Service\PostService;
 use App\Service\UserService;
 use App\Service\ImageService;
+use App\Repository\FavoriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,17 +22,20 @@ class PostController extends AbstractController
     private UserService $userService;
     private ImageService $imageService;
     private EntityManagerInterface $entityManager;
+    private FavoriteRepository $favoriteRepository;
 
     public function __construct(
         PostService $postService,
         UserService $userService,
         ImageService $imageService,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        FavoriteRepository $favoriteRepository
     ) {
         $this->postService = $postService;
         $this->userService = $userService;
         $this->imageService = $imageService;
         $this->entityManager = $entityManager;
+        $this->favoriteRepository = $favoriteRepository;
     }
 
     #[Route('/posts', name: 'posts_create', methods: ['POST'])]
@@ -95,6 +99,8 @@ class PostController extends AbstractController
             ['createdAt' => 'DESC']
         );
 
+        $currentUser = $this->userService->getCurrentUser();
+
         $postsData = [];
         foreach ($posts as $post) {
             $this->imageService->refreshPostImages($post);
@@ -108,6 +114,11 @@ class PostController extends AbstractController
                 }
             }
 
+            $isFavorite = false;
+            if ($currentUser) {
+                $isFavorite = $this->favoriteRepository->existsByUserAndPost($currentUser, $post);
+            }
+
             $postsData[] = [
                 'id' => $post->getId(),
                 'title' => $post->getTitle(),
@@ -115,7 +126,8 @@ class PostController extends AbstractController
                 'price' => $post->getPrice(),
                 'location' => $post->getLocation(),
                 'createdAt' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
-                'mainImage' => $mainImage
+                'mainImage' => $mainImage,
+                'isFavorite' => $isFavorite
             ];
         }
 
@@ -178,6 +190,13 @@ class PostController extends AbstractController
     {
         $this->imageService->refreshPostImages($post);
 
+        $currentUser = $this->userService->getCurrentUser();
+
+        $isFavorite = false;
+        if ($currentUser) {
+            $isFavorite = $this->favoriteRepository->existsByUserAndPost($currentUser, $post);
+        }
+
         $images = [];
         foreach ($post->getImages() as $image) {
             $images[] = [
@@ -203,7 +222,8 @@ class PostController extends AbstractController
                     'createdAt' => $post->getAuthor()->getCreatedAt()->format('Y-m-d H:i:s')
 
                 ],
-                'images' => $images
+                'images' => $images,
+                'isFavorite' => $isFavorite
             ]
         ], Response::HTTP_OK);
     }
