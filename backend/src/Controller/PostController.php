@@ -163,6 +163,8 @@ class PostController extends AbstractController
                 }
             }
 
+            $isFavorite = $this->favoriteRepository->existsByUserAndPost($user, $post);
+
             $postsData[] = [
                 'id' => $post->getId(),
                 'title' => $post->getTitle(),
@@ -171,6 +173,7 @@ class PostController extends AbstractController
                 'location' => $post->getLocation(),
                 'createdAt' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
                 'mainImage' => $mainImage,
+                'isFavorite' => $isFavorite,
                 'author' => [
                     'id' => $post->getAuthor()->getId(),
                     'firstName' => $post->getAuthor()->getFirstName(),
