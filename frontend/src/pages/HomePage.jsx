@@ -141,14 +141,15 @@ export default function HomePage() {
                                         className="group block w-full"
                                     >
                                         <div className="relative bg-white h-full rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
-                                            <button
-                                                className="absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-500 transition-colors"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                }}
-                                            >
-                                                <Heart className="h-5 w-5" weight="regular" />
-                                            </button>
+                                            <div className="absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center pointer-events-none">
+                                                <Heart
+                                                    className={`h-5 w-5 ${isAuthenticated && post.isFavorite
+                                                        ? 'text-primary'
+                                                        : 'text-gray-600'
+                                                        }`}
+                                                    weight={isAuthenticated && post.isFavorite ? "fill" : "regular"}
+                                                />
+                                            </div>
 
                                             <div className="aspect-square overflow-hidden rounded-t-lg bg-gray-100">
                                                 {post.mainImage ? (
