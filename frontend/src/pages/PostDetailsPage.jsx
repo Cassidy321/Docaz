@@ -22,8 +22,8 @@ import Footer from "@/components/Footer";
 export default function PostDetailsPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { currentPost, loading, error, getPostById, deletePost } = postStore();
-    const { user } = userStore();
+    const { currentPost, loading, error, getPostById, deletePost, toggleFavorite } = postStore();
+    const { user, isAuthenticated } = userStore();
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isOwner, setIsOwner] = useState(false);
 
@@ -47,6 +47,17 @@ export default function PostDetailsPage() {
             setIsOwner(false);
         }
     }, [currentPost, user]);
+
+    const togglePostFavorite = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        try {
+            await toggleFavorite(parseInt(id));
+        } catch (error) {
+            console.error("Erreur toggle favori:", error);
+        }
+    };
 
     const selectImage = (index) => {
         setSelectedImageIndex(index);
@@ -160,6 +171,22 @@ export default function PostDetailsPage() {
                 </div>
                 <div className="relative bg-white">
                     <div className="relative bg-gray-100 h-80 md:h-96 lg:h-[450px] w-full overflow-hidden">
+                        {isAuthenticated && (
+                            <button
+                                onClick={togglePostFavorite}
+                                className={`absolute z-10 top-3 right-3 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 ${currentPost.isFavorite
+                                        ? 'text-primary hover:text-primary/80'
+                                        : 'text-gray-600 hover:text-primary'
+                                    }`}
+                                title={currentPost.isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+                            >
+                                <Heart
+                                    className="h-6 w-6 md:h-7 md:w-7"
+                                    weight={currentPost.isFavorite ? "fill" : "regular"}
+                                />
+                            </button>
+                        )}
+
                         {currentPost.images && currentPost.images.length > 0 ? (
                             <>
                                 <img
