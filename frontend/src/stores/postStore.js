@@ -156,6 +156,55 @@ const postStore = create((set, get) => ({
     }
   },
 
+  toggleFavorite: async (postId) => {
+    try {
+      const state = get();
+      const post =
+        state.posts.find((p) => p.id === postId) || state.currentPost;
+
+      if (!post) return;
+
+      const isFavorite = post.isFavorite;
+
+      const updateFavoriteState = (posts, currentPost) => ({
+        posts: posts.map((p) =>
+          p.id === postId ? { ...p, isFavorite: !isFavorite } : p
+        ),
+        currentPost:
+          currentPost?.id === postId
+            ? { ...currentPost, isFavorite: !isFavorite }
+            : currentPost,
+      });
+
+      set((state) => updateFavoriteState(state.posts, state.currentPost));
+
+      if (isFavorite) {
+        await api.delete(`/api/posts/${postId}/favorite`);
+      } else {
+        await api.post(`/api/posts/${postId}/favorite`);
+      }
+    } catch (error) {
+      set((state) => {
+        const post =
+          state.posts.find((p) => p.id === postId) || state.currentPost;
+        const originalState = post?.isFavorite || false;
+
+        return {
+          posts: state.posts.map((p) =>
+            p.id === postId ? { ...p, isFavorite: originalState } : p
+          ),
+          currentPost:
+            state.currentPost?.id === postId
+              ? { ...state.currentPost, isFavorite: originalState }
+              : state.currentPost,
+        };
+      });
+
+      console.error("erreur lors de la mise à jour du favori : ", error);
+      throw error;
+    }
+  },
+
   clearErrors: () => set({ error: null }),
 
   resetCurrentPost: () => set({ currentPost: null }),
