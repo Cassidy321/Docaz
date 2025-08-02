@@ -200,7 +200,24 @@ const postStore = create((set, get) => ({
         };
       });
 
-      console.error("erreur lors de la mise à jour du favori : ", error);
+      console.error("erreur mise à jour du favori : ", error);
+      throw error;
+    }
+  },
+
+  getUserFavorites: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await api.get("/api/users/me/favorites");
+      set({ loading: false });
+      return response.data.favorites;
+    } catch (error) {
+      set({
+        loading: false,
+        error:
+          error.response?.data?.message || "Chargement des favoris impossible",
+      });
+      console.error("Erreur chargement des favoris:", error);
       throw error;
     }
   },
