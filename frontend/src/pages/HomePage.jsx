@@ -20,7 +20,7 @@ import Footer from "@/components/Footer";
 
 
 export default function HomePage() {
-    const { posts, loading, error, getPosts } = postStore();
+    const { posts, loading, error, getPosts, toggleFavorite } = postStore();
     const { isAuthenticated } = userStore();
     const [searchParams] = useSearchParams();
     const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
@@ -58,6 +58,17 @@ export default function HomePage() {
 
         setFilteredPosts(result);
     }, [posts, searchTerm]);
+
+    const togglePostFavorite = async (e, postId) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        try {
+            await toggleFavorite(postId);
+        } catch (error) {
+            console.error("Erreur lors du toggle favori:", error);
+        }
+    };
 
     const formatPrice = (price) => {
         if (price === undefined || price === null) return "Prix non défini";
@@ -141,15 +152,21 @@ export default function HomePage() {
                                         className="group block w-full"
                                     >
                                         <div className="relative bg-white h-full rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
-                                            <div className="absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center pointer-events-none">
-                                                <Heart
-                                                    className={`h-5 w-5 ${isAuthenticated && post.isFavorite
-                                                        ? 'text-primary'
-                                                        : 'text-gray-600'
+                                            {isAuthenticated && (
+                                                <button
+                                                    className={`absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center transition-all duration-200 hover:scale-110 ${post.isFavorite
+                                                            ? 'text-primary hover:text-primary/80'
+                                                            : 'text-gray-600 hover:text-primary'
                                                         }`}
-                                                    weight={isAuthenticated && post.isFavorite ? "fill" : "regular"}
-                                                />
-                                            </div>
+                                                    onClick={(e) => togglePostFavorite(e, post.id)}
+                                                    title={post.isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+                                                >
+                                                    <Heart
+                                                        className="h-5 w-5"
+                                                        weight={post.isFavorite ? "fill" : "regular"}
+                                                    />
+                                                </button>
+                                            )}
 
                                             <div className="aspect-square overflow-hidden rounded-t-lg bg-gray-100">
                                                 {post.mainImage ? (
