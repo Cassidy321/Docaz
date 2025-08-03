@@ -62,9 +62,9 @@ export default function UserFavoritesPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6">
-                <div className="container mx-auto px-4">
-                    <div className="mb-6">
+            <main className="flex-1 py-6 sm:py-8">
+                <div className="container mx-auto px-4 sm:px-6">
+                    <div className="mb-6 sm:mb-8">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
@@ -75,7 +75,7 @@ export default function UserFavoritesPage() {
                         </Button>
 
                         <div>
-                            <h1 className="text-2xl font-bold">Mes favoris</h1>
+                            <h1 className="text-2xl sm:text-3xl font-bold">Mes favoris</h1>
                             <p className="text-gray-600 mt-1">
                                 Retrouvez toutes vos annonces favorites
                             </p>
@@ -91,8 +91,8 @@ export default function UserFavoritesPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-2 gap-3">
-                            {[1, 2, 3, 4].map((idx) => (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                            {[1, 2, 3, 4, 5, 6].map((idx) => (
                                 <div key={idx} className="bg-white rounded-lg shadow-sm overflow-hidden">
                                     <div className="aspect-square bg-gray-100">
                                         <Skeleton className="h-full w-full" />
@@ -123,7 +123,7 @@ export default function UserFavoritesPage() {
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                             {favorites.map((favorite) => (
                                 <Link
                                     key={favorite.id}
