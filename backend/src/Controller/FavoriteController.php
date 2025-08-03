@@ -6,6 +6,7 @@ use App\Entity\Favorite;
 use App\Repository\PostRepository;
 use App\Repository\FavoriteRepository;
 use App\Service\UserService;
+use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +20,8 @@ class FavoriteController extends AbstractController
         private PostRepository $postRepository,
         private FavoriteRepository $favoriteRepository,
         private UserService $userService,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ImageService $imageService
     ) {}
 
     #[Route('/posts/{id}/favorite', name: 'add_favorite', methods: ['POST'])]
@@ -107,6 +109,16 @@ class FavoriteController extends AbstractController
             $favorites = $this->favoriteRepository->findByUser($user);
 
             $data = array_map(function ($favorite) {
+                $this->imageService->refreshPostImages($favorite->getPost());
+
+                $mainImage = null;
+                foreach ($favorite->getPost()->getImages() as $image) {
+                    if ($image->getPosition() === 0) {
+                        $mainImage = $image->getStorageUrl();
+                        break;
+                    }
+                }
+
                 return [
                     'id' => $favorite->getId(),
                     'post' => [
@@ -115,6 +127,7 @@ class FavoriteController extends AbstractController
                         'description' => $favorite->getPost()->getDescription(),
                         'price' => $favorite->getPost()->getPrice(),
                         'location' => $favorite->getPost()->getLocation(),
+                        'mainImage' => $mainImage
                     ],
                     'createdAt' => $favorite->getCreatedAt()->format('Y-m-d H:i:s')
                 ];
