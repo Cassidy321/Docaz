@@ -62,21 +62,21 @@ export default function UserFavoritesPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 sm:py-8 md:py-10">
-                <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-5xl">
-                    <div className="mb-6 sm:mb-8">
+            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12">
+                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 max-w-6xl">
+                    <div className="mb-6 sm:mb-8 lg:mb-10">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
-                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                            className="mb-4 lg:mb-6 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                         >
                             <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour à l'accueil
                         </Button>
 
                         <div>
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">Mes favoris</h1>
-                            <p className="text-gray-600 mt-1">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Mes favoris</h1>
+                            <p className="text-gray-600 mt-1 lg:text-lg">
                                 Retrouvez toutes vos annonces favorites
                             </p>
                         </div>
@@ -91,13 +91,13 @@ export default function UserFavoritesPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
                                 <div key={idx} className="bg-white rounded-lg shadow-sm overflow-hidden">
                                     <div className="aspect-square bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
-                                    <div className="p-3 space-y-2">
+                                    <div className="p-3 lg:p-4 space-y-2">
                                         <Skeleton className="h-5 w-2/3" />
                                         <Skeleton className="h-4 w-1/2" />
                                         <Skeleton className="h-3 w-3/4" />
@@ -106,24 +106,24 @@ export default function UserFavoritesPage() {
                             ))}
                         </div>
                     ) : favorites.length === 0 ? (
-                        <div className="bg-white rounded-lg p-8 text-center shadow-sm border max-w-md mx-auto">
-                            <div className="mx-auto h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                <Heart className="h-8 w-8 text-gray-400" weight="thin" />
+                        <div className="bg-white rounded-lg p-8 lg:p-12 text-center shadow-sm border max-w-md mx-auto">
+                            <div className="mx-auto h-16 w-16 lg:h-20 lg:w-20 bg-gray-100 rounded-full flex items-center justify-center mb-4 lg:mb-6">
+                                <Heart className="h-8 w-8 lg:h-10 lg:w-10 text-gray-400" weight="thin" />
                             </div>
-                            <h2 className="text-lg font-medium mb-2">Aucun favori pour le moment</h2>
-                            <p className="text-gray-600 mb-4">
+                            <h2 className="text-lg lg:text-xl font-medium mb-2">Aucun favori pour le moment</h2>
+                            <p className="text-gray-600 mb-4 lg:mb-6">
                                 Parcourez les annonces et ajoutez-les à vos favoris en cliquant sur le cœur
                             </p>
                             <Button
                                 onClick={() => navigate("/")}
-                                className="bg-primary hover:bg-primary/90 text-white"
+                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 lg:py-3"
                             >
                                 <MagnifyingGlass className="mr-2 h-4 w-4" weight="bold" />
                                 Découvrir les annonces
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
                             {favorites.map((favorite) => (
                                 <Link
                                     key={favorite.id}
@@ -156,7 +156,7 @@ export default function UserFavoritesPage() {
                                             )}
                                         </div>
 
-                                        <div className="p-3">
+                                        <div className="p-3 lg:p-4">
                                             <p className="font-bold text-lg text-primary mb-1">
                                                 {formatPrice(favorite.post.price)}
                                             </p>
