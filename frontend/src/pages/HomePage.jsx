@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
-import { formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
 import {
     MapPin,
     Clock,
@@ -78,6 +76,30 @@ export default function HomePage() {
             currency: 'EUR',
             minimumFractionDigits: 0,
         }).format(price);
+    };
+
+    const formatPostDate = (date) => {
+        const postDate = new Date(date);
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const startOfPostDate = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
+        const diffInDays = Math.floor((startOfToday - startOfPostDate) / (1000 * 60 * 60 * 24));
+        const timeString = postDate.toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        if (diffInDays === 0) {
+            return `Aujourd'hui à ${timeString}`;
+        } else if (diffInDays === 1) {
+            return `Hier à ${timeString}`;
+        } else {
+            return postDate.toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
     };
 
     return (
@@ -155,8 +177,8 @@ export default function HomePage() {
                                             {isAuthenticated && (
                                                 <button
                                                     className={`absolute z-10 top-2 right-2 h-8 w-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center transition-all duration-200 hover:scale-110 ${post.isFavorite
-                                                            ? 'text-primary hover:text-primary/80'
-                                                            : 'text-gray-600 hover:text-primary'
+                                                        ? 'text-primary hover:text-primary/80'
+                                                        : 'text-gray-600 hover:text-primary'
                                                         }`}
                                                     onClick={(e) => togglePostFavorite(e, post.id)}
                                                     title={post.isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
@@ -187,7 +209,7 @@ export default function HomePage() {
                                                     {formatPrice(post.price)}
                                                 </p>
 
-                                                <h3 className="font-medium text-sm text-gray-900 line-clamp-2 group-hover:text-primary transition-colors mb-2">
+                                                <h3 className="font-medium text-sm text-gray-900 line-clamp-1 group-hover:text-primary transition-colors mb-2">
                                                     {post.title}
                                                 </h3>
 
@@ -202,10 +224,7 @@ export default function HomePage() {
                                                     <div className="flex items-center gap-1 text-xs text-gray-500">
                                                         <Clock className="h-3 w-3 flex-shrink-0" weight="fill" />
                                                         <span>
-                                                            {formatDistanceToNow(new Date(post.createdAt), {
-                                                                addSuffix: true,
-                                                                locale: fr,
-                                                            })}
+                                                            {formatPostDate(post.createdAt)}
                                                         </span>
                                                     </div>
                                                 </div>
