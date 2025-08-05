@@ -70,11 +70,11 @@ export default function UserPostsPage() {
                             </div>
 
                             <Button
-                                className="mt-4 sm:mt-0 bg-primary hover:bg-primary/90 text-white w-full sm:w-auto lg:px-6 lg:py-3"
+                                className="mt-4 sm:mt-0 w-full sm:w-auto group bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-0.5 px-5 py-2.5 lg:px-8 lg:py-4 xl:px-10 xl:py-5 text-base lg:text-lg xl:text-xl font-semibold rounded-xl transition-all duration-200"
                                 onClick={() => navigate("/annonce/creation")}
                             >
-                                <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
-                                Créer une annonce
+                                <PlusCircle className="mr-2 h-5 w-5 lg:h-6 lg:w-6 group-hover:scale-110 transition-transform duration-200" />
+                                Poster une annonce
                             </Button>
                         </div>
                     </div>
