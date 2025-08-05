@@ -62,68 +62,68 @@ export default function UserFavoritesPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16">
-                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 max-w-6xl xl:max-w-7xl">
-                    <div className="mb-6 sm:mb-8 lg:mb-10 xl:mb-12">
+            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16 2xl:py-20">
+                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px]">
+                    <div className="mb-6 sm:mb-8 lg:mb-10 xl:mb-12 2xl:mb-16">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
-                            className="mb-4 lg:mb-6 xl:mb-8 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group xl:text-lg xl:px-6 xl:py-3"
+                            className="mb-4 lg:mb-6 xl:mb-8 2xl:mb-10 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                         >
-                            <CaretLeft className="mr-1 h-4 w-4 xl:h-5 xl:w-5 group-hover:-translate-x-1 transition-transform" />
+                            <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour à l'accueil
                         </Button>
 
                         <div>
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">Mes favoris</h1>
-                            <p className="text-gray-600 mt-1 lg:text-lg xl:text-xl xl:mt-2">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Mes favoris</h1>
+                            <p className="text-gray-600 mt-1 lg:text-lg">
                                 Retrouvez toutes vos annonces favorites
                             </p>
                         </div>
                     </div>
 
                     {error && (
-                        <Alert variant="destructive" className="mb-6 xl:mb-8">
-                            <Warning className="h-5 w-5 xl:h-6 xl:w-6" weight="bold" />
-                            <AlertTitle className="xl:text-lg">Erreur</AlertTitle>
-                            <AlertDescription className="xl:text-base">{error}</AlertDescription>
+                        <Alert variant="destructive" className="mb-6 xl:mb-8 2xl:mb-10">
+                            <Warning className="h-5 w-5" weight="bold" />
+                            <AlertTitle>Erreur</AlertTitle>
+                            <AlertDescription>{error}</AlertDescription>
                         </Alert>
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10">
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((idx) => (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((idx) => (
                                 <div key={idx} className="bg-white rounded-lg shadow-sm overflow-hidden">
                                     <div className="aspect-square bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
-                                    <div className="p-3 lg:p-4 xl:p-5 space-y-2 xl:space-y-3">
-                                        <Skeleton className="h-5 w-2/3 xl:h-6" />
-                                        <Skeleton className="h-4 w-1/2 xl:h-5" />
-                                        <Skeleton className="h-3 w-3/4 xl:h-4" />
+                                    <div className="p-3 lg:p-4 xl:p-5 2xl:p-6 space-y-2">
+                                        <Skeleton className="h-5 w-2/3" />
+                                        <Skeleton className="h-4 w-1/2" />
+                                        <Skeleton className="h-3 w-3/4" />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : favorites.length === 0 ? (
-                        <div className="bg-white rounded-lg p-8 lg:p-12 xl:p-16 text-center shadow-sm border max-w-md xl:max-w-lg mx-auto">
-                            <div className="mx-auto h-16 w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 bg-gray-100 rounded-full flex items-center justify-center mb-4 lg:mb-6 xl:mb-8">
-                                <Heart className="h-8 w-8 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-gray-400" weight="thin" />
+                        <div className="bg-white rounded-lg p-8 lg:p-12 xl:p-16 2xl:p-20 text-center shadow-sm border max-w-md xl:max-w-lg 2xl:max-w-xl mx-auto">
+                            <div className="mx-auto h-16 w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 2xl:h-28 2xl:w-28 bg-gray-100 rounded-full flex items-center justify-center mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
+                                <Heart className="h-8 w-8 lg:h-10 lg:w-10 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14 text-gray-400" weight="thin" />
                             </div>
-                            <h2 className="text-lg lg:text-xl xl:text-2xl font-medium mb-2 xl:mb-3">Aucun favori pour le moment</h2>
-                            <p className="text-gray-600 mb-4 lg:mb-6 xl:mb-8 xl:text-lg">
+                            <h2 className="text-lg lg:text-xl font-medium mb-2">Aucun favori pour le moment</h2>
+                            <p className="text-gray-600 mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
                                 Parcourez les annonces et ajoutez-les à vos favoris en cliquant sur le cœur
                             </p>
                             <Button
                                 onClick={() => navigate("/")}
-                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 lg:py-3 xl:px-8 xl:py-4 xl:text-lg"
+                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 lg:py-3"
                             >
-                                <MagnifyingGlass className="mr-2 h-4 w-4 xl:h-5 xl:w-5" weight="bold" />
+                                <MagnifyingGlass className="mr-2 h-4 w-4" weight="bold" />
                                 Découvrir les annonces
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
                             {favorites.map((favorite) => (
                                 <Link
                                     key={favorite.id}
@@ -133,11 +133,11 @@ export default function UserFavoritesPage() {
                                     <div className="relative bg-white h-full rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                                         <button
                                             onClick={(e) => onToggleFavorite(e, favorite.post.id)}
-                                            className="absolute z-10 top-2 right-2 h-8 w-8 xl:h-10 xl:w-10 xl:top-3 xl:right-3 rounded-full bg-white/90 shadow-sm flex items-center justify-center transition-all duration-200 hover:scale-110 text-primary hover:text-primary/80"
+                                            className="absolute z-10 top-2 right-2 h-8 w-8 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12 xl:top-3 xl:right-3 2xl:top-4 2xl:right-4 rounded-full bg-white/90 shadow-sm flex items-center justify-center transition-all duration-200 hover:scale-110 text-primary hover:text-primary/80"
                                             title="Retirer des favoris"
                                         >
                                             <Heart
-                                                className="h-5 w-5 xl:h-6 xl:w-6"
+                                                className="h-5 w-5 xl:h-6 xl:w-6 2xl:h-7 2xl:w-7"
                                                 weight="fill"
                                             />
                                         </button>
@@ -151,30 +151,30 @@ export default function UserFavoritesPage() {
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <span className="text-xs xl:text-sm text-gray-400">Pas d'image</span>
+                                                    <span className="text-xs lg:text-sm text-gray-400">Pas d'image</span>
                                                 </div>
                                             )}
                                         </div>
 
-                                        <div className="p-3 lg:p-4 xl:p-5">
-                                            <p className="font-bold text-lg xl:text-xl text-primary mb-1 xl:mb-2">
+                                        <div className="p-3 lg:p-4 xl:p-5 2xl:p-6">
+                                            <p className="font-bold text-lg text-primary mb-1">
                                                 {formatPrice(favorite.post.price)}
                                             </p>
 
-                                            <h3 className="font-medium text-sm xl:text-base text-gray-900 line-clamp-2 group-hover:text-primary transition-colors mb-2 xl:mb-3">
+                                            <h3 className="font-medium text-sm lg:text-base text-gray-900 line-clamp-2 group-hover:text-primary transition-colors mb-2">
                                                 {favorite.post.title}
                                             </h3>
 
-                                            <div className="space-y-1 xl:space-y-2">
+                                            <div className="space-y-1">
                                                 {favorite.post.location && (
-                                                    <div className="flex items-center gap-1 xl:gap-2 text-xs xl:text-sm text-gray-500">
-                                                        <MapPin className="h-3 w-3 xl:h-4 xl:w-4 flex-shrink-0" weight="fill" />
+                                                    <div className="flex items-center gap-1 text-xs lg:text-sm text-gray-500">
+                                                        <MapPin className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" weight="fill" />
                                                         <span className="truncate">{favorite.post.location}</span>
                                                     </div>
                                                 )}
 
-                                                <div className="flex items-center gap-1 xl:gap-2 text-xs xl:text-sm text-gray-500">
-                                                    <Clock className="h-3 w-3 xl:h-4 xl:w-4 flex-shrink-0" weight="fill" />
+                                                <div className="flex items-center gap-1 text-xs lg:text-sm text-gray-500">
+                                                    <Clock className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" weight="fill" />
                                                     <span>
                                                         Ajouté {formatDistanceToNow(parseISO(favorite.createdAt), {
                                                             addSuffix: true,
