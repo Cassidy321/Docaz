@@ -1,20 +1,15 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { formatDistanceToNow, parseISO } from "date-fns";
-import { fr } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
 import {
     CaretLeft,
     PlusCircle,
-    MapPin,
-    Clock,
     House,
     Warning,
     Pencil,
     Trash,
 } from "@phosphor-icons/react";
-
 import { Button } from "@/components/ui/button";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -50,21 +45,17 @@ export default function UserPostsPage() {
         }).format(price);
     };
 
-    if (!isAuthenticated) {
-        return null;
-    }
-
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 sm:py-8 md:py-10">
-                <div className="container max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
-                    <div className="mb-8">
+            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16 2xl:py-20">
+                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px]">
+                    <div className="mb-6 sm:mb-8 lg:mb-10 xl:mb-12 2xl:mb-16">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
-                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                            className="mb-4 lg:mb-6 xl:mb-8 2xl:mb-10 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                         >
                             <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour à l'accueil
@@ -72,14 +63,14 @@ export default function UserPostsPage() {
 
                         <div className="sm:flex sm:items-center sm:justify-between">
                             <div>
-                                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">Mes annonces</h1>
-                                <p className="text-muted-foreground mt-1">
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Mes annonces</h1>
+                                <p className="text-gray-600 mt-1 lg:text-lg">
                                     Consultez vos annonces publiées sur le site
                                 </p>
                             </div>
 
                             <Button
-                                className="mt-4 sm:mt-0 bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                                className="mt-4 sm:mt-0 bg-primary hover:bg-primary/90 text-white w-full sm:w-auto lg:px-6 lg:py-3"
                                 onClick={() => navigate("/annonce/creation")}
                             >
                                 <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
@@ -89,7 +80,7 @@ export default function UserPostsPage() {
                     </div>
 
                     {error && (
-                        <Alert variant="destructive" className="mb-6">
+                        <Alert variant="destructive" className="mb-6 xl:mb-8 2xl:mb-10">
                             <Warning className="h-5 w-5" weight="bold" />
                             <AlertTitle>Erreur</AlertTitle>
                             <AlertDescription>{error}</AlertDescription>
@@ -97,117 +88,107 @@ export default function UserPostsPage() {
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                            {[1, 2, 3, 4, 5, 6].map((idx) => (
-                                <div key={idx} className="bg-white rounded-xl border shadow-sm overflow-hidden">
-                                    <div className="h-48 sm:h-56 md:h-52 bg-gray-100">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((idx) => (
+                                <div key={idx} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <div className="h-48 sm:h-56 md:h-52 lg:h-48 xl:h-52 2xl:h-56 bg-gray-100">
                                         <Skeleton className="h-full w-full" />
                                     </div>
-                                    <div className="p-4 space-y-3">
-                                        <Skeleton className="h-6 w-3/4" />
+                                    <div className="p-3 lg:p-4 xl:p-5 2xl:p-6 space-y-2">
+                                        <Skeleton className="h-5 w-2/3" />
                                         <Skeleton className="h-4 w-1/2" />
-                                        <Skeleton className="h-16 w-full" />
-                                        <div className="flex justify-between items-center pt-2">
-                                            <Skeleton className="h-4 w-20" />
-                                            <Skeleton className="h-8 w-24" />
-                                        </div>
+                                        <Skeleton className="h-3 w-3/4" />
+                                        <Skeleton className="h-8 w-full" />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : posts.length === 0 ? (
-                        <div className="bg-white rounded-xl p-8 text-center mt-8 shadow-sm border">
-                            <div className="mx-auto h-20 w-20 bg-muted/50 rounded-full flex items-center justify-center mb-6">
-                                <House className="h-10 w-10 text-muted-foreground" weight="thin" />
+                        <div className="bg-white rounded-lg p-8 lg:p-12 xl:p-16 2xl:p-20 text-center shadow-sm border max-w-md xl:max-w-lg 2xl:max-w-xl mx-auto">
+                            <div className="mx-auto h-16 w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 2xl:h-28 2xl:w-28 bg-gray-100 rounded-full flex items-center justify-center mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
+                                <House className="h-8 w-8 lg:h-10 lg:w-10 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14 text-gray-400" weight="thin" />
                             </div>
-                            <h2 className="text-xl font-medium mb-2">Vous n'avez pas encore d'annonces</h2>
-                            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                            <h2 className="text-lg lg:text-xl font-medium mb-2">Vous n'avez pas encore d'annonces</h2>
+                            <p className="text-gray-600 mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
                                 Commencez à vendre en publiant votre première annonce. C'est simple, rapide et efficace !
                             </p>
                             <Button
                                 onClick={() => navigate("/annonce/creation")}
-                                className="mx-auto bg-primary hover:bg-primary/90 text-white"
+                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 lg:py-3"
                             >
                                 <PlusCircle className="mr-2 h-5 w-5" weight="bold" />
                                 Créer une annonce
                             </Button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-5 md:gap-6">
                             {posts.map((post) => (
                                 <div
                                     key={post.id}
-                                    className="bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all group cursor-pointer"
-                                    onClick={() => navigate(`/annonce/${post.id}`)}
+                                    className="block w-full"
                                 >
-                                    <div className="relative bg-gray-100 overflow-hidden h-48 sm:h-56 md:h-52 flex items-center justify-center">
-                                        {post.mainImage ? (
-                                            <img
-                                                src={post.mainImage}
-                                                alt={post.title}
-                                                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
-                                                Pas d'image
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="p-4 md:p-3">
-                                        <div className="flex items-start justify-between gap-2 mb-3">
-                                            <h2 className="text-lg md:text-base font-medium line-clamp-2 flex-1">
-                                                {post.title}
-                                            </h2>
-                                            <div className="bg-primary/10 px-2 py-1 rounded-full flex-shrink-0">
-                                                <span className="text-primary font-bold text-sm">
-                                                    {formatPrice(post.price)}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground mb-3 md:mb-2">
-                                            {post.location && (
-                                                <div className="flex items-center">
-                                                    <MapPin className="mr-1 h-3 w-3" weight="fill" />
-                                                    <span>{post.location}</span>
+                                    <div className="relative bg-white h-full rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200">
+                                        <div
+                                            className="aspect-square overflow-hidden rounded-t-lg bg-gray-100 cursor-pointer"
+                                            onClick={() => navigate(`/annonce/${post.id}`)}
+                                        >
+                                            {post.mainImage ? (
+                                                <img
+                                                    src={post.mainImage}
+                                                    alt={post.title}
+                                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <span className="text-xs lg:text-sm text-gray-400">Pas d'image</span>
                                                 </div>
                                             )}
-                                            <div className="flex items-center">
-                                                <Clock className="mr-1 h-3 w-3" weight="fill" />
-                                                <span>
-                                                    {formatDistanceToNow(parseISO(post.createdAt), {
-                                                        addSuffix: true,
-                                                        locale: fr,
-                                                    })}
-                                                </span>
-                                            </div>
                                         </div>
+                                        <div className="p-3 lg:p-4 xl:p-5 2xl:p-6">
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={() => navigate(`/annonce/${post.id}`)}
+                                            >
+                                                <p className="font-bold text-lg text-primary mb-1">
+                                                    {formatPrice(post.price)}
+                                                </p>
 
-                                        <div className="flex gap-2 mt-4 md:mt-3">
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    navigate(`/annonce/edition/${post.id}`);
-                                                }}
-                                                className="flex-1 h-9 md:h-8 text-sm md:text-xs font-medium border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
-                                            >
-                                                <Pencil className="mr-2 md:mr-1 h-4 w-4 md:h-3 md:w-3" />
-                                                Modifier
-                                            </Button>
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    console.log('Supprimer annonce:', post.id);
-                                                }}
-                                                className="flex-1 h-9 md:h-8 text-sm md:text-xs font-medium border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
-                                            >
-                                                <Trash className="mr-2 md:mr-1 h-4 w-4 md:h-3 md:w-3" />
-                                                Supprimer
-                                            </Button>
+                                                <h3 className="font-medium text-sm lg:text-base text-gray-900 line-clamp-1 hover:text-primary transition-colors mb-2">
+                                                    {post.title}
+                                                </h3>
+
+                                                {post.description && (
+                                                    <p className="text-xs lg:text-sm text-gray-500 line-clamp-1 mb-3">
+                                                        {post.description}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            <div className="flex items-center gap-2 pt-3 mt-3 border-t border-gray-100/50">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        navigate(`/annonce/edition/${post.id}`);
+                                                    }}
+                                                    className="group flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-gray-50/50 hover:bg-gray-100/50 border border-gray-200/20 hover:border-gray-300/30 transition-all duration-300"
+                                                >
+                                                    <Pencil className="h-3.5 w-3.5 text-gray-700 group-hover:text-violet-600 group-hover:rotate-6 transition-all duration-300" weight="duotone" />
+                                                    <span className="text-xs font-medium text-gray-700 group-hover:text-violet-600 transition-colors duration-300">Modifier</span>
+                                                </button>
+
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        console.log('Supprimer annonce:', post.id);
+                                                    }}
+                                                    className="group flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-gradient-to-r from-red-500/5 to-rose-600/5 hover:from-red-500/10 hover:to-rose-600/10 border border-red-200/20 hover:border-red-300/30 transition-all duration-300"
+                                                >
+                                                    <Trash className="h-3.5 w-3.5 text-red-600 group-hover:scale-110 transition-transform duration-300" weight="duotone" />
+                                                    <span className="text-xs font-medium text-red-600">Supprimer</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +197,6 @@ export default function UserPostsPage() {
                     )}
                 </div>
             </main>
-
             <Footer />
         </div>
     );
