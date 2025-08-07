@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
@@ -13,13 +13,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function UserPostsPage() {
     const navigate = useNavigate();
     const { isAuthenticated } = userStore();
-    const { posts, loading, error, getUserPosts } = postStore();
+    const { posts, loading, error, getUserPosts, deletePost } = postStore();
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [postToDelete, setPostToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -45,10 +58,32 @@ export default function UserPostsPage() {
         }).format(price);
     };
 
+    const openDeleteConfirmation = (e, post) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setPostToDelete(post);
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!postToDelete) return;
+
+        setIsDeleting(true);
+        try {
+            await deletePost(postToDelete.id);
+            setDeleteDialogOpen(false);
+            setPostToDelete(null);
+            getUserPosts();
+        } catch (error) {
+            console.error("Erreur suppression de l'annnonce", error);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
-
             <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16 2xl:py-20">
                 <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px]">
                     <div className="mb-6 sm:mb-8 lg:mb-10 xl:mb-12 2xl:mb-16">
@@ -178,11 +213,7 @@ export default function UserPostsPage() {
                                                 </button>
 
                                                 <button
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        console.log('Supprimer annonce:', post.id);
-                                                    }}
+                                                    onClick={(e) => openDeleteConfirmation(e, post)}
                                                     className="group flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-gradient-to-r from-red-500/5 to-rose-600/5 hover:from-red-500/10 hover:to-rose-600/10 border border-red-200/20 hover:border-red-300/30 transition-all duration-300"
                                                 >
                                                     <Trash className="h-3.5 w-3.5 text-red-600 group-hover:scale-110 transition-transform duration-300" weight="duotone" />
@@ -197,6 +228,34 @@ export default function UserPostsPage() {
                     )}
                 </div>
             </main>
+            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Êtes-vous sûr de vouloir supprimer cette annonce ?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            {postToDelete && (
+                                <>
+                                    Vous êtes sur le point de supprimer l'annonce "<strong>{postToDelete.title}</strong>".
+                                    <br /><br />
+                                    Cette action est irréversible. L'annonce et toutes ses images seront définitivement supprimées.
+                                </>
+                            )}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel disabled={isDeleting}>
+                            Annuler
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={confirmDelete}
+                            disabled={isDeleting}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            {isDeleting ? "Suppression..." : "Supprimer"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             <Footer />
         </div>
     );
