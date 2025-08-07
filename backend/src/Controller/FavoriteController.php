@@ -127,7 +127,8 @@ class FavoriteController extends AbstractController
                         'description' => $favorite->getPost()->getDescription(),
                         'price' => $favorite->getPost()->getPrice(),
                         'location' => $favorite->getPost()->getLocation(),
-                        'mainImage' => $mainImage
+                        'mainImage' => $mainImage,
+                        'createdAt' => $favorite->getPost()->getCreatedAt()->format('Y-m-d H:i:s')
                     ],
                     'createdAt' => $favorite->getCreatedAt()->format('Y-m-d H:i:s')
                 ];
