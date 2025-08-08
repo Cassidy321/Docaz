@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
+import { formatPostDate } from "@/utils/dateUtils";
 import {
     MapPin,
     Clock,
@@ -76,30 +77,6 @@ export default function HomePage() {
             currency: 'EUR',
             minimumFractionDigits: 0,
         }).format(price);
-    };
-
-    const formatPostDate = (date) => {
-        const postDate = new Date(date);
-        const now = new Date();
-        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const startOfPostDate = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
-        const diffInDays = Math.floor((startOfToday - startOfPostDate) / (1000 * 60 * 60 * 24));
-        const timeString = postDate.toLocaleTimeString('fr-FR', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        if (diffInDays === 0) {
-            return `Aujourd'hui à ${timeString}`;
-        } else if (diffInDays === 1) {
-            return `Hier à ${timeString}`;
-        } else {
-            return postDate.toLocaleDateString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        }
     };
 
     return (
