@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
+import { formatPrice } from "@/utils/priceUtils";
 import {
     CaretLeft,
     PlusCircle,
@@ -47,16 +48,6 @@ export default function UserPostsPage() {
             getUserPosts();
         }
     }, [isAuthenticated, getUserPosts]);
-
-    const formatPrice = (price) => {
-        if (price === undefined || price === null) return "Prix non défini";
-
-        return new Intl.NumberFormat('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-        }).format(price);
-    };
 
     const openDeleteConfirmation = (e, post) => {
         e.preventDefault();

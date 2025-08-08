@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
 import { formatPostDate } from "@/utils/dateUtils";
+import { formatPrice } from "@/utils/priceUtils";
 import {
     MapPin,
     Clock,
@@ -67,16 +68,6 @@ export default function HomePage() {
         } catch (error) {
             console.error("Erreur lors du toggle favori:", error);
         }
-    };
-
-    const formatPrice = (price) => {
-        if (price === undefined || price === null) return "Prix non défini";
-
-        return new Intl.NumberFormat('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-        }).format(price);
     };
 
     return (

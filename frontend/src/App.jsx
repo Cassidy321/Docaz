@@ -5,7 +5,7 @@ import HomePage from "@/pages/HomePage";
 import NewPostPage from "@/pages/NewPostPage";
 import PostDetailsPage from "@/pages/PostDetailsPage";
 import SessionManager from "./SessionManager";
-import MyPostsPage from "@/pages/UserPosts";
+import UserPostsPage from "@/pages/UserPosts";
 import VerificationEmailPage from "@/pages/VerificationEmailPage";
 import EmailVerifiedPage from "@/pages/EmailVerifiedPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
@@ -27,7 +27,7 @@ const App = () => {
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             <Route path="/annonce/creation" element={<NewPostPage />} />
             <Route path="/annonce/:id" element={<PostDetailsPage />} />
-            <Route path="/mes-annonces" element={<MyPostsPage />} />
+            <Route path="/mes-annonces" element={<UserPostsPage />} />
             <Route path="/mes-favoris" element={<UserFavoritesPage />} />
           </Route>
         </Routes>

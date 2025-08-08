@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import postStore from "@/stores/postStore";
 import userStore from "@/stores/userStore";
+import { formatPrice } from "@/utils/priceUtils";
 import {
     CaretLeft,
     MapPin,
@@ -77,16 +78,6 @@ export default function PostDetailsPage() {
                 prev === 0 ? currentPost.images.length - 1 : prev - 1
             );
         }
-    };
-
-    const formatPrice = (price) => {
-        if (price === undefined || price === null) return "Prix non défini";
-
-        return new Intl.NumberFormat('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-        }).format(price);
     };
 
     const getInitials = (firstName) => {
@@ -175,8 +166,8 @@ export default function PostDetailsPage() {
                             <button
                                 onClick={togglePostFavorite}
                                 className={`absolute z-10 top-3 right-3 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 ${currentPost.isFavorite
-                                        ? 'text-primary hover:text-primary/80'
-                                        : 'text-gray-600 hover:text-primary'
+                                    ? 'text-primary hover:text-primary/80'
+                                    : 'text-gray-600 hover:text-primary'
                                     }`}
                                 title={currentPost.isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
                             >
