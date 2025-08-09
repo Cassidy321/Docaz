@@ -50,4 +50,61 @@ class UserService
     {
         return $this->jwtManager->create($user);
     }
+
+    public function isProfileComplete(User $user): bool
+    {
+        return !empty($this->getMissingRequiredFields($user));
+    }
+
+    public function hasPhone(User $user): bool
+    {
+        return !empty(trim($user->getPhone() ?? ''));
+    }
+
+    public function hasCity(User $user): bool
+    {
+        return !empty(trim($user->getCity() ?? ''));
+    }
+
+    public function getMissingRequiredFields(User $user): array
+    {
+        $missing = [];
+
+        if (!$this->hasPhone($user)) {
+            $missing[] = 'phone';
+        }
+
+        if (!$this->hasCity($user)) {
+            $missing[] = 'city';
+        }
+
+        return $missing;
+    }
+
+    public function getMissingFieldsMessage(User $user): string
+    {
+        $missing = $this->getMissingRequiredFields($user);
+
+        if (empty($missing)) {
+            return '';
+        }
+
+        $fieldLabels = [
+            'phone' => 'numéro de téléphone',
+            'city' => 'ville'
+        ];
+
+        $missingLabels = array_map(
+            fn(string $field): string => $fieldLabels[$field] ?? $field,
+            $missing
+        );
+
+        $count = count($missingLabels);
+
+        return match ($count) {
+            1 => "Veuillez renseigner votre {$missingLabels[0]} pour pouvoir créer une annonce.",
+            2 => "Veuillez renseigner votre " . implode(' et votre ', $missingLabels) . " pour pouvoir créer une annonce.",
+            default => "Veuillez compléter votre profil pour pouvoir créer une annonce."
+        };
+    }
 }
