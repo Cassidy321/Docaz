@@ -53,7 +53,7 @@ class UserService
 
     public function isProfileComplete(User $user): bool
     {
-        return !empty($this->getMissingRequiredFields($user));
+        return empty($this->getMissingRequiredFields($user));
     }
 
     public function hasPhone(User $user): bool
