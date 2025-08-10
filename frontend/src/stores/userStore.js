@@ -51,7 +51,7 @@ const userStore = create((set, get) => ({
       );
 
       jwtToken = response.data.token;
-      
+
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -100,7 +100,7 @@ const userStore = create((set, get) => ({
       );
 
       jwtToken = null;
-      
+
       set({
         user: null,
         isAuthenticated: false,
@@ -112,7 +112,7 @@ const userStore = create((set, get) => ({
       lastRefreshAttempt = 0;
     } catch (error) {
       jwtToken = null;
-      
+
       set({
         user: null,
         isAuthenticated: false,
@@ -233,7 +233,7 @@ const userStore = create((set, get) => ({
           },
         }
       );
-      
+
       jwtToken = response.data.token;
 
       if (response.data.user) {
@@ -261,22 +261,54 @@ const userStore = create((set, get) => ({
     }
   },
 
-  updateUser: async (userData) => {
+  checkProfileComplete: async () => {
+    try {
+      if (!jwtToken) {
+        throw new Error("Utilisateur non authentifié");
+      }
+
+      const response = await axios.get(
+        `${baseURL}/api/user/profile/check-complete`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        const refreshed = await get().refreshToken();
+        if (refreshed) {
+          return get().checkProfileComplete();
+        }
+      }
+      throw error;
+    }
+  },
+
+  completeProfile: async (profileData) => {
     set({ loading: true, error: null });
     try {
       if (!jwtToken) {
         throw new Error("Utilisateur non authentifié");
       }
 
-      const response = await axios.put(`${baseURL}/api/me`, userData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        withCredentials: true,
-      });
+      const response = await axios.put(
+        `${baseURL}/api/user/profile/complete`,
+        profileData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        }
+      );
 
       set({
-        user: response.data,
+        user: { ...get().user, ...response.data.user },
         loading: false,
       });
 
@@ -286,27 +318,60 @@ const userStore = create((set, get) => ({
         try {
           const refreshed = await get().refreshToken();
           if (refreshed) {
-            const newResponse = await axios.put(`${baseURL}/api/me`, userData, {
-              headers: {
-                Authorization: `Bearer ${jwtToken}`,
-              },
-              withCredentials: true,
-            });
-
-            set({
-              user: newResponse.data,
-              loading: false,
-            });
-
-            return newResponse.data;
+            return get().completeProfile(profileData);
           }
-        } catch (refreshError) {
-        }
+        } catch (refreshError) {}
       }
 
       set({
         loading: false,
-        error: error.response?.data?.message || "Mise à jour du profil échouée",
+        error:
+          error.response?.data?.error ||
+          "Erreur lors de la complétion du profil",
+      });
+      throw error;
+    }
+  },
+
+  updateProfile: async (profileData) => {
+    set({ loading: true, error: null });
+    try {
+      if (!jwtToken) {
+        throw new Error("Utilisateur non authentifié");
+      }
+
+      const response = await axios.put(
+        `${baseURL}/api/user/profile`,
+        profileData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      set({
+        user: { ...get().user, ...response.data.user },
+        loading: false,
+      });
+
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        try {
+          const refreshed = await get().refreshToken();
+          if (refreshed) {
+            return get().updateProfile(profileData);
+          }
+        } catch (refreshError) {}
+      }
+
+      set({
+        loading: false,
+        error:
+          error.response?.data?.error ||
+          "Erreur lors de la mise à jour du profil",
       });
       throw error;
     }
