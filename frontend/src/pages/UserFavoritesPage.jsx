@@ -54,37 +54,37 @@ export default function UserFavoritesPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6 sm:py-8">
-                <div className="px-4 mx-auto max-w-7xl">
-                    <div className="mb-6">
+            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16 2xl:py-20">
+                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px]">
+                    <div className="mb-6 sm:mb-8 lg:mb-10 xl:mb-12 2xl:mb-16">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
-                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                            className="mb-4 lg:mb-6 xl:mb-8 2xl:mb-10 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
                         >
                             <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour à l'accueil
                         </Button>
 
                         <div>
-                            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Mes favoris</h1>
-                            <p className="text-sm text-gray-600 mt-1">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Mes favoris</h1>
+                            <p className="text-gray-600 mt-1 lg:text-lg">
                                 Retrouvez toutes vos annonces favorites
                             </p>
                         </div>
                     </div>
 
                     {error && (
-                        <Alert variant="destructive" className="mb-6 border-red-200 bg-red-50">
-                            <Warning className="h-4 w-4" weight="fill" />
+                        <Alert variant="destructive" className="mb-6 xl:mb-8 2xl:mb-10">
+                            <Warning className="h-5 w-5" weight="bold" />
                             <AlertTitle>Erreur</AlertTitle>
                             <AlertDescription>{error}</AlertDescription>
                         </Alert>
                     )}
 
                     {loading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
-                            {[...Array(12)].map((_, index) => (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+                            {[...Array(16)].map((_, index) => (
                                 <div key={`skeleton-${index}`} className="w-full">
                                     <div className="bg-white rounded-lg shadow-sm">
                                         <Skeleton className="aspect-square rounded-t-lg" />
@@ -99,19 +99,19 @@ export default function UserFavoritesPage() {
                             ))}
                         </div>
                     ) : favorites.length === 0 ? (
-                        <div className="text-center py-16 bg-white rounded-lg shadow-sm p-8 mx-auto max-w-md">
-                            <div className="mx-auto h-20 w-20 text-gray-400 mb-4 flex items-center justify-center rounded-full bg-gray-100">
-                                <Heart className="h-10 w-10" weight="light" />
+                        <div className="bg-white rounded-lg p-8 lg:p-12 xl:p-16 2xl:p-20 text-center shadow-sm border max-w-md xl:max-w-lg 2xl:max-w-xl mx-auto">
+                            <div className="mx-auto h-16 w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 2xl:h-28 2xl:w-28 bg-gray-100 rounded-full flex items-center justify-center mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
+                                <Heart className="h-8 w-8 lg:h-10 lg:w-10 xl:h-12 xl:w-12 2xl:h-14 2xl:w-14 text-gray-400" weight="thin" />
                             </div>
-                            <h3 className="text-xl font-medium mb-2 text-gray-900">Aucun favori pour le moment</h3>
-                            <p className="text-gray-600 mb-6">
+                            <h2 className="text-lg lg:text-xl font-medium mb-2">Aucun favori pour le moment</h2>
+                            <p className="text-gray-600 mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">
                                 Parcourez les annonces et ajoutez-les à vos favoris en cliquant sur le cœur
                             </p>
                             <Button
                                 onClick={() => navigate("/")}
-                                className="bg-primary hover:bg-primary/90 text-white"
+                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 lg:py-3"
                             >
-                                <MagnifyingGlass className="mr-2 h-4 w-4" weight="bold" />
+                                <MagnifyingGlass className="mr-2 h-5 w-5" weight="bold" />
                                 Découvrir les annonces
                             </Button>
                         </div>
