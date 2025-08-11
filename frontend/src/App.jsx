@@ -11,6 +11,7 @@ import EmailVerifiedPage from "@/pages/EmailVerifiedPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import UserFavoritesPage from "@/pages/UserFavoritesPage";
+import MyProfilePage from "./pages/MyProfilePage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/annonce/:id" element={<PostDetailsPage />} />
             <Route path="/mes-annonces" element={<UserPostsPage />} />
             <Route path="/mes-favoris" element={<UserFavoritesPage />} />
+            <Route path="/profil" element={<MyProfilePage />} />
           </Route>
         </Routes>
       </div>
