@@ -77,11 +77,61 @@ export default function MyProfilePage() {
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
-            <main className="flex-1">
-                <div className="container mx-auto px-4">
-                    <h1>Mon profil</h1>
+
+            <main className="flex-1 py-6">
+                <div className="container mx-auto px-4 max-w-6xl">
+
+                    <div className="mb-6">
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate("/")}
+                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                        >
+                            <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                            Retour à l'accueil
+                        </Button>
+
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h1 className="text-2xl font-bold">Mon profil</h1>
+                                <p className="text-gray-600 mt-1">
+                                    Gérez vos informations personnelles
+                                </p>
+                            </div>
+
+                            {!isEditing && (
+                                <Button
+                                    onClick={() => setIsEditing(true)}
+                                    className="bg-primary hover:bg-primary/90 text-white"
+                                >
+                                    <PencilSimple className="mr-2 h-4 w-4" />
+                                    Modifier
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+
+                    {user && !user.isProfileComplete && (
+                        <Alert className="mb-6 border-orange-200 bg-orange-50">
+                            <Info className="h-5 w-5" weight="fill" />
+                            <AlertTitle>Profil incomplet</AlertTitle>
+                            <AlertDescription>
+                                Complétez votre téléphone et ville pour pouvoir créer des annonces.
+                            </AlertDescription>
+                        </Alert>
+                    )}
+
+                    {error && (
+                        <Alert variant="destructive" className="mb-6">
+                            <Warning className="h-5 w-5" weight="bold" />
+                            <AlertTitle>Erreur</AlertTitle>
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                    )}
+
                 </div>
             </main>
+
             <Footer />
         </div>
     );
