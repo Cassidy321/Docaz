@@ -129,6 +129,166 @@ export default function MyProfilePage() {
                         </Alert>
                     )}
 
+                    <Card className="overflow-hidden border-none shadow-sm">
+                        <CardContent className="p-0">
+                            <div className="bg-primary/5 px-4 py-3 border-b border-primary/10">
+                                <h2 className="font-semibold text-primary flex items-center gap-2 text-sm">
+                                    <User className="h-4 w-4" weight="fill" />
+                                    Mon profil
+                                </h2>
+                            </div>
+
+                            <div className="p-4 space-y-4">
+
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Prénom *
+                                        </label>
+                                        {isEditing ? (
+                                            <Input
+                                                value={formData.firstName || ''}
+                                                onChange={(e) => updateField('firstName', e.target.value)}
+                                                placeholder="Votre prénom"
+                                                className="text-sm focus-visible:ring-primary"
+                                            />
+                                        ) : (
+                                            <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                                {user?.firstName || 'Non renseigné'}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Nom *
+                                        </label>
+                                        {isEditing ? (
+                                            <Input
+                                                value={formData.lastName || ''}
+                                                onChange={(e) => updateField('lastName', e.target.value)}
+                                                placeholder="Votre nom"
+                                                className="text-sm focus-visible:ring-primary"
+                                            />
+                                        ) : (
+                                            <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                                {user?.lastName || 'Non renseigné'}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                                        <Envelope className="h-4 w-4 text-primary" weight="fill" />
+                                        Adresse e-mail *
+                                    </label>
+                                    {isEditing ? (
+                                        <Input
+                                            type="email"
+                                            value={formData.email || ''}
+                                            onChange={(e) => updateField('email', e.target.value)}
+                                            placeholder="votre@email.com"
+                                            className="text-sm focus-visible:ring-primary"
+                                        />
+                                    ) : (
+                                        <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                            {user?.email || 'Non renseigné'}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                                            <Phone className="h-4 w-4 text-primary" weight="fill" />
+                                            Téléphone
+                                            {(!user?.phone && !user?.isProfileComplete) && (
+                                                <span className="text-orange-600 ml-1">*</span>
+                                            )}
+                                        </label>
+                                        {isEditing ? (
+                                            <Input
+                                                type="tel"
+                                                value={formData.phone || ''}
+                                                onChange={(e) => updateField('phone', e.target.value)}
+                                                placeholder="06 12 34 56 78"
+                                                className="text-sm focus-visible:ring-primary"
+                                            />
+                                        ) : (
+                                            <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                                {user?.phone || (
+                                                    <span className="text-orange-600 italic">
+                                                        Requis pour créer des annonces
+                                                    </span>
+                                                )}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                                            <MapPin className="h-4 w-4 text-primary" weight="fill" />
+                                            Ville
+                                            {(!user?.city && !user?.isProfileComplete) && (
+                                                <span className="text-orange-600 ml-1">*</span>
+                                            )}
+                                        </label>
+                                        {isEditing ? (
+                                            <Input
+                                                value={formData.city || ''}
+                                                onChange={(e) => updateField('city', e.target.value)}
+                                                placeholder="Paris, Lyon, Marseille..."
+                                                className="text-sm focus-visible:ring-primary"
+                                            />
+                                        ) : (
+                                            <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                                {user?.city || (
+                                                    <span className="text-orange-600 italic">
+                                                        Requis pour créer des annonces
+                                                    </span>
+                                                )}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                                        <Calendar className="h-4 w-4 text-primary" weight="fill" />
+                                        Membre depuis
+                                    </label>
+                                    <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                        {user?.createdAt ? formatPostDate(user.createdAt) : 'Non disponible'}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                                        <PencilSimple className="h-4 w-4 text-primary" weight="fill" />
+                                        À propos de moi
+                                    </label>
+                                    {isEditing ? (
+                                        <Textarea
+                                            value={formData.bio || ''}
+                                            onChange={(e) => updateField('bio', e.target.value)}
+                                            placeholder="Parlez-nous de vous..."
+                                            className="min-h-20 text-sm focus-visible:ring-primary"
+                                        />
+                                    ) : (
+                                        <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md min-h-20">
+                                            {user?.bio || (
+                                                <span className="text-gray-400 italic">
+                                                    Aucune description pour le moment
+                                                </span>
+                                            )}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
                 </div>
             </main>
 
