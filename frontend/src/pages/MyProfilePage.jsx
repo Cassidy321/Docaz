@@ -289,6 +289,35 @@ export default function MyProfilePage() {
                         </CardContent>
                     </Card>
 
+                    {isEditing && (
+                        <div className="mt-6 flex flex-col gap-3">
+                            <Button
+                                variant="outline"
+                                onClick={cancelEdit}
+                                disabled={isSubmitting}
+                                className="px-6 py-2 text-sm"
+                            >
+                                Annuler
+                            </Button>
+                            <Button
+                                onClick={saveProfile}
+                                disabled={isSubmitting}
+                                className="bg-primary hover:bg-primary/90 text-white px-6 py-2 text-sm"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                        Sauvegarde...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Check className="mr-2 h-4 w-4" weight="bold" />
+                                        Sauvegarder
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </main>
 
