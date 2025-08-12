@@ -4,7 +4,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      target: production
     ports:
       - "${FRONTEND_PORT}:5173"
     environment:
