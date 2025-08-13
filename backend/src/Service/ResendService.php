@@ -18,16 +18,27 @@ class ResendService
     public function send(string $from, string $to, string $subject, string $html): bool
     {
         try {
+            $fromWithName = 'Docaz <' . $from . '>';
+
             $response = $this->httpClient->request('POST', 'https://api.resend.com/emails', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->apiKey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
-                    'from' => $from,
+                    'from' => $fromWithName,
                     'to' => $to,
                     'subject' => $subject,
                     'html' => $html,
+                    'text' => strip_tags($html),
+                    'headers' => [
+                        'X-Entity-Ref-ID' => uniqid(),
+                        'List-Unsubscribe' => '<mailto:unsubscribe@docaz.fr>',
+                    ],
+                    'tags' => [
+                        'name' => 'email-verification',
+                        'value' => 'docaz-platform'
+                    ]
                 ],
             ]);
 

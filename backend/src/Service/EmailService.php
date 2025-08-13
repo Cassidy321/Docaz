@@ -23,19 +23,21 @@ class EmailService
         $this->appUrl = $appUrl;
     }
 
-    public function sendVerificationEmail(string $to, string $firstName, string $token): bool
+    public function sendVerificationEmail(string $to, string $firstName, string $token, ?string $userIp = null): bool
     {
         $verificationUrl = $this->appUrl . '/verify-email/' . $token;
 
         $htmlContent = $this->twig->render('emails/email_verification.html.twig', [
             'firstName' => $firstName,
-            'verificationUrl' => $verificationUrl
+            'userEmail' => $to,
+            'verificationUrl' => $verificationUrl,
+            'userIp' => $userIp
         ]);
 
         return $this->resendService->send(
             $this->fromEmail,
             $to,
-            'Vérification de votre adresse email',
+            'Bienvenue sur Docaz - Finalisez votre inscription',
             $htmlContent
         );
     }
@@ -50,7 +52,7 @@ class EmailService
         return $this->resendService->send(
             $this->fromEmail,
             $to,
-            'Bienvenue sur notre plateforme',
+            'Bienvenue sur Docaz',
             $htmlContent
         );
     }
@@ -67,7 +69,7 @@ class EmailService
         return $this->resendService->send(
             $this->fromEmail,
             $to,
-            'Réinitialisation de votre mot de passe',
+            'Réinitialisation de votre mot de passe Docaz',
             $htmlContent
         );
     }

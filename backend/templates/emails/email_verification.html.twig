@@ -1,33 +1,57 @@
 {% extends 'emails/email_base.html.twig' %}
 
-{% block title %}Vérification de votre adresse email
+{% block title %}Bienvenue sur Docaz - Dernière étape
 {% endblock %}
 
-{% block header %}Vérification de votre email
+{% block header %}Bienvenue sur Docaz !
 {% endblock %}
 
 {% block content %}
-	<h2>Bienvenue,
-		{{ firstName }}
-		!</h2>
+	<h2>Bonjour
+		{{ firstName }},</h2>
 
-	<p>Merci de vous être inscrit. Pour finaliser votre inscription et activer votre compte, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :</p>
+	<p>Félicitations ! Votre compte Docaz a été créé avec succès. Nous sommes ravis de vous accueillir dans notre communauté.</p>
+
+	<h3 style="color: #c92a2a; margin-top: 25px;">Une dernière étape pour commencer</h3>
+
+	<p>Pour des raisons de sécurité et pour nous assurer que nous avons la bonne adresse, nous avons besoin de confirmer votre email. C'est rapide et cela vous permettra d'accéder à toutes les fonctionnalités :</p>
+
+	<ul style="padding-left: 20px; margin-bottom: 25px;">
+		<li>Publier et gérer vos annonces</li>
+		<li>Recevoir des notifications importantes</li>
+		<li>Sécuriser votre compte</li>
+		<li>Accéder à votre espace personnel</li>
+	</ul>
 
 	<p style="text-align: center; margin: 30px 0;">
-		<a href="{{ verificationUrl }}" class="button">Vérifier mon email</a>
+		<a href="{{ verificationUrl }}" class="button">Confirmer mon inscription</a>
 	</p>
 
-	<p>Si le bouton ne fonctionne pas, vous pouvez copier/coller ce lien dans votre navigateur :</p>
+	<p style="font-size: 0.9em; color: #666;">
+		Problème avec le bouton ? Vous pouvez aussi visiter cette page :<br>
+		<a href="{{ verificationUrl }}" style="color: #c92a2a;">{{ verificationUrl|slice(0, 50) }}...</a>
+	</p>
 
-	<div class="code-box">
-		{{ verificationUrl }}
-	</div>
-
+	<h3 style="color: #c92a2a; margin-top: 25px;">Vos informations</h3>
 	<p>
-		<span class="text-highlight">Important :</span>
-		Ce lien expirera dans 24 heures.</p>
+		<strong>Email :</strong>
+		{{ userEmail }}<br>
+		<strong>Date d'inscription :</strong>
+		{{ "now"|date("d/m/Y") }}<br>
+		<strong>Compte créé depuis :</strong>
+		{{ userIp|default('France') }}
+	</p>
 
-	<p>Nous sommes ravis de vous compter parmi nos utilisateurs. Une fois votre email vérifié, vous pourrez accéder à toutes les fonctionnalités de notre plateforme.</p>
+	<p>Si vous n'avez pas créé ce compte, vous pouvez ignorer ce message en toute sécurité. Le compte ne sera pas activé sans votre confirmation.</p>
 
-	<p>À bientôt !</p>
+	<p style="margin-top: 30px;">À très bientôt sur Docaz !<br>
+		<span class="text-highlight">L'équipe Docaz</span>
+	</p>
+
+	<p style="font-size: 0.85em; color: #999; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+		Ce message a été envoyé à
+		{{ userEmail }}
+		suite à une inscription sur docaz.fr<br>
+		Pour toute question : support@docaz.fr
+	</p>
 {% endblock %}
