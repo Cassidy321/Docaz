@@ -27,6 +27,8 @@ docker compose -f $COMPOSE_FILE down
 docker compose -f $COMPOSE_FILE up -d --build
 
 if [ "$APP_ENV" = "production" ]; then
+    sleep 15
+    
     echo "Running database migrations..."
     docker compose -f $COMPOSE_FILE exec -T backend php bin/console doctrine:migrations:migrate --no-interaction
     
