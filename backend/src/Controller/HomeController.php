@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api', name: 'api_')]
-class ApiTestController extends AbstractController
+class HomeController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(): JsonResponse
