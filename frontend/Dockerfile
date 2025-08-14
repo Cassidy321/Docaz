@@ -1,20 +1,33 @@
-# Image Node.js légère
-FROM node:20-alpine
+# Build stage
+FROM node:20-alpine as builder
 
-# Dossier de travail
 WORKDIR /app
 
-# Fichiers de dépendances
+# Copier les fichiers de dépendances
 COPY package.json package-lock.json* ./
 
-# Installation des packages
-RUN npm install
+# Installer les dépendances
+RUN npm ci
 
-# Copie du code source
+# Copier le code source
 COPY . .
 
-# Port pour accéder à l'application
-EXPOSE 5173
+# Build de production
+RUN npm run build
 
-# Démarrage avec accès depuis l'extérieur
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Production stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Installer serve pour servir les fichiers statiques
+RUN npm install -g serve
+
+# Copier les fichiers buildés depuis le stage builder
+COPY --from=builder /app/dist ./dist
+
+# Exposer le port
+EXPOSE 3000
+
+# Servir l'application
+CMD ["serve", "-s", "dist", "-l", "3000"]
