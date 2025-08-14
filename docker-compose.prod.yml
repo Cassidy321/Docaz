@@ -18,7 +18,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/var/www/html:ro
+      - ./backend:/var/www/html
     depends_on:
       - database
     networks:
@@ -28,7 +28,7 @@ services:
       - APP_ENV=prod
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@database:${DB_PORT}/${DB_NAME}?serverVersion=8.0
-      - CORS_ALLOW_ORIGIN=http://51.75.27.168
+      - CORS_ALLOW_ORIGIN=^https?://(www\.)?docaz\.store$
 
   backend-nginx:
     container_name: backend-nginx-prod

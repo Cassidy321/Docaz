@@ -39,6 +39,14 @@ if [ "$APP_ENV" = "production" ]; then
     
     log "Installation dépendances"
     docker compose -f $COMPOSE_FILE exec -T backend composer install --no-dev --optimize-autoloader --no-interaction || true
+
+    log "Generation des clés JWT si besoin"
+    docker compose -f $COMPOSE_FILE exec -T backend php bin/console lexik:jwt:generate-keypair --skip-if-exists || true
+
+    log "Fix permissions clés JWT"
+    docker compose -f $COMPOSE_FILE exec -T backend chown www-data:www-data config/jwt/private.pem config/jwt/public.pem || true
+    docker compose -f $COMPOSE_FILE exec -T backend chmod 600 config/jwt/private.pem || true
+    docker compose -f $COMPOSE_FILE exec -T backend chmod 644 config/jwt/public.pem || true
     
     log "Lancement migrations"
     docker compose -f $COMPOSE_FILE exec -T backend php bin/console doctrine:migrations:migrate --no-interaction
