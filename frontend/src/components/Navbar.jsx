@@ -214,6 +214,65 @@ export default function Navbar() {
                             </div>
                         </div>
                     </div>
+
+                    {/* 1536px+ */}
+                    <div className="hidden 2xl:flex items-center py-4 gap-8">
+                        <div className="flex-shrink-0">
+                            <Link to="/" className="text-3xl font-bold text-primary hover:text-primary/90 transition-colors">
+                                Docaz
+                            </Link>
+                        </div>
+                        <div className="flex-shrink-0">
+                            <Button
+                                onClick={() => redirectToLogin("/annonce/creation")}
+                                className="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
+                            >
+                                <PlusCircle className="h-5 w-5" weight="bold" />
+                                Déposer une annonce
+                            </Button>
+                        </div>
+                        <div className="flex-1 max-w-4xl mx-10">
+                            <SearchBar placeholder="Rechercher sur Docaz..." />
+                        </div>
+                        <div className="flex items-center gap-10">
+                            <NavButton
+                                icon={Package}
+                                label="Mes annonces"
+                                onClick={() => redirectToLogin("/mes-annonces")}
+                            />
+                            <NavButton
+                                icon={Heart}
+                                label="Favoris"
+                                onClick={() => redirectToLogin("/mes-favoris")}
+                            />
+                            <NavButton
+                                icon={ChatDots}
+                                label="Messages"
+                                onClick={() => redirectToLogin("/messages")}
+                            />
+                            <div className="ml-4">
+                                {!isAuthenticated ? (
+                                    <Link
+                                        to="/connexion"
+                                        className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors font-medium"
+                                    >
+                                        <UserCircle className="h-7 w-7 mb-1" />
+                                        <span className="text-sm">Connexion</span>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        to="/profil"
+                                        className="flex flex-col items-center text-gray-700 hover:text-primary transition-colors font-medium"
+                                    >
+                                        <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold mb-1">
+                                            {getUserInitial()}
+                                        </div>
+                                        <span className="text-sm">{user?.firstName || "Profil"}</span>
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </header>
 
