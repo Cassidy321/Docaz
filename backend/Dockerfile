@@ -29,20 +29,29 @@ RUN pecl install apcu && docker-php-ext-enable apcu
 # Active le cache en ligne de commande
 RUN echo "apc.enable_cli=1" > /usr/local/etc/php/conf.d/apcu.ini
 
-ENV APP_ENV=dev
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Répertoire de l'application
 WORKDIR /var/www/html
 
-# Copie du code
+# Copier les fichiers de dépendances en premier (pour le cache Docker)
+COPY composer.json composer.lock ./
+
+# Installer les dépendances avec les bonnes permissions
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
+
+# Copier tout le code source
 COPY . .
 
-# Installation des dépendances
-RUN composer install --no-interaction --optimize-autoloader --no-scripts
+# Exécuter les scripts post-install de Composer
+RUN composer run-script --no-dev post-install-cmd || true
 
-# Port PHP-FPM
+# Créer les dossiers nécessaires avec les bonnes permissions
+RUN mkdir -p var/cache var/log var/sessions && \
+    chmod -R 775 var/ && \
+    chown -R www-data:www-data /var/www/html
+
+# Exposer le port 9000 pour PHP-FPM
 EXPOSE 9000
 
-# Démarrage du serveur
 CMD ["php-fpm"]
