@@ -32,6 +32,11 @@ export default function MyProfilePage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
+        if (!user && !loading) {
+            navigate("/connexion");
+            return;
+        }
+
         if (!user) {
             getUser();
         } else {
@@ -44,7 +49,7 @@ export default function MyProfilePage() {
                 bio: user.bio || '',
             });
         }
-    }, [user, getUser]);
+    }, [user, loading, getUser, navigate]);
 
     const updateField = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -74,27 +79,46 @@ export default function MyProfilePage() {
         setIsEditing(false);
     };
 
+    if (loading) {
+        return (
+            <div className="min-h-screen flex flex-col bg-gray-50">
+                <Navbar />
+                <main className="flex-1 py-6 flex items-center justify-center">
+                    <div className="text-center">
+                        <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-gray-600">Chargement de votre profil...</p>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-6">
-                <div className="container mx-auto px-4 max-w-6xl">
+            <main className="flex-1 py-4 sm:py-6">
+                <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
 
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <Button
                             variant="outline"
                             onClick={() => navigate("/")}
-                            className="mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group"
+                            className="mb-3 sm:mb-4 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group text-sm sm:text-base w-full sm:w-auto justify-center sm:justify-start"
                         >
                             <CaretLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                             Retour à l'accueil
                         </Button>
 
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h1 className="text-2xl font-bold">Mon profil</h1>
-                                <p className="text-gray-600 mt-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                            <div className="text-center sm:text-left">
+                                <h1 className="text-xl sm:text-2xl font-bold">Mon profil</h1>
+                                <p className="text-gray-600 mt-1 text-sm sm:text-base">
                                     Gérez vos informations personnelles
                                 </p>
                             </div>
@@ -102,7 +126,7 @@ export default function MyProfilePage() {
                             {!isEditing && (
                                 <Button
                                     onClick={() => setIsEditing(true)}
-                                    className="bg-primary hover:bg-primary/90 text-white"
+                                    className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
                                 >
                                     <PencilSimple className="mr-2 h-4 w-4" />
                                     Modifier
@@ -112,35 +136,35 @@ export default function MyProfilePage() {
                     </div>
 
                     {user && !user.isProfileComplete && (
-                        <Alert className="mb-6 border-orange-200 bg-orange-50">
+                        <Alert className="mb-4 sm:mb-6 border-orange-200 bg-orange-50">
                             <Info className="h-5 w-5" weight="fill" />
-                            <AlertTitle>Profil incomplet</AlertTitle>
-                            <AlertDescription>
+                            <AlertTitle className="text-sm sm:text-base">Profil incomplet</AlertTitle>
+                            <AlertDescription className="text-sm">
                                 Complétez votre téléphone et ville pour pouvoir créer des annonces.
                             </AlertDescription>
                         </Alert>
                     )}
 
                     {error && (
-                        <Alert variant="destructive" className="mb-6">
+                        <Alert variant="destructive" className="mb-4 sm:mb-6">
                             <Warning className="h-5 w-5" weight="bold" />
-                            <AlertTitle>Erreur</AlertTitle>
-                            <AlertDescription>{error}</AlertDescription>
+                            <AlertTitle className="text-sm sm:text-base">Erreur</AlertTitle>
+                            <AlertDescription className="text-sm">{error}</AlertDescription>
                         </Alert>
                     )}
 
                     <Card className="overflow-hidden border-none shadow-sm">
                         <CardContent className="p-0">
-                            <div className="bg-primary/5 px-4 py-3 border-b border-primary/10">
+                            <div className="bg-primary/5 px-3 sm:px-4 py-3 border-b border-primary/10">
                                 <h2 className="font-semibold text-primary flex items-center gap-2 text-sm">
                                     <User className="h-4 w-4" weight="fill" />
                                     Mon profil
                                 </h2>
                             </div>
 
-                            <div className="p-4 space-y-4">
+                            <div className="p-3 sm:p-4 space-y-4 sm:space-y-5">
 
-                                <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
                                             Prénom *
@@ -192,13 +216,13 @@ export default function MyProfilePage() {
                                             className="text-sm focus-visible:ring-primary"
                                         />
                                     ) : (
-                                        <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
+                                        <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md break-all">
                                             {user?.email || 'Non renseigné'}
                                         </p>
                                     )}
                                 </div>
 
-                                <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                                             <Phone className="h-4 w-4 text-primary" weight="fill" />
@@ -218,7 +242,7 @@ export default function MyProfilePage() {
                                         ) : (
                                             <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
                                                 {user?.phone || (
-                                                    <span className="text-orange-600 italic">
+                                                    <span className="text-orange-600 italic text-xs sm:text-sm">
                                                         Requis pour créer des annonces
                                                     </span>
                                                 )}
@@ -244,7 +268,7 @@ export default function MyProfilePage() {
                                         ) : (
                                             <p className="text-sm text-gray-900 py-2 px-3 bg-gray-50 rounded-md">
                                                 {user?.city || (
-                                                    <span className="text-orange-600 italic">
+                                                    <span className="text-orange-600 italic text-xs sm:text-sm">
                                                         Requis pour créer des annonces
                                                     </span>
                                                 )}
@@ -290,19 +314,19 @@ export default function MyProfilePage() {
                     </Card>
 
                     {isEditing && (
-                        <div className="mt-6 flex flex-col gap-3">
+                        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
                             <Button
                                 variant="outline"
                                 onClick={cancelEdit}
                                 disabled={isSubmitting}
-                                className="px-6 py-2 text-sm"
+                                className="px-6 py-2 text-sm order-2 sm:order-1 w-full sm:w-auto"
                             >
                                 Annuler
                             </Button>
                             <Button
                                 onClick={saveProfile}
                                 disabled={isSubmitting}
-                                className="bg-primary hover:bg-primary/90 text-white px-6 py-2 text-sm"
+                                className="bg-primary hover:bg-primary/90 text-white px-6 py-2 text-sm order-1 sm:order-2 w-full sm:w-auto"
                             >
                                 {isSubmitting ? (
                                     <>
