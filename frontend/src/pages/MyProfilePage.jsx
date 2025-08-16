@@ -83,10 +83,10 @@ export default function MyProfilePage() {
         return (
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <Navbar />
-                <main className="flex-1 py-6 lg:py-8 flex items-center justify-center">
+                <main className="flex-1 py-6 lg:py-8 2xl:py-12 flex items-center justify-center">
                     <div className="text-center">
-                        <div className="h-8 w-8 lg:h-10 lg:w-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                        <p className="text-gray-600 text-sm lg:text-base">Chargement de votre profil...</p>
+                        <div className="h-8 w-8 lg:h-10 lg:w-10 2xl:h-12 2xl:w-12 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-gray-600 text-sm lg:text-base 2xl:text-lg">Chargement de votre profil...</p>
                     </div>
                 </main>
                 <Footer />
@@ -102,71 +102,88 @@ export default function MyProfilePage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Navbar />
 
-            <main className="flex-1 py-4 sm:py-6 lg:py-8">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-
-                    <div className="mb-4 sm:mb-6 lg:mb-8">
-                        <Button
-                            variant="outline"
-                            onClick={() => navigate("/")}
-                            className="mb-3 sm:mb-4 lg:mb-6 text-primary border-primary/20 hover:bg-primary/5 hover:text-primary group text-sm sm:text-base lg:text-base w-full sm:w-auto justify-center sm:justify-start"
-                        >
-                            <CaretLeft className="mr-1 h-4 w-4 lg:h-5 lg:w-5 group-hover:-translate-x-1 transition-transform" />
-                            Retour à l'accueil
-                        </Button>
-
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 lg:gap-6">
-                            <div className="text-center sm:text-left">
-                                <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">Mon profil</h1>
-                                <p className="text-gray-600 mt-1 lg:mt-2 text-sm sm:text-base lg:text-lg">
-                                    Gérez vos informations personnelles
-                                </p>
-                            </div>
-
-                            {!isEditing && (
-                                <Button
-                                    onClick={() => setIsEditing(true)}
-                                    className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto lg:px-6 xl:px-8 lg:py-3"
-                                >
-                                    <PencilSimple className="mr-2 h-4 w-4 lg:h-5 lg:w-5" />
-                                    Modifier
-                                </Button>
-                            )}
-                        </div>
-                    </div>
+            <main className="flex-1 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16 2xl:py-20">
+                <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px]">
 
                     {user && !user.isProfileComplete && (
-                        <Alert className="mb-4 sm:mb-6 lg:mb-8 border-orange-200 bg-orange-50">
-                            <Info className="h-5 w-5 lg:h-6 lg:w-6" weight="fill" />
-                            <AlertTitle className="text-sm sm:text-base lg:text-lg">Profil incomplet</AlertTitle>
-                            <AlertDescription className="text-sm lg:text-base">
+                        <Alert className="mb-6 xl:mb-8 2xl:mb-8 border-orange-200 bg-orange-50">
+                            <Info className="h-5 w-5 lg:h-6 lg:w-6 2xl:h-7 2xl:w-7" weight="fill" />
+                            <AlertTitle className="text-sm sm:text-base lg:text-lg 2xl:text-xl font-semibold">Profil incomplet</AlertTitle>
+                            <AlertDescription className="text-sm lg:text-base 2xl:text-lg">
                                 Complétez votre téléphone et ville pour pouvoir créer des annonces.
                             </AlertDescription>
                         </Alert>
                     )}
 
                     {error && (
-                        <Alert variant="destructive" className="mb-4 sm:mb-6 lg:mb-8">
-                            <Warning className="h-5 w-5 lg:h-6 lg:w-6" weight="bold" />
-                            <AlertTitle className="text-sm sm:text-base lg:text-lg">Erreur</AlertTitle>
-                            <AlertDescription className="text-sm lg:text-base">{error}</AlertDescription>
+                        <Alert variant="destructive" className="mb-6 xl:mb-8 2xl:mb-8">
+                            <Warning className="h-5 w-5 lg:h-6 lg:w-6 2xl:h-7 2xl:w-7" weight="bold" />
+                            <AlertTitle className="text-sm sm:text-base lg:text-lg 2xl:text-xl font-semibold">Erreur</AlertTitle>
+                            <AlertDescription className="text-sm lg:text-base 2xl:text-lg">{error}</AlertDescription>
                         </Alert>
                     )}
 
-                    <Card className="overflow-hidden border-none shadow-sm lg:shadow-md">
-                        <CardContent className="p-0">
-                            <div className="bg-primary/5 px-3 sm:px-4 lg:px-6 py-3 lg:py-4 border-b border-primary/10">
-                                <h2 className="font-semibold text-primary flex items-center gap-2 text-sm lg:text-base">
-                                    <User className="h-4 w-4 lg:h-5 lg:w-5" weight="fill" />
-                                    Mon profil
-                                </h2>
+                    <Card className="border-none shadow-lg bg-gradient-to-br from-primary/5 to-primary/10 max-w-4xl 2xl:max-w-5xl mx-auto">
+                        <CardContent className="p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 2xl:p-20">
+                            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 mb-8 lg:mb-12 xl:mb-14 2xl:mb-16">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 2xl:w-32 2xl:h-32 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <User className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 2xl:h-16 2xl:w-16 text-primary" weight="fill" />
+                                </div>
+                                <div className="flex-1 text-center sm:text-left">
+                                    <h1 className="text-xl sm:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-gray-900 mb-2">
+                                        {user?.firstName && user?.lastName
+                                            ? `${user.firstName} ${user.lastName}`
+                                            : 'Mon profil'
+                                        }
+                                    </h1>
+                                    <p className="text-gray-600 text-sm sm:text-base lg:text-lg 2xl:text-xl">
+                                        Gérez vos informations personnelles
+                                    </p>
+                                </div>
+                                <div className="flex flex-col gap-3 w-full sm:w-auto">
+                                    {isEditing ? (
+                                        <>
+                                            <Button
+                                                onClick={saveProfile}
+                                                disabled={isSubmitting}
+                                                className="bg-primary hover:bg-primary/90 text-white lg:px-6 xl:px-8 2xl:px-10 lg:py-3 2xl:py-4 text-sm lg:text-base 2xl:text-lg"
+                                            >
+                                                {isSubmitting ? (
+                                                    <>
+                                                        <div className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                        Sauvegarde...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Check className="mr-2 h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6" weight="bold" />
+                                                        Sauvegarder
+                                                    </>
+                                                )}
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                onClick={cancelEdit}
+                                                disabled={isSubmitting}
+                                                className="lg:px-6 xl:px-8 2xl:px-10 lg:py-3 2xl:py-4 text-sm lg:text-base 2xl:text-lg"
+                                            >
+                                                Annuler
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <Button
+                                            onClick={() => setIsEditing(true)}
+                                            className="bg-primary hover:bg-primary/90 text-white lg:px-6 xl:px-8 2xl:px-10 lg:py-3 2xl:py-4 text-sm lg:text-base 2xl:text-lg"
+                                        >
+                                            <PencilSimple className="mr-2 h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6" />
+                                            Modifier
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
-
-                            <div className="p-3 sm:p-4 lg:p-6 xl:p-8 space-y-4 sm:space-y-5 lg:space-y-6">
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                            <div className="space-y-6 sm:space-y-8 lg:space-y-10 xl:space-y-10 2xl:space-y-12">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 2xl:gap-8">
                                     <div>
-                                        <label className="block text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
+                                        <label className="block text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
                                             Prénom *
                                         </label>
                                         {isEditing ? (
@@ -174,17 +191,17 @@ export default function MyProfilePage() {
                                                 value={formData.firstName || ''}
                                                 onChange={(e) => updateField('firstName', e.target.value)}
                                                 placeholder="Votre prénom"
-                                                className="text-sm lg:text-base focus-visible:ring-primary lg:py-3 lg:px-4"
+                                                className="text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5"
                                             />
                                         ) : (
-                                            <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md">
+                                            <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200">
                                                 {user?.firstName || 'Non renseigné'}
                                             </p>
                                         )}
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
+                                        <label className="block text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
                                             Nom *
                                         </label>
                                         {isEditing ? (
@@ -192,19 +209,18 @@ export default function MyProfilePage() {
                                                 value={formData.lastName || ''}
                                                 onChange={(e) => updateField('lastName', e.target.value)}
                                                 placeholder="Votre nom"
-                                                className="text-sm lg:text-base focus-visible:ring-primary lg:py-3 lg:px-4"
+                                                className="text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5"
                                             />
                                         ) : (
-                                            <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md">
+                                            <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200">
                                                 {user?.lastName || 'Non renseigné'}
                                             </p>
                                         )}
                                     </div>
                                 </div>
-
                                 <div>
-                                    <label className="flex items-center gap-2 text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
-                                        <Envelope className="h-4 w-4 lg:h-5 lg:w-5 text-primary" weight="fill" />
+                                    <label className="flex items-center gap-2 text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
+                                        <Envelope className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-primary" weight="fill" />
                                         Adresse e-mail *
                                     </label>
                                     {isEditing ? (
@@ -213,19 +229,18 @@ export default function MyProfilePage() {
                                             value={formData.email || ''}
                                             onChange={(e) => updateField('email', e.target.value)}
                                             placeholder="votre@email.com"
-                                            className="text-sm lg:text-base focus-visible:ring-primary lg:py-3 lg:px-4"
+                                            className="text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5"
                                         />
                                     ) : (
-                                        <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md break-all">
+                                        <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200 break-all">
                                             {user?.email || 'Non renseigné'}
                                         </p>
                                     )}
                                 </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 2xl:gap-8">
                                     <div>
-                                        <label className="flex items-center gap-2 text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
-                                            <Phone className="h-4 w-4 lg:h-5 lg:w-5 text-primary" weight="fill" />
+                                        <label className="flex items-center gap-2 text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
+                                            <Phone className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-primary" weight="fill" />
                                             Téléphone
                                             {(!user?.phone && !user?.isProfileComplete) && (
                                                 <span className="text-orange-600 ml-1">*</span>
@@ -237,12 +252,12 @@ export default function MyProfilePage() {
                                                 value={formData.phone || ''}
                                                 onChange={(e) => updateField('phone', e.target.value)}
                                                 placeholder="06 12 34 56 78"
-                                                className="text-sm lg:text-base focus-visible:ring-primary lg:py-3 lg:px-4"
+                                                className="text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5"
                                             />
                                         ) : (
-                                            <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md">
+                                            <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200">
                                                 {user?.phone || (
-                                                    <span className="text-orange-600 italic text-xs sm:text-sm lg:text-base">
+                                                    <span className="text-orange-600 italic text-xs sm:text-sm lg:text-base 2xl:text-lg">
                                                         Requis pour créer des annonces
                                                     </span>
                                                 )}
@@ -251,8 +266,8 @@ export default function MyProfilePage() {
                                     </div>
 
                                     <div>
-                                        <label className="flex items-center gap-2 text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
-                                            <MapPin className="h-4 w-4 lg:h-5 lg:w-5 text-primary" weight="fill" />
+                                        <label className="flex items-center gap-2 text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
+                                            <MapPin className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-primary" weight="fill" />
                                             Ville
                                             {(!user?.city && !user?.isProfileComplete) && (
                                                 <span className="text-orange-600 ml-1">*</span>
@@ -263,12 +278,12 @@ export default function MyProfilePage() {
                                                 value={formData.city || ''}
                                                 onChange={(e) => updateField('city', e.target.value)}
                                                 placeholder="Paris, Lyon, Marseille..."
-                                                className="text-sm lg:text-base focus-visible:ring-primary lg:py-3 lg:px-4"
+                                                className="text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5"
                                             />
                                         ) : (
-                                            <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md">
+                                            <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200">
                                                 {user?.city || (
-                                                    <span className="text-orange-600 italic text-xs sm:text-sm lg:text-base">
+                                                    <span className="text-orange-600 italic text-xs sm:text-sm lg:text-base 2xl:text-lg">
                                                         Requis pour créer des annonces
                                                     </span>
                                                 )}
@@ -276,20 +291,18 @@ export default function MyProfilePage() {
                                         )}
                                     </div>
                                 </div>
-
                                 <div>
-                                    <label className="flex items-center gap-2 text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
-                                        <Calendar className="h-4 w-4 lg:h-5 lg:w-5 text-primary" weight="fill" />
+                                    <label className="flex items-center gap-2 text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
+                                        <Calendar className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-primary" weight="fill" />
                                         Membre depuis
                                     </label>
-                                    <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md">
+                                    <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200">
                                         {user?.createdAt ? formatPostDate(user.createdAt) : 'Non disponible'}
                                     </p>
                                 </div>
-
                                 <div>
-                                    <label className="flex items-center gap-2 text-sm lg:text-base font-medium text-gray-700 mb-2 lg:mb-3">
-                                        <PencilSimple className="h-4 w-4 lg:h-5 lg:w-5 text-primary" weight="fill" />
+                                    <label className="flex items-center gap-2 text-sm lg:text-base 2xl:text-lg font-medium text-gray-700 mb-2 lg:mb-3 2xl:mb-4">
+                                        <PencilSimple className="h-4 w-4 lg:h-5 lg:w-5 2xl:h-6 2xl:w-6 text-primary" weight="fill" />
                                         À propos de moi
                                     </label>
                                     {isEditing ? (
@@ -297,10 +310,10 @@ export default function MyProfilePage() {
                                             value={formData.bio || ''}
                                             onChange={(e) => updateField('bio', e.target.value)}
                                             placeholder="Parlez-nous de vous..."
-                                            className="min-h-20 lg:min-h-24 text-sm lg:text-base focus-visible:ring-primary lg:p-4"
+                                            className="min-h-20 lg:min-h-24 2xl:min-h-32 text-sm lg:text-base 2xl:text-lg focus-visible:ring-primary py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white border-gray-300"
                                         />
                                     ) : (
-                                        <p className="text-sm lg:text-base text-gray-900 py-2 lg:py-3 px-3 lg:px-4 bg-gray-50 rounded-md min-h-20 lg:min-h-24">
+                                        <p className="text-sm lg:text-base 2xl:text-lg text-gray-900 py-2 lg:py-3 2xl:py-4 px-3 lg:px-4 2xl:px-5 bg-white/60 rounded-lg border border-gray-200 min-h-20 lg:min-h-24 2xl:min-h-32">
                                             {user?.bio || (
                                                 <span className="text-gray-400 italic">
                                                     Aucune description pour le moment
@@ -309,39 +322,10 @@ export default function MyProfilePage() {
                                         </p>
                                     )}
                                 </div>
+
                             </div>
                         </CardContent>
                     </Card>
-
-                    {isEditing && (
-                        <div className="mt-4 sm:mt-6 lg:mt-8 flex flex-col sm:flex-row gap-3 lg:gap-4 sm:justify-end">
-                            <Button
-                                variant="outline"
-                                onClick={cancelEdit}
-                                disabled={isSubmitting}
-                                className="px-6 py-2 lg:px-8 lg:py-3 text-sm lg:text-base order-2 sm:order-1 w-full sm:w-auto"
-                            >
-                                Annuler
-                            </Button>
-                            <Button
-                                onClick={saveProfile}
-                                disabled={isSubmitting}
-                                className="bg-primary hover:bg-primary/90 text-white px-6 py-2 lg:px-8 lg:py-3 text-sm lg:text-base order-1 sm:order-2 w-full sm:w-auto"
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <div className="h-4 w-4 lg:h-5 lg:w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                        Sauvegarde...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Check className="mr-2 h-4 w-4 lg:h-5 lg:w-5" weight="bold" />
-                                        Sauvegarder
-                                    </>
-                                )}
-                            </Button>
-                        </div>
-                    )}
                 </div>
             </main>
 
