@@ -44,7 +44,7 @@ export default function HomePage() {
     }, [getPosts, searchParams]);
 
     useEffect(() => {
-        let result = [...posts];
+        let result = posts ? [...posts] : [];
 
         if (searchTerm) {
             result = result.filter(
