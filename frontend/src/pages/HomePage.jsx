@@ -208,7 +208,7 @@ export default function HomePage() {
                                 </div>
                                 <h3 className="text-xl font-medium mb-2 text-gray-900">Aucune annonce trouvée</h3>
                                 <p className="text-gray-600">
-                                    {posts.length === 0
+                                    {posts && posts.length === 0
                                         ? "Aucune annonce n'est disponible pour le moment."
                                         : "Aucune annonce ne correspond à votre recherche."}
                                 </p>
