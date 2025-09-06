@@ -9,7 +9,11 @@ RUN apk add --no-cache \
     icu-dev \
     oniguruma-dev \
     mysql-client \
-    openssl
+    openssl \
+    autoconf \
+    gcc \
+    g++ \
+    make
 
 # Extensions PHP pour Symfony
 RUN docker-php-ext-install \
