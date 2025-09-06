@@ -51,10 +51,10 @@ RUN composer run-script --no-dev post-install-cmd || true
 ENV APP_ENV=prod
 ENV APP_DEBUG=false
 
-# **GÉNÉRER LES CLÉS JWT AUTOMATIQUEMENT**
+# Générer les clés JWT automatiquement
 RUN mkdir -p config/jwt
-RUN openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkcs8 -pass pass:defaultpassphrase
-RUN openssl pkey -in config/jwt/private.pem -passin pass:defaultpassphrase -out config/jwt/public.pem -pubout
+RUN openssl genrsa -out config/jwt/private.pem -aes256 -passout pass:defaultpassphrase 4096
+RUN openssl rsa -pubout -in config/jwt/private.pem -passin pass:defaultpassphrase -out config/jwt/public.pem
 
 # Optimiser Symfony pour la production
 RUN php bin/console cache:clear --env=prod --no-interaction || true
