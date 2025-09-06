@@ -26,6 +26,10 @@ export default function HomePage() {
     const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
     const [filteredPosts, setFilteredPosts] = useState([]);
 
+    console.log('Environment variables:', import.meta.env);
+    console.log('API URL:', import.meta.env.VITE_API_URL);
+    console.log('Base URL being used:', import.meta.env.VITE_API_URL || "http://localhost:8080");
+
     useEffect(() => {
         const loadPosts = async () => {
             try {

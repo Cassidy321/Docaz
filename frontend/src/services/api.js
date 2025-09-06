@@ -4,6 +4,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
+console.log("userStore baseURL:", baseURL);
 
 let isRefreshing = false;
 let refreshAttempts = 0;

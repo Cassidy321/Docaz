@@ -46,6 +46,6 @@ security:
     - { path: ^/api/reset-password, roles: PUBLIC_ACCESS }
     - { path: ^/api/logout, roles: PUBLIC_ACCESS }
     - { path: ^/api/$, methods: [GET], roles: PUBLIC_ACCESS }
-    - { path: ^/api/posts/?$, methods: [GET], roles: PUBLIC_ACCESS }  # ← Modifié ici
-    - { path: ^/api/posts/\d+/?$, methods: [GET], roles: PUBLIC_ACCESS }  # ← Modifié ici
+    - { path: ^/api/posts/?$, methods: [GET], roles: PUBLIC_ACCESS }
+    - { path: ^/api/posts/\d+/?$, methods: [GET], roles: PUBLIC_ACCESS }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
